@@ -1,0 +1,72 @@
+# METHOD: 'cross_entropy'
+
+DATASET: 'cifar10'
+TASK_LEARNER: 'resnet18'
+REF_LEARNER: 'resnet18'
+FULLSET: False
+TOTAL_DATASET: False
+CYCLES: 20
+TRIALS: 1
+INIT_BUDGET: 20000
+BUDGET: 2000
+BATCH: 128
+NUM_TRAIN: 50000
+SUB_PRE: 10000
+RANDOM_SET_SEED: 1
+RANDOM_MODEL_PARAM_SEED: 12
+results_folder: './results/cifar10/'
+
+init_ratio: 0.5
+min_ratio: 0.05
+cls_min_ratio: 0.01
+warm_start: True
+ref_warm_start: False
+second_stg: 'RCE'
+ref_stg: 'RCE'
+LGA: True
+LGA_gamma: 0.01
+unlearn_ref: True
+unlearn_gamma: 0.01
+unlearn_epochs: 1
+
+plot_hist: False
+plot_tsne: False
+print_cls_dist: True
+
+OPTIMIZER_BACKBONE:
+  NAME: 'SGD'
+  NAME_REF: 'ADAM'
+  MOMENTUM: 0.9
+  WDECAY: 5e-4
+  LR: 1e-1
+  LR_REF: 0.001
+  EPOCH_TL: 100
+  MILESTONES: [50, 75, 90]
+
+# SSL
+SSL:
+  lambda_u: 10
+  sl_train: True
+  finetune: False
+
+# BACKDOOR
+BACKDOOR:
+  inject_portion: 0.1
+  target_label: 0
+  exclude_target: False
+  trigger_type: blendTrigger
+  target_type: all2one
+  trig_w: 3
+  trig_h: 3
+  input_channel: 3
+  dduplicate: False
+
+  warmup_epochs: 20
+  ref_cycle: 1
+  ref_epochs: 10
+  ref_c1epochs: 10
+  split_rate: 0.5
+  reinit_ref: False
+  ref_init_train: True
+  meta_split: True
+  use_init_thresh: False

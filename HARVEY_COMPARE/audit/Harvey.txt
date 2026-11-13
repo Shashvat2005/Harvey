@@ -1,0 +1,733 @@
+TheThirty-NinthAAAIConferenceonArtificialIntelligence(AAAI-25)
+Two Sides of the Same Coin:
+Learning the Backdoor to Remove the Backdoor
+QiZhaoandChristianWressnegger
+KASTELSecurityResearchLabs
+KarlsruheInstituteofTechnology(KIT)
+Abstract Defense Splitting Architecture Natural
+Method
+Technique Ratio Independent Accuracy
+Thecommunityhasrecentlydevelopedvarioustraining-time
+ABL Unlearn Fixed –
+defenses to counter neural backdoors introduced through
+CBD Suppress Adaptive –
+datapoisoning.Inlightoftheobservationthatamodellearns
+DBD DataSplit Fixed –
+poisonous samples responsible for the backdoor easier than D-ST DataSplit Fixed –
+benignsamples,theseapproacheseitheruseafixedthreshold
+ofthetraininglossforsplittingoriterativelylearnareference
+HARVEY DataSplit Adaptive
+modelasanoracleforidentifyingbenignsamples.Inparticu-
+Table1:Comparisonoftraining-timebackdoordefenses.
+lar,thelatterhasproveneffectiveforanti-backdoorlearning.
+Ourmethod, HARVEY,leveragesasimilaryetcruciallydif-
+ferenttechnique:learninganoracleforpoisonousratherthan
+benign samples. Learning a backdoored reference model is
+Awidevarietyofstrategieshavebeenproposedtoallevi-
+significantlyeasierthanlearningoneonbenigndata.Conse-
+ate backdooring attacks. Type-1: Model-based defenses ei-
+quently,wecanidentifypoisonoussamplesmuchmoreaccu-
+ther reverse-engineer the trigger pattern (Wang et al. 2023,
+ratelythanrelatedworkidentifiesbenignsamples.Thiscru-
+2022, 2019a), merely detect the existence of the back-
+cialdifferenceenablesnear-perfectbackdoorremovalaswe
+demonstrateinourevaluation.HARVEYsubstantiallyoutper- door(Caietal.2022;Xuetal.2021;Wangetal.2020),or
+formsrelatedapproachesacrossattacktypes,datasets,andar- eraseitfromthemodel(Liuetal.2018a;Zhaoetal.2020;Li
+chitectures,loweringtheattacksuccessratetotheverymini- etal.2021b).Type-2:Runtimedefensesconductdifferential
+mumatanegligiblelossinnaturalaccuracy. testing(Doanetal.2020),breakthetriggerfunctionalityvia
+datapreprocessing(Qiuetal.2021)orfilteroutabnormalin-
+Supplementary—https://intellisec.de/research/harvey puts(Hayaseetal.2021;Gaoetal.2019).Type-3:Training-
+time defenses, in turn, suppress the backdoor during train-
+ing, either using prior knowledge of a clean dataset (Zhou
+1 Introduction
+etal.2023;Gaoetal.2023),orwithoutsuch(Lietal.2021a;
+Learninganexpressivedeepneuralnetwork(DNN)requires Chenetal.2022;Huangetal.2022;Zhangetal.2023).
+largeamountsoftrainingdata,whichisoftentimesretrieved Allthestrategiesabovehaveslightlydifferentthreatmod-
+from third-party resources in practice (Carlini et al. 2023). els, and only the latter tackles data poisoning at its roots.
+Usingsuchanexternaldatasetwithoutreviewmayintroduce Mitigating a backdoor during training without having a
+security threats via data poisoning (Biggio and Roli 2018). clean reference dataset is the most practical setting but it
+Theadversarymaysneakasmallportionofpoisonoussam- alsoisexceptionallydifficult.
+plesintothetrainingdatasettointroduceaneuralbackdoor.
+Inthispaper,weproposeHARVEY,anoveltraining-time
+Such a backdoor shortcuts the prediction toward a prede-
+defenseinthissetting,preventingbackdoorinjectionbyre-
+finedtargetlabelbasedonatriggerpattern(Guetal.2017;
+moving poisonous samples from the training data. In con-
+Chenetal.2017;Liuetal.2018b;NguyenandTran2020,
+trasttorelatedworkusingunlearning(ABL;Lietal.2021a)
+2021; Barni et al. 2019) and can be established via data
+orbackdoorsuppression(CBD;Zhangetal.2023),dataset
+poisoning in two ways: First, dirty-label attacks (Gu et al.
+splitting allows to preserve natural accuracy better. How-
+2017;Chenetal.2017;Liuetal.2018b;NguyenandTran
+ever, HARVEY splits the dataset adaptively without a fixed
+2020,2021)constructthetriggerpatternonpoisonoussam-
+splittingratio(DBD&D-ST;Huangetal.2022;Chenetal.
+ples and relabel them to the target. Second, clean-label at-
+2022),allowingustopreservethenaturalperformancemuch
+tacks (Turner et al. 2019; Shafahi et al. 2018; Zhao et al.
+betterassummarizedinTable1.
+2023)strategicallymodifysamplesfromthetargetclassbut
+Ourmethodbuildsontwocrucialobservations:First,we
+donotchangetheirlabels.
+find that the reverse cross-entropy (RCE) component of
+Copyright©2025,AssociationfortheAdvancementofArtificial the symmetrical cross-entropy (SCE) loss as used by prior
+Intelligence(www.aaai.org).Allrightsreserved. work(Gaoetal.2023;Huangetal.2022)ismainlyrespon-
+22804
+
+sibleforeffectivelysplittingpoisonousandbenignsamples. dataD˜ learnsthe“primarytask”(i.e.,imageclassification)
+Second, using the loss to assemble a set of benign samples butalsointroducessomeadditionalmaliciousfunctionality
+(Huangetal.2022;Chenetal.2022)ismuchmoredifficult asa“secondarytask”(i.e.,theneuralbackdoor).
+thangatheringpoisonoussamplesinthesamesetting. More formally, the adversary poisons N samples of an
+p
+We thus learn a strongly backdoored reference model to existing dataset D = {(x ,y )}N containing N samples
+i i i=1
+continuously isolate poisonous samples using this model’s x ∈ Rd withtheground-truthlabely ∈ {0,1,...K−1},
+RCE loss. HARVEY consists of the following four stages:
+w
+i
+here K denotes the number of c
+i
+lasses. The resulting
+❶ Initialization: We naively train a model and split the datasetD˜ comprisesapoisonoussubsetD˜ andacleansub-
+dataset half-and-half in poisoned and benign subsets using p
+the RCE loss. ❷ Learning the backdoor: We iteratively setD c ,i.e.,D˜ =D˜ p ∪D c ,andhasthesamesizeastheorig-
+train the reference model by learning poisonous samples inaldataset,|D|=|D˜|.ThepoisoningrateinD˜ isρ= Np.
+N
+and unlearning benign samples using the split determined Training-time defense, aka. “anti-backdoor learning,”
+in the previous iteration. Over multiple rounds, the refer- aims to train a model on D˜ with high natural accuracy and
+ence model becomes more and more specific to the back- simultaneously counter the backdoor. Note, that the model
+doorfunctionality,whichinturnimprovesRCE-loss-based trainerhasnopriorknowledgeoftheattackatall.Defenses
+splittingovertime.❸Meta-splitting:Usingthefirst refer- using“datasetsplitting”(Huangetal.2022;Gaoetal.2023)
+encemodelfromthepreviousstage,werefinethepoisonous separatethedatasetD˜intoapoisonedsetD andabenign
+bad
+subset yield through the last reference model. The former setD ,whichisthenusedtotrainthefinalmodel.Thus,
+bng
+still has a notion of benign functionality allowing to iso- D shouldcontainasfewpoisonoussamplesaspossible,
+bng
+latetheremainingbenignsamplesfromthepoisonedsubset. ρ = |Dbng\Dc| ≈0.0,ideallyD =D .
+❹Finaltraining: Eventually, we train on the determined bng |Dbng| bng c
+benigndatasettoyieldaperfectlycleanmodel.
+2.1 AnalysisofDatasetSplittingUsingSCELoss
+This procedure allows HARVEY to successfully remove
+a large variety of backdoor attacks across different model Prior defenses (Gao et al. 2023; Huang et al. 2022) treat
+architectures and datasets, lowering the attack success poisonous samples as “label noise,” and thus, use the SCE
+rate (ASR) below 2% in the worst case while preserving loss (Wang et al. 2019b) to isolate them. SCE loss con-
+thenaturalaccuracy.Wehenceoutperformrelatedworkby sists of two terms, cross-entropy (CE) and reverse cross-
+alargemargin.Insummary,ourcontributionsarethree-fold: entropy(RCE),weightedbyαandβ,respectively:
+• DatasetsplittingusingRCEloss.Weanalyzethecom- L =αL +βL
+SCE CE SCE
+monly used symmetric cross-entropy (SCE) loss for
+In terms of the KL divergence (Kullback and Leibler
+datasetsplitting,findingthatitsRCEcomponentaloneis
+1951),optimizingtheCElossdrawsthepredictionprobabil-
+suitedmuchbetterforsolvingthetask.HARVEYbenefits
+ityp(k|x)ofaninputxwrt.aclasskneartheground-truth
+fromusingRCEyieldingmoresolidandstablesplitting
+probabilitydistributionq(k|x),minimizingKL(q||p).
+performancethanrelatedwork.
+• Paradigmshiftonusingreferencemodels.Wefindthat K−1
+X
+a strongly backdoored reference model tells poisonous L CE =− q(k|x)·logp(k|x)
+andbenignsamplesmorereliablyapartthananybenign k=0
+reference model can. This is inline with the early ob-
+When training on data samples with noisy labels (Wang
+servationthatpoisonoussamplesareeasiertolearnthan
+et al. 2019b), q(k|x) does not represent the real ground
+benign samples, but stands in contrast to how reference
+truth,though.Hence,SCEadditionallyconsidersKL(p||q)
+modelsareusedinrelatedwork.
+to push predictions on mislabeled samples toward p(k|x)
+• Decisive improvement in training-time defense. We knownasreverseCE:
+evaluate against various attacks across three model ar-
+K−1
+chitectures and three datasets. None of the related ap- X
+L =− p(k|x)·logq(k|x)
+RCE
+proachesresistallattacks,whileHARVEYsuppressesthe
+k=0
+backdoorconsistentlyandmaintainsnaturalaccuracyon
+averageandintheworst-case. Given an arbitrary input x with the fixed label y, the
+distribution q(y|x) equals 1 while for all other classes
+2 TamingBackdoorsatTraining-Time q(k|x)| isϵ-smallandcloseto0.WedefineC =−logϵ
+k̸=y
+asbeingpositiveandrewritetheRCElossas:
+Westartbybrieflydescribingtheproblemsetting,beforewe
+analyze using SCE loss for dataset splitting (Section 2.1) X
+L =−p(y|x)·log1+ p(k|x)·C
+and discuss the distribution of benign and poisonous sam- RCE
+plesbasedontheRCEloss(Section2.2). k̸=y
+=C·(1−p(y|x))
+Problem definition. We consider backdoor injection
+through data-poisoning, that is, the adversary has no ac- Apparently,onlythepredictionoftheground-truthymat-
+cesstothetrainingprocess,butcanmanipulatethetraining ters in the RCE loss. Hence, the training converges to the
+data.Naivelytrainingonthismanipulated/poisonedtraining ground-truthdistributionforeasy-to-learnsamples,yielding
+22805
+
+aRCElossverycloseto0.Meanwhile,sampleswithhard-
+to-learnfeatureshavehigherRCElossclosetovalueC.
+SCE loss with default parameters (Wang et al. 2019b)
+(C = −log10−5, α = 0.1, β = 1.0 for CIFAR10)
+weighs the RCE loss significantly stronger than the CE
+loss. Still, comparing the distributions of all three losses
+using the example of DBD (Huang et al. 2022) reveals
+that the CE loss makes SCE loss less effective in dis-
+tinguishing benign and poisonous samples, while RCE
+alone allows a clear separation of poisonous samples. Us-
+ing RCE rather than SCE loss, hence, is sufficient (and
+even beneficial in terms of stability) for dataset splitting.
+Moredetailsareinthesupplementary.
+5
+4 3
+2
+1
+0
+1 10 20 30 40 50
+Sizeofsubset×103
+301×selpmas#
+60
+50 #poisonous 40
+30
+20
+10
+1 10 20 30 40 501 10 20 30 40 50
+Sizeofsubset×103 Sizeofsubset×103
+(a)TrainonD˜ (b)TrainonS(0)
+]%[ρ
+3 HARVEY:LearningaBackdoorOracle
+We propose a novel training-time defense against neural
+backdoors based on dataset splitting. In contrast to related
+work, we tackle the problem from a different perspective:
+Wefocusonpoisonoussamplesratherthanbenignsamples
+anditerativelylearnastronglybackdooredmodelasanora-
+cleforpoisonoussamples.Thiswayourmethoddoesnotre-
+quireacleanreferencedataset,butbootstrapsiterativesplit-
+tingwiththemostobviouspoisonoussamplesandimproves
+continuously. Fig. 2 depicts the multi-stage, working prin-
+cipleofourmethod, HARVEY.Additionally,weprovidean
+algorithmicdescriptioninthesupplementary.Inthefollow-
+ingsubsections,weelaborateoneachstageindividually.
+3.1 Initialization(Stage❶)
+ρofsubset WebeginbytrainingT epochsonD˜ toobtainanaively init
+trained model θ∗. Based on the observations made in Sec-
+tion 2, we retrieve the 50% of the samples with the low-
+est RCE loss as the initial poisonous subset D(0), which
+bad we use for the further processing in the next stage entirely,
+(c)UnlearnD S(1) = D(0). The remaining 50% form the initial benign
+bng bad
+set D(0). Note that this yields a reasonable split because
+Figure 1: Subsets of incremental size chosen in ascending bng
+poisonous samples are learned easier than benign samples
+order of RCE loss based on a ResNet18 trained on a CI-
+ingeneral(Lietal.2021a).Thefollowingstagesrefinethis
+FAR10poisonedbyBlend(Chenetal.2017)atρ = 10%.
+split overmultiple rounds toconstantly improve separation
+upuntilwearereadytolearnthefinalbackdoor-freemodel.
+2.2 DistributionofBenignandPoisonousSamples 3.2 LearningtheBackdoor(Stage❷)
+Althoughthemodellearnspoisonoussamples(andthusthe We discard the initial naively trained model θ∗ and train a
+backdoor)easierthanbenignsamplesinthegeneralcase(Li
+new reference model θ from scratch that we iteratively
+etal.2021a),aftertraining,somebenignsamplesstillhave ref
+fine-tuneovernrounds.Eachroundfulfillstwotasks:First,
+a similar loss as poisonous samples. Hence, a fixed thresh-
+weenhancethereferencemodel’snotionofthebackdoorby
+oldonthelosscannotensuresplittingthedatasetprecisely.
+fine-tuning1 θ(i−1) yielding θ(i) . Second,we use the latter
+However, the majority of samples with low loss are indeed ref ref
+poisonousallowingtosampleasubsetwithahighpoisoning to split D˜ into a poisoned set D(i) and a benign set D(i) .
+bad bng
+rate. Increasing the poisoning rate can intensifies the back- Thepoisonedsetservesasbasisforsub-samplingdatainto
+doorinamodel(LiandLiu2024;Wuetal.2022). S(i+1)usedforthenextiteration.
+Training on the entire dataset D˜ yields low loss values
+formostpoisonoussamplesalreadyasshowninFig.1a.If Enhancing the backdoored reference model. We use a
+we consider the 50% of the samples with the lowest RCE learning-unlearningstrategytostronglyinternalizetheback-
+loss to form a subset S(1), this subset will naturally have a door.First,wetrainonS(i) forT poi epochsandemploythe
+higher poisoning rate. Retraining on S(1) yields the distri- localgradientascent(LGA)loss(Lietal.2021a)withγset
+to 0.01 to avoid overfitting to the few benign samples con-
+butionshowninFig.1bwithevenmorepoisonoussamples
+havinglowloss.Thisgivesrisetoadaptivedatasetsplitting
+tainedinthesubsetS(i):
+similarasZhangetal.(2023)proposedforCBDbutfocus- L = X sign (cid:16) L (cid:16) x,y,θ(i) (cid:17) −γ (cid:17) ·L (cid:16) x,y,θ(i) (cid:17)
+ingonpoisonoussamplesinsteadofbenignsamples. LGA CE ref CE ref
+Ifweadditionallyunlearnthe50%notselectedforS(1) (x,y)∈S(i)
+(samples with high RCE loss and thus mostly benign) by Next, we unlearn the benign samples in the benign sub-
+maximizingthetrainingloss,weyieldevenmorepoisonous setD(i−1)bymaximizingtheCEloss.Weusethefollowing
+bng
+samples with low loss in the resulting model as shown in (negative)lossfunction,withλ=0.01tostabilizethetrain-
+Fig.1c.Thesubsetformedbythe10ksampleswithlowest ing. The indicator function 1(·) ensures to only consider
+loss has an exceptionally high poisoning rate, forming the samplesforunlearningthatwerepredictedcorrectlybythe
+idealbasisforthenextroundofsplitting. referencemodel:
+Learningastronglybackdooredmodelcanserveasanor- L = X −λ·1 (cid:16) f (x)=y (cid:17) ·L (cid:16) x,y,θ(i) (cid:17)
+acleforpoisonoussamples.Inthenextsection,weintroduce UL θ(i) CE ref
+ref
+ourmethodthatusessuchanoracleas“referencemodel”to (x,y)∈D(i−1)
+bng
+identify and filterout poisonous samples, before learning a
+backdoor-freemodelontheremainingcleandatasamples. 1θ(0) israndomlyinitializedatthebeginningofStage❷.
+ref
+22806
+
+Stage❶ Stage❷ Stage❸ Stage❹
+D˜ D b (0 n ) g D b (0 a ) d D b (1 n ) g D b (1 a ) d D b (n n ) g D b (n ad ) A B D b (n n ) g A
+S(1) S(2) S(n)
+Clean
+θ∗ S θ r (1 e ) f S θ r (n ef ) S Meta-S Model
+L M L U M L U M L M
+M Model L Learning U Unlearning S Splitting Meta-S Meta-Splitting BenignSamples PoisonousSamples
+Figure2:OverviewdepictionofourmethodHARVEY.TheindividualstagesaredescribedinSections3.1to3.4.
+We perform unlearning for only one epoch per round. This
+way, we avoid a learning divergence and help the model to
+stablyunlearnthebenignsamples.
+Splitting dataset D˜ and composing S(i+1). The refer-
+encemodelθ(i) encodesthebackdoormuchbetterthanbe-
+ref
+nign data. There hence exists a huge gap in the RCE loss
+(cf.Fig.6b)thatseparatespoisonousandmostbenignsam-
+ples.TheRCElosshasafixedoutputrangeof[0,C],sothat
+athresholdofC/2splitsthedatasetwellinapoisonouspart
+D(i) (lowRCEloss)andcleanpartD(i) (highRCEloss).
+bad bng
+Wethenretrieve50%ofthesampleswiththelowestRCE
+lossfromD(i) tobeusedasS(i+1)forthenextiteration.
+bad
+Note that it may happen that some classes are not rep-
+resented in S(i+1). To counteract any bias, we additionally
+appendsampleswithlowRCElossfromD˜\S(i+1)sothat
+allclasseshaveatleast1%oftheoriginalamountofsam-
+ples.Doingsowillnotweakenthebackdoorinthereference
+modelbutpreservesthelearningbehavioracrossallclasses.
+Fig. 3 shows the attack success rate (ASR) and natural
+accuracy(ACC)ofthereferencemodelsθ(i) ontheleftand
+ref
+the splitting performance measured as recall on the right.
+Theprocessstabilizesstartingatround10,yieldingadecent
+splitinpoisonousandbenignsamples.However,wecannot
+ensure perfect splitting this way as some benign samples’
+loss overlaps with that of poisonous samples (cf. Fig. 6c).
+Wethusemploy“metasplitting”asdescribednext.
+100
+80
+60
+40
+20
+0
+1 5 10 15 20
+Iteration
+%niycaruccA
+100
+90 ACC
+80
+ASR
+70
+60
+50
+1 5 10 15 20
+Iteration
+(a)Performanceofθ
+ref
+%nillaceRgnittilpS
+3.3 Meta-Splitting(Stage❸)
+As the last reference model θ(n) is strongly biased toward
+ref
+the backdoor, most of benign samples of the backdoor’s
+target class remain in D(n). Hence, directly training on
+bad
+D(n) rightafterStage❷resultsinlownaturalperformance
+bng
+(cf. Fig. 4). The first reference model θ(1), in turn, yields
+ref
+twoclustersinlatentspace(cf.Fig.6b),whichcanseparate
+poisonous and benign samples, especially from the target
+class. Consequently, we use θ(1) to split D(n) (cf. Fig. 6c) ref bad
+intwoparts,AandB,accordingtohighandlowRCEloss
+forbenignandpoisonoussamples,respectively(cf.Fig.5).
+3.4 FinalTraining(Stage❹)
+For the final training, we combine the isolated benign sub-
+sets, D(n) (Stage❷) and A (Stage❸), yielding the final
+bng
+cleandatasetD ,andrejecttherest.Wethendirectlyap-
+bng
+plysupervisedlearningusingCElossonthisdatatoobtain
+thefinalcleanmodelwithoutthebackdoor:
+X
+argmin L (x,y,θ)
+CE
+θ (x,y)∈Dbng
+Analyzing the model in latent space (cf. Fig. 6d) shows
+that it forms clearly separable groups for classes and clas-
+sifies poisonous samples in the original class when being
+appliedtotheoriginal,poisoneddatasetD˜.
+10
+4
+8 3
+2 6 1
+4 0
+8 9 10
+Benignsamples
+2
+Poisonoussamples
+0
+0 2 4 6 8 10
+RCELoss
+(b)DatasetSplitting
+Figure3: HARVEY’ssplittingperformanceusingResNet18
+onCIFAR10poisonedbyBlendattack(Chenetal.2017).
+301×selpmaS#
+5
+4
+3
+2
+1
+0
+0 1 2 3 4 5 6 7 8 9
+RCELoss
+Figure 4: Train on D(n)
+bng
+ofCIFAR10poisonedby
+Blendw/ometa-splitting.
+301×selpmaS#
+Benign
+Poisonous
+setB Threshold
+setA
+Figure 5: Meta-splitting with us-
+ing θ(1) on D(n) of a CIFAR10
+ref bad
+poisonedbyBlendattack.
+22807
+
+14
+12
+10
+8 6
+4
+2
+0
+0 1 2 3 4 5 6 7 8 9 10
+RCELoss
+301×selpmaS#
+14 14 14
+12 12 12 Benignsamples
+10 10 10 Poisonoussamples
+6 8 D b (1 a ) d D b (1 n ) g 6 8 D b (n ad ) D b (n n ) g 6 8 Threshold
+4 4 4
+2 2 2
+0 0 0
+0 1 2 3 4 5 6 7 8 9 10 0 1 2 3 4 5 6 7 8 9 10 0 1 2 3 4 5 6 7 8 9 10
+RCELoss RCELoss RCELoss
+(a)Initialmodelθ∗ (b)1stReferencemodelθ(1) (c)nthReferencemodelθ(n) (d)Finalcleanmodelθ
+ref ref
+Figure6:Datasetdistributionofthelatentspacebyt-SNE(toprow)andRCE loss(bottomrow)forResNet18onCIFAR10
+poisonedbyBlendattack.Poisonoussamplesaremarkedblack,andothercolorsrepresentbenignsamplesofdifferentclasses.
+4 Evaluation HARVEY,wesetϵ=10−5,sothatthesplittingthresholdis
+We conduct extensive experiments across datasets and
+C/2≈4.6052.WeuseT
+init
+=20epochsforthepretraining
+and T = 10 epochs for each round/iteration in Stage❷.
+model architectures to evaluate our method in compari- poi
+Finally,wetrainthecleanmodelforT =100epochs.
+son to other training-time defenses. Specifically, we evalu- cln
+ate on the small-scale dataset CIFAR10 (Krizhevsky et al. Evaluation Metrics. We present the defensive perfor-
+2008) with WRN16-1 (Zagoruyko and Komodakis 2016) mance with two metrics: Natural Accuracy (ACC) and At-
+and ResNet18 (He et al. 2016), and the large-scale dataset tack Success Rate (ASR). An optimal backdooring attack
+Tiny-ImageNet (Le and Yang 2015) with ResNet34 (He hasahighACCandanASRof100%.Incontrast,aneffec-
+et al. 2016). In the supplementary, we provide results for a tive backdoor defense should achieve high ACC while the
+secondsmall-scaledataset,GTSRB(Stallkampetal.2012). attackisineffective,ASR≈0%.
+Below, we elaborate on the experimental setup wrt. con-
+sideredattacks,relateddefensesandevaluationmetrics,be- 4.1 DefensiveCapabilityofHARVEY
+fore we present an overview of HARVEY’s performance in Weprovidetheoverallcomparisonofourmethodwithother
+Section 4.1. In Sections 4.2 and 4.3, we analyze the split- training-time defenses in Table 2, where we highlight the
+tingperformanceofourmethodandperformablationexper- highest accuracy (ACC) and the lowest attack success rate
+iments,respectively.InSection4.4,wecomparetheruntime (ASR). Additionally, we mark all settings where the back-
+ofalldefenseswithHARVEY.Inthesupplementary,wefur- doorcannotbemitigated(ASR>90%)inorangecolor.
+ther provide thedetailed experimental setup, additional ab-
+CIFAR10. Alldefensesarerobustagainstpatch-basedat-
+lationstudies,andtheevaluationwithanadaptiveattack.
+tacks (e.g., BadNets) with ResNet18, while their perfor-
+Considered attacks. We evaluate with six poisoning at- mancedecreasesforstealthierattacks,suchasBlend,CLB
+tacks,includingBadNets(Guetal.2017),Trojan(Liuetal. and WaNet. In particular, DBD and D-ST are affected and
+2018b),Blendattack(Chenetal.2017),Clean-Label(CLB; also with WRN16-1 results are worse due to its low model
+Turner et al. 2019), IAB (Nguyen and Tran 2020) and capacity.ABLandCBD,inturn,preventvariousbackdoors
+WaNet(NguyenandTran2021).Wechooseclass0astarget, successfullybutatthecostofnaturalaccuracy.Incontrast,
+y t = 0, and use a poisoning rate of 10%, ρ = 0.1, except our method is effective in both model architectures, also
+for CLB, where we poison 50% and 100% of the samples maintaining the natural accuracy. HARVEY reduces the at-
+ofthetargetclassforthesmall-scaleandlarge-scaledataset, tacksuccessratebelow2%intheworstcaseandpreserves
+respectively. thehighestnaturalperformanceofalldefenses.
+Considereddefenses. WecompareHARVEYtofourother Tiny-ImageNet. AlsoonTiny-ImageNet,ourmethodex-
+defenses that also do not require a clean reference dataset: celswithonparnaturalaccuracyandareductionoftheat-
+ABL (Li et al. 2021a), DBD (Huang et al. 2022), D- tack success rate to merely 0.48% in the worst case. D-ST
+ST(Chenetal.2022),andCBD(Zhangetal.2023)withthe performs well in preserving the natural accuracy but mis-
+parametersproposedinthecorrespondingpublications.For splitsthedatasetspecificallyforBlendattacks.DBD,inturn
+22808
+
+Model Attack NoDefense ABL DBD D-ST CBD HARVEY
+ACC ASR ACC ASR ACC ASR ACC ASR ACC ASR ACC ASR
+01RAFIC
+BadNets 89.80 100.00 82.72 4.46 70.53 6.61 89.04 99.97 87.95 1.06 89.52 1.50
+Trojan 89.91 99.93 84.91 4.49 69.89 14.23 88.88 98.93 87.85 1.04 88.82 1.83
+Blend 89.80 98.78 78.30 10.27 71.08 7.79 87.62 99.80 80.17 85.12 89.40 0.99
+CLB 90.96 99.87 80.74 0.83 70.16 100.00 87.06 0.00 88.18 0.00 89.85 0.83
+WRN16-1
+IAB 90.18 99.80 85.36 9.03 63.81 98.18 84.96 99.68 86.07 1.04 88.72 1.66
+WaNet 88.31 98.55 84.90 4.14 70.08 8.85 86.27 98.81 85.12 2.00 87.15 0.30
+Average 89.64 99.49 82.82 5.54 69.26 39.28 87.31 82.87 85.89 15.04 88.91 1.19
+WorstCase 88.31 100.00 78.30 10.27 63.81 100.00 84.96 99.97 80.17 85.12 87.15 1.83
+BadNets 93.80 100.00 90.67 0.37 93.24 14.65 92.27 0.01 88.19 1.48 93.34 0.56
+Trojan 93.58 100.00 91.59 1.24 93.31 99.99 93.97 0.22 91.40 1.92 93.96 0.93
+Blend 94.01 100.00 87.66 6.59 90.27 99.91 89.93 55.48 86.33 5.77 93.37 0.58
+CLB 94.25 100.00 79.39 0.84 93.01 100.00 91.96 0.26 92.83 0.19 93.52 0.49
+ResNet18
+IAB 93.62 100.00 93.30 6.32 87.91 83.23 93.60 22.00 92.39 69.10 93.11 0.77
+WaNet 93.36 99.92 88.74 55.81 93.03 15.27 93.09 99.72 88.49 32.73 93.56 1.22
+Average 93.73 99.99 88.49 11.23 91.46 73.04 91.62 25.46 90.09 16.41 93.56 0.85
+WorstCase 93.36 100.00 79.39 55.81 87.91 100.00 86.51 99.72 86.33 69.10 93.11 1.43
+teNegamI-yniT
+BadNets 57.03 100.00 46.26 0.00 50.88 100.00 56.10 0.16 49.21 0.27 57.83 0.00
+Trojan 56.65 100.00 47.43 0.00 51.88 100.00 56.14 0.02 52.10 0.10 57.27 0.06
+Blend 56.86 99.98 49.07 99.99 51.73 100.00 56.56 97.63 52.68 0.78 56.48 0.07
+CLB 57.43 99.99 49.93 0.01 51.62 100.00 57.89 0.01 50.01 0.84 57.37 0.00
+ResNet34
+IAB 57.21 99.37 46.00 0.00 50.74 100.00 55.66 0.00 50.40 0.21 57.24 0.02
+WaNet 56.68 99.82 44.32 1.68 51.22 100.00 54.11 26.30 50.74 17.54 56.31 0.48
+Average 57.02 99.86 47.17 16.95 51.35 100.00 56.08 20.69 50.86 3.29 57.08 0.11
+WorstCase 56.65 100.00 44.32 99.99 50.74 100.00 54.11 97.63 49.21 17.54 56.31 0.48
+Table 2: Comparison of HARVEY with prior defenses. All results are shown in %. The best results across all defenses are
+highlightedinboldfont.Settingswherethebackdoorinjectionsucceeds(ASR>90%)aremarkedinorangeboldfont.
+failscompletelyduetothedifficultyoflearningbenignfea- HARVEY is largely independent of the model’s capacity
+tures as the loss distribution of benign and poisonous sam- aswelearnthebackdoorratherthanthebenigntaskforthe
+plesismoreinterleaved.ABLandCBDensureabetterde- referencemodel.ForCIFAR10withWRN16-1,weyieldF
+1
+fensebutsacrificenaturalaccuracydecisively. scoresover66%,whichis49percentagepointshigherthan
+thebestrelatedwork.ForTiny-ImageNet,ourmethodeven
+Summary. Related approaches cannot defend against
+reachesF >95%onaverageandaρ <0.1%.
+backdoors reliably, whereas our method can. The reason is 1 bng
+that we learn an easier task: learning the backdoor rather
+4.3 AblationStudy
+than the benign, natural task. HARVEY yields a natural ac-
+curacyonparwiththe“NoDefense”settingandsuppresses Westudytheimpactofdifferentcomponentsofourmethod
+eachbackdoortotheveryminimum. usingaResNet18modelonpoisonedCIFAR10withthepoi-
+soningrate10%.Table4summarizestheresults.
+4.2 PerformanceinDatasetSplitting
+(a) ReplacingRCElossfordatasetsplitting.WeuseCE
+Next,weanalyzetheperformanceofthemethodsbasedon
+loss and SCE loss with a threshold of 5.0 to show the im-
+datasetsplitting(DBD,D-ST,and HARVEY)bymeasuring
+pactofusingRCEloss.Whilethebackdoorisdecentlyre-
+the F score and the rate of remaining poisonous samples.
+1 moved with CE loss, the natural accuracy degrades signif-
+Table3summarizesthesplittingresults.
+icantly as the final D lacks benign samples. The RCE
+bng
+For D-ST, we merge “poisoned” and ”suspicious” sub-
+term in SCE loss makes it remove poisonous samples bet-
+sets for the evaluation as D-ST only learns on it “clean”
+ter(andthusreducetheASR)andalsoimprovesthenatural
+subset (Chen et al. 2022). The method falls behind for the
+accuracy. We can further improve the result by tuning the
+smaller WRN16-1 model in particular as it cannot cap-
+threshold,which,however,requiresground-truthknowledge
+ture the benign task completely during splitting. For larger
+ofthepoisonedsamples.ThefixedoutputrangeofRCEloss
+models (ResNet18 for CIFAR10 and ResNet34 for Tiny-
+asusedforHARVEY,inturn,allowstotriviallysplitthedata
+ImageNet), D-ST leaves over less poisonous samples, ex-
+atC/2,beingmuchmorepractical.
+ceptforWaNetandBlend.Moreover,DBD’sshortcomings
+(b) Impactofunlearning.Next,weevaluatetheinfluence
+on Tiny-ImageNet are also visible in the splitting perfor-
+mance,wheremorethan5%ofthefinaldatasetarestillpoi- of our unlearning step using D(i−1). As can be seen in Ta-
+bng
+sonous(inlightofanoverallpoisoningrateof10%).Also ble4unlearningiscrucialformaintainingnaturalaccuracy.
+forResNet18onCIFAR10,therecallissignificantlylower LearningareferencemodelonS(i) alonethatstillcontains
+than90%forTrojan,Blend,andCLBattacks. manybenignsampleslowerssplittingeffectiveness.
+22809
+
+Model Attack DBD D-ST HARVEY(Ours)
+Prec. Recall F ρ Prec. Recall F ρ Prec. Recall F ρ
+1 bng 1 bng 1 bng
+01RAFIC
+BadNets 18.19 90.96 30.32 1.81 10.48 7.28 8.59 9.96 83.04 100.00 90.73 0.00
+Trojan 17.26 86.30 28.77 2.74 10.94 8.03 9.26 9.43 75.99 99.42 86.14 0.07
+Blend 18.24 91.18 30.40 1.76 8.25 7.54 7.88 10.18 73.32 99.48 84.42 0.06
+CLB 10.09 50.46 16.82 9.91 2.61 73.78 5.04 3.71 69.34 99.96 81.88 0.00
+WRN16-1
+IAB 4.39 21.94 7.32 15.61 21.15 96.34 34.69 0.67 53.04 99.80 69.27 0.02
+WaNet 11.47 57.36 19.12 8.53 13.65 42.34 20.64 8.36 49.93 99.50 66.49 0.06
+Average 13.27 66.37 22.12 6.73 11.18 39.22 14.35 7.05 67.44 99.69 79.82 0.04
+WorstCase 4.39 21.94 7.32 15.61 2.61 7.28 5.04 10.18 49.93 99.42 66.49 0.07
+BadNets 17.09 85.46 28.48 2.91 45.48 99.98 62.52 0.00 55.69 100.00 71.54 0.00
+Trojan 11.11 55.58 18.52 8.88 89.02 99.54 93.99 0.05 74.57 99.82 85.37 0.02
+Blend 8.39 41.94 13.98 11.61 14.59 98.59 25.42 0.44 69.79 100.00 82.21 0.00
+CLB 10.09 50.46 16.82 9.91 16.95 99.99 28.99 0.00 60.72 99.92 75.54 0.00
+ResNet18
+IAB 8.42 42.10 14.03 11.58 45.19 89.24 60.00 1.34 67.62 100.00 80.68 0.00
+WaNet 17.17 85.84 28.62 2.83 29.17 23.62 26.10 8.31 67.37 98.54 80.03 0.17
+Average 12.05 60.23 20.08 7.95 40.07 85.16 49.50 1.69 65.96 99.71 79.23 0.03
+WorstCase 8.39 41.94 13.98 11.61 14.59 23.62 25.42 8.31 55.69 98.54 71.54 0.17
+teNegamI-yniT
+BadNets 0.09 0.45 0.15 19.91 91.52 100.00 95.57 0.00 99.52 99.99 99.75 0.00
+Trojan 0.36 1.80 0.60 19.64 90.61 100.00 95.07 0.00 97.29 99.98 98.62 0.00
+Blend 0.08 0.38 0.13 19.92 6.77 3.42 4.54 10.17 89.48 99.93 94.42 0.01
+CLB 0.01 1.00 0.02 0.99 0.80 4.60 1.36 0.49 67.81 99.00 80.49 0.01
+ResNet34
+IAB 0.10 0.49 0.17 19.90 89.48 99.93 94.42 0.01 96.00 99.81 97.87 0.02
+WaNet 0.82 4.11 1.37 19.18 84.91 91.81 88.23 0.92 95.54 99.48 97.47 0.06
+Average 0.24 1.37 0.48 16.59 60.68 66.63 75.57 1.93 90.94 99.70 97.63 0.02
+WorstCase 0.01 0.38 0.02 19.92 0.80 3.42 1.36 10.17 67.81 99.00 80.49 0.06
+Table3:ComparingHARVEY’sdatasetsplittingwithDBDandD-ST.Precision(Prec.)measurestheratioofpoisonoussamples
+inD .Recallshowstheisolationpercentageofpoisonoussamples.ρ isthepoisoningratioinD .Allresultsareshown
+bad bng bng
+in%.WehighlightthebestF scoreandρ ofalldefensesinboldfont.ρ above5%ismarkedinorangeboldfont.
+1 bng bng
+(c) Finaltrainingusingsemi-supervisedlearning(SSL). Dataset Naive ABL DBD D-ST CBD HARVEY
+SSL is proven effective for training-time defenses (Huang
+CIFAR10 0.52 0.56 19.25 1.76 0.60 0.95
+et al. 2022; Chen et al. 2022). Using MixMatch (Berthelot GTSRB 0.42 0.55 16.21 1.43 0.47 0.74
+etal.2019)forthefinaltrainingonD andD achieves Tiny-ImageNet 3.19 3.48 114.13 10.59 3.60 5.68
+bng bad
+acomparablenaturalaccuracytostandardsupervisedlearn-
+Table 5: The time consumption (in hours) of all defenses
+ing (SL). Despite a slight improvement in defense, SSL’s
+acrossdifferentdatasets.Naivedenotesthenaivetraining.
+timeoverload(6×comparedtoSL)outweighsthebenefit.
+4.4 TimeConsumption
+5 Conclusion
+Table 5 shows the runtime of all defenses. ABL and CBD
+areslightlyfasterthanHARVEY.Incontrast,otherdefenses
+are slower by another magnitude. In particular, DBD takes
+Neural backdoors are difficult to remove once established
+nearly one day on CIFAR10. While HARVEY is not the
+in a machine-learning model. HARVEY counters such at-
+fastest,itsruntimeiscomparabletothenaivetrainingwhile
+tacks early by splitting poisonous samples off the training
+significantlyimprovingtheperformance(cf..Table2).
+dataset to prevent learning the backdoors in the first place.
+High recall guarantees complete backdoor removal, while
+high precision ensures that we learn a performant (clean)
+BadNets Blend IAB WaNet
+Ablation modelontheremainingbenignsamples.Wefindthatthese
+ACC ASR ACC ASR ACC ASR ACC ASR challengesarebestmetbylearningamodelthatoverfitsthe
+HARVEY 93.34 0.56 93.37 0.58 93.11 0.77 93.56 1.22 backdooranduseitasanoracleforpoisonoussamplesinit-
+erativedatasetsplitting.Thisstrategyrepresentsaparadigm
+RCE→CE 89.85 0.23 87.82 3.01 88.44 0.58 84.07 0.08
+RCE→SCE 90.90 0.16 93.01 0.61 92.76 0.68 89.82 0.26 shift in splitting-based defenses, allowing for near-perfect
+UnlearnD 86.69 1.58 88.12 2.53 80.92 7.16 80.89 8.14 removal of poisonous samples without harming the natural
+bng
+SL→SSL 92.36 0.07 94.12 0.22 92.87 0.16 92.44 0.48 performance. Most importantly, HARVEY does not require
+any clean data as the reference. Moreover, it works across
+Table4:Ablationstudyon HARVEY.Wehighlightthebest
+modelarchitecturesanddatasetsbothonaverageandinthe
+inboldfaceandmarkthesecond-bestingrayboldfont.
+worst-case,settinganewstandardintraining-timedefenses.
+22810
+
+Acknowledgments He,K.;Zhang,X.;Ren,S.;andSun,J.2016. DeepResid-
+We gratefully acknowledge funding by the Helmholtz As- ual Learning for Image Recognition. In Proc. of the IEEE
+sociation (HGF) within topic “46.23 Engineering Secure Conference on Computer Vision and Pattern Recognition
+Systems”, by SAP S.E. under project (DE-2020-021), (CVPR),770–778.
+and by the German Federal Ministry of Education Huang,K.;Li,Y.;Wu,B.;Qin,Z.;andRen,K.2022. Back-
+and Research (BMBF) under the project DataChainSec doorDefenseviaDecouplingtheTrainingProcess. InProc.
+(FKZ16KIS1700). of the International Conference on Learning Representa-
+tions(ICLR).
+References Krizhevsky, A.; Nair, V.; and Hinton, G. 2008. CIFAR
+Barni, M.; Kallas, K.; and Tondi, B. 2019. A New Back- (CanadianInstituteforAdvancedResearch).
+door Attack in CNNS by Training Set Corruption Without Kullback,S.;andLeibler,R.A.1951. OnInformationand
+Label Poisoning. In 2019 IEEE International Conference Sufficiency. The Annals of Mathematical Statistics, 22(1):
+onImageProcessing(ICIP). 79–86.
+Berthelot, D.; Carlini, N.; Goodfellow, I.; Papernot, N.; Le,Y.;andYang,X.2015.Tinyimagenetvisualrecognition
+Oliver,A.;andRaffel,C.2019. MixMatch:AHolisticAp- challenge. CS231N.
+proach to Semi-Supervised Learning. In Proc. of the An- Li,B.;andLiu,W.2024. ATheoreticalAnalysisofBack-
+nualConferenceonNeuralInformationProcessingSystems doorPoisoningAttacksinConvolutionalNeuralNetworks.
+(NeurIPS). InProc.oftheInternationalConferenceonMachineLearn-
+Biggio,B.;andRoli,F.2018. Wildpatterns:Tenyearsafter ing(ICML).
+the rise of adversarial machine learning. Pattern Recogni- Li,Y.;Lyu,X.;Koren,N.;Lyu,L.;Li,B.;andMa,X.2021a.
+tion,84:317–331. Anti-Backdoor Learning: Training Clean Models on Poi-
+Cai,R.;Zhang,Z.;Chen,T.;Chen,X.;andWang,Z.2022. soned Data. In Proc. of the Annual Conference on Neural
+Randomized Channel Shuffling: Minimal-Overhead Back- InformationProcessingSystems(NeurIPS).
+door Attack Detection without Clean Datasets. In Proc. of Li,Y.;Lyu,X.;Koren,N.;Lyu,L.;Li,B.;andMa,X.2021b.
+the Annual Conference on Neural Information Processing Neural Attention Distillation: Erasing Backdoor Triggers
+Systems(NeurIPS). from Deep Neural Networks. In Proc. of the International
+Carlini, N.; Jagielski, M.; Choquette-Choo, C. A.; Paleka, ConferenceonLearningRepresentations(ICLR).
+D.; Pearce, W.; Anderson, H.; Terzis, A.; Thomas, K.; and Liu,K.;Dolan-Gavitt,B.;andGarg,S.2018a.Fine-Pruning:
+Tramèr,F.2023. PoisoningWeb-ScaleTrainingDatasetsis Defending Against Backdooring Attacks on Deep Neural
+Practical. arXiv:2302.10149. Networks. In Bailey, M.; Holz, T.; Stamatogiannakis, M.;
+Chen,W.;Wu,B.;andWang,H.2022. EffectiveBackdoor andIoannidis,S.,eds.,Proc.oftheInternationalSymposium
+DefensebyExploitingSensitivityofPoisonedSamples. In onResearchinAttacks,IntrusionsandDefenses(RAID).
+Proc.oftheAnnualConferenceonNeuralInformationPro- Liu, Y.; Ma, S.; Aafer, Y.; Lee, W.-C.; Zhai, J.; Wang, W.;
+cessingSystems(NeurIPS). and Zhang, X. 2018b. Trojaning Attack on Neural Net-
+Chen, X.; Liu, C.; Li, B.; Lu, K.; and Song, D. 2017. Tar- works. InProc.oftheNetworkandDistributedSystemSe-
+geted Backdoor Attacks on Deep Learning Systems Using curitySymposium(NDSS).
+DataPoisoning. CoRR,abs/1712.05526. Nguyen, T. A.; and Tran, A. 2020. Input-Aware Dynamic
+Doan, B. G.; Abbasnejad, E.; and Ranasinghe, D. C. 2020. Backdoor Attack. In Larochelle, H.; Ranzato, M.; Had-
+Februus:InputPurificationDefenseAgainstTrojanAttacks sell, R.; Balcan, M.; and Lin, H., eds., Proc. of the An-
+on Deep Neural Network Systems. In Proc. of the Annual nualConferenceonNeuralInformationProcessingSystems
+ComputerSecurityApplicationsConference(ACSAC). (NeurIPS),3454–3464.
+Gao,K.;Bai,Y.;Gu,J.;Yang,Y.;andXia,S.-T.2023.Back- Nguyen,T.A.;andTran,A.T.2021.WaNet-Imperceptible
+doorDefenseviaAdaptivelySplittingPoisonedDataset. In Warping-based Backdoor Attack. In Proc. of the Interna-
+Proc.oftheIEEEConferenceonComputerVisionandPat- tionalConferenceonLearningRepresentations(ICLR).
+ternRecognition(CVPR). Qiu,H.;Zeng,Y.;Guo,S.;Zhang,T.;Qiu,M.;andThurais-
+Gao,Y.;Xu,C.;Wang,D.;Chen,S.;Ranasinghe,D.C.;and ingham, B. 2021. DeepSweep: An Evaluation Framework
+Nepal,S.2019. STRIP:ADefenceAgainstTrojanAttacks forMitigatingDNNBackdoorAttacksUsingDataAugmen-
+onDeepNeuralNetworks. InProc.oftheAnnualComputer tation. In Proc. of the ACM Asia Conference on Computer
+SecurityApplicationsConference(ACSAC). andCommunicationsSecurity(ASIACCS).
+Gu,T.;Dolan-Gavitt,B.;andGarg,S.2017. BadNets:Iden- Shafahi,A.;Huang,W.R.;Najibi,M.;Suciu,O.;Studer,C.;
+tifyingVulnerabilitiesintheMachineLearningModelSup- Dumitras, T.; and Goldstein, T. 2018. Poison Frogs! Tar-
+plyChain. ProceedingofMachineLearningandComputer geted Clean-Label Poisoning Attacks on Neural Networks.
+SecurityWorkshop. In Proc. of the Annual Conference on Neural Information
+Hayase,J.;Kong,W.;Somani,R.;andOh,S.2021. SPEC- ProcessingSystems(NeurIPS).
+TRE:defendingagainstbackdoorattacksusingrobuststatis- Stallkamp,J.;Schlipsing,M.;Salmen,J.;andIgel,C.2012.
+tics. In Proc. of the International Conference on Machine Man vs. computer: Benchmarking machine learning algo-
+Learning(ICML). rithmsfortrafficsignrecognition. NeuralNetworks.
+22811
+
+Turner, A.; Tsipras, D.; and Madry, A. 2019. Label-
+ConsistentBackdoorAttacks. arXiv:1912.02771.
+Wang, B.; Yao, Y.; Shan, S.; Li, H.; Viswanath, B.; Zheng,
+H.;andZhao,B.Y.2019a. NeuralCleanse:Identifyingand
+MitigatingBackdoorAttacksinNeuralNetworks. InProc.
+oftheIEEESymposiumonSecurityandPrivacy.
+Wang, R.; Zhang, G.; Liu, S.; Chen, P.-Y.; Xiong, J.; and
+Wang, M. 2020. Practical Detection of Trojan Neural Net-
+works: Data-Limited and Data-Free Cases. In Proc. of the
+EuropeanConferenceonComputerVision(ECCV).
+Wang, Y.; Ma, X.; Chen, Z.; Luo, Y.; Yi, J.; and Bailey, J.
+2019b. Symmetric cross entropy for robust learning with
+noisylabels. InProc.oftheIEEE/CVFInternationalCon-
+ferenceonComputerVision(ICCV).
+Wang,Z.;Mei,K.;Ding,H.;Zhai,J.;andMa,S.2022. Re-
+thinkingtheReverse-engineeringofTrojanTriggers. InAd-
+vancesinNeuralInformationProcessingSystems.
+Wang,Z.;Mei,K.;Zhai,J.;andMa,S.2023.UNICORN:A
+UnifiedBackdoorTriggerInversionFramework. InProc.of
+the International Conference on Learning Representations
+(ICLR).
+Wu, B.; Chen, H.; Zhang, M.; Zhu, Z.; Wei, S.; Yuan, D.;
+and Shen, C. 2022. BackdoorBench: A Comprehensive
+Benchmark of Backdoor Learning. In Thirty-sixth Confer-
+ence on Neural Information Processing Systems Datasets
+andBenchmarksTrack.
+Xu,X.;Wang,Q.;Li,H.;Borisov,N.;Gunter,C.A.;andLi,
+B.2021. DetectingAITrojansUsingMetaNeuralAnalysis.
+InProc.oftheIEEESymposiumonSecurityandPrivacy.
+Zagoruyko, S.; and Komodakis, N. 2016. Wide Residual
+Networks.InProc.oftheBritishMachineVisionConference
+(BMVC).
+Zhang,Z.;Liu,Q.;Wang,Z.;Lu,Z.;andHu,Q.2023.Back-
+door Defense via Deconfounded Representation Learning.
+In Proc. of the IEEE Conference on Computer Vision and
+PatternRecognition(CVPR).
+Zhao,P.;Chen,P.-Y.;Das,P.;Ramamurthy,K.N.;andLin,
+X. 2020. Bridging Mode Connectivity in Loss Landscapes
+and Adversarial Robustness. In Proc. of the International
+ConferenceonLearningRepresentations(ICLR).
+Zhao,S.;Ma,X.;Zheng,X.;Bailey,J.;Chen,J.;andJiang,
+Y.2023. Clean-LabelBackdoorAttacksonVideoRecogni-
+tionModels. InProc.oftheIEEE/CVFInternationalCon-
+ferenceonComputerVision(ICCV).
+Zhou, J.; Lv, P.; Lan, Y.; Meng, G.; Chen, K.; and Ma, H.
+2023. DataElixir: Purifying Poisoned Dataset to Mitigate
+Backdoor Attacks via Diffusion Models. In Proc. of AAAI
+ConferenceonArtificialIntelligence(AAAI).
+22812

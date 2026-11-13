@@ -1,0 +1,13 @@
+{
+  "executed_code_cells": 5,
+  "device": "cpu",
+  "profile": "smoke",
+  "synthetic": true,
+  "full_backup_verified": true,
+  "full_backup_bytes": 725406383,
+  "file_count": 31,
+  "stage_checkpoints_and_models_verified": true,
+  "working_directory": "/var/folders/gy/c6dgr4v92fq2fvwd9rcrj_v00000gn/T/harvey-v2-full-saving-f658xa7p",
+  "extracted_backup_resumed": true,
+  "resumed_metrics_match": true
+}

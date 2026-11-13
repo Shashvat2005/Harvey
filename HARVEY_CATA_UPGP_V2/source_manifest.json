@@ -1,0 +1,11 @@
+{
+  "training.py": "69f735cacc1d48599292f9a1b70995f5460bf127b94f27825ceda2413c8f0c3c",
+  "refinement.py": "d6c9b92bd559440d690e025629ac9ba9cb0802db20866f2a0d66a08ada02d56b",
+  "cata.py": "7496e4b32038dad87b8f93a66a7cfc30605ee5b84e5fbcf535dd2227e9e71522",
+  "upgp.py": "a1c57fe9ea7f92350aefd313a38e5ced5d104bfe89d0e50d6039c66734873727",
+  "vendor/models/target_models.py": "a68631031e8ff1c1939b92f06e4e41db8c2ad16ba6e316abe2ee47f35e5f2e68",
+  "vendor/cifar_badnets.png": "5609678121bb40f46c1986d86b888099c8129f980fbf11cf868494930764af6a",
+  "tests/test_v2.py": "2bebde3dc80e8bb35ac86b486023ba710e0b91c0e251f5c6d7eab8988d99b171",
+  "artifacts.py": "08d4a37b8be8da8d839ba2f4000c3eeb4e6733ca516f8ad54f8b04f255d38a68",
+  "tests/test_artifacts.py": "abfb05dcc410ea0a2cbd671f9ceea84bd0e80aa064c1cde1797b68a8715cb45d"
+}

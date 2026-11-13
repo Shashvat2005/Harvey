@@ -1,0 +1,24 @@
+{
+  "notebook_cells_executed": 6,
+  "device": "cpu",
+  "profile": "smoke",
+  "synthetic": true,
+  "completed_resume_checked": true,
+  "result": {
+    "clean_accuracy": 10.0,
+    "asr": 100.0,
+    "before_upgp": {
+      "clean_accuracy": 10.0,
+      "asr": 100.0
+    },
+    "variant": "harvey_cata_upgp",
+    "seed": 1,
+    "profile": "smoke",
+    "protocol": "release",
+    "poison_hash": "05b4740705d321bb4b148eb771383c2b613d54f81ebbc70290022ad18e4031c5",
+    "elapsed_seconds": 8.18519241688773,
+    "synthetic": true,
+    "checkpoint_selection": "last_epoch"
+  },
+  "validation_directory": "/var/folders/gy/c6dgr4v92fq2fvwd9rcrj_v00000gn/T/harvey-kaggle-notebook-validation-3qn961qz"
+}

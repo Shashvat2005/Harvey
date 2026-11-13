@@ -1,0 +1,16 @@
+{
+  "purpose": "After-selection diagnostic only; not used to construct groups or choose defaults/candidates",
+  "refinement_disabled": true,
+  "groups": {
+    "suspect_fit": {
+      "count": 3310,
+      "true_poison_count": 3242,
+      "audit_precision": 0.9794561933534743
+    },
+    "suspect_validation": {
+      "count": 820,
+      "true_poison_count": 795,
+      "audit_precision": 0.9695121951219512
+    }
+  }
+}

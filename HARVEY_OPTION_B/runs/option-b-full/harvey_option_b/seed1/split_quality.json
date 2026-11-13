@@ -1,0 +1,7 @@
+{
+  "benign_count": 41255,
+  "suspected_poison_count": 8745,
+  "detection_precision": 0.5717552887364208,
+  "detection_recall": 1.0,
+  "benign_contamination": 0.0
+}

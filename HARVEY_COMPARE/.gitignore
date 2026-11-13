@@ -1,0 +1,10 @@
+# Local environments and Python caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+# Generated training outputs, checkpoints and downloaded datasets
+/runs/
+/data/
+*.log

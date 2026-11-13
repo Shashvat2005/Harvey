@@ -1,0 +1,8 @@
+{
+  "source": "/Users/shashvatgarg/Desktop/Main/Shashvat_Garg/Study/DTU/Study/4th Year/Sem - 7/BTP/Harvey + Extra/HARVEY_OPTION_B/runs/option-b-full/harvey_option_b/seed1",
+  "base_sha256": "1648f1922d1a202456e3d1d939130c0239527e76c7471107378321d17c0848c5",
+  "original_training_batch": 128,
+  "seed": 1,
+  "protocol": "release",
+  "note": "Continuation of a previously trained Option B base, not a fresh independent replication."
+}

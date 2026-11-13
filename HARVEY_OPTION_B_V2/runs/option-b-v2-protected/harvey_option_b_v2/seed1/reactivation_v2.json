@@ -1,0 +1,13 @@
+{
+  "selection_already_frozen": true,
+  "weights_not_overwritten": true,
+  "description": "One 1:1 epoch of low-LR re-exposure to estimated suspicious and likely-clean fitting images; no poison truth selects samples.",
+  "base": {
+    "clean_accuracy": 92.73,
+    "asr": 0.5111111111111111
+  },
+  "selected": {
+    "clean_accuracy": 92.85,
+    "asr": 0.4777777777777778
+  }
+}

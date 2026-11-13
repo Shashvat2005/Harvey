@@ -1,0 +1,7 @@
+{
+  "check": "full ResNet18 MPS forward/backward + CPU layer SVD + relaxed projected update",
+  "loss": 2.4152979850769043,
+  "layers": 21,
+  "seconds": 6.525511082960293,
+  "synthetic": true
+}

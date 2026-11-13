@@ -1,0 +1,35 @@
+{
+  "clean_accuracy": 92.78,
+  "asr": 0.5,
+  "target_accuracy": 83.9,
+  "base_control": {
+    "clean_accuracy": 92.73,
+    "asr": 0.5111111111111111,
+    "target_accuracy": 83.3
+  },
+  "before_refinement": {
+    "clean_accuracy": 92.78,
+    "asr": 0.5,
+    "target_accuracy": 83.9
+  },
+  "selected_edit": {
+    "kind": "clean_polish",
+    "lr": 0.005,
+    "epoch": 1
+  },
+  "eligible_for_refinement": true,
+  "reference_counts": {
+    "cata": 0,
+    "ga": 0,
+    "source": "reused_ordinary_HARVEY"
+  },
+  "variant": "harvey_option_b_v2",
+  "seed": 1,
+  "profile": "full",
+  "protocol": "release",
+  "poison_hash": "94c42c8909c2616d51472974a396d63471ad26b8f24dab369c24a40a302100fa",
+  "synthetic": false,
+  "test_used_for_selection": false,
+  "elapsed_seconds": 338.7390035840217,
+  "runtime_excludes_reused_base_training": true
+}

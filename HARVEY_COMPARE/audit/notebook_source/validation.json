@@ -1,0 +1,14 @@
+{
+  "requests": 1,
+  "examples_seen": 2,
+  "task_nonzero": 3366935,
+  "parameters": 11173962,
+  "adaptation_loss": 2.76902174949646,
+  "model": "HARVEY ResNet18",
+  "device": "cpu",
+  "torch_version": "2.8.0",
+  "cuda_available": false,
+  "unit_tests_passed": 10,
+  "full_training_run": false,
+  "upstream_commit": "6641f5fedef0f654ab019aaebf6f3de24901bd9b"
+}

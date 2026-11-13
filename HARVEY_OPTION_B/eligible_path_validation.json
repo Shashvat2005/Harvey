@@ -1,0 +1,8 @@
+{
+  "synthetic": true,
+  "description": "Artificial memberships exercise full ResNet18 MPS adaptation, all alpha candidates, BN calibration, validation selection and re-exposure; not measured detection quality or accuracy",
+  "candidate_count": 6,
+  "selected_alpha": 0.0,
+  "seconds": 2.751793917035684,
+  "parameters_finite": true
+}

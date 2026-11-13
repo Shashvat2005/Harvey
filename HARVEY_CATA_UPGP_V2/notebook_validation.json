@@ -1,0 +1,44 @@
+{
+  "executed_code_cells": 5,
+  "device": "cpu",
+  "profile": "smoke",
+  "synthetic": true,
+  "resume_completed_checked": true,
+  "working_directory": "/var/folders/gy/c6dgr4v92fq2fvwd9rcrj_v00000gn/T/harvey-v2-final-notebook-3kt83l4_",
+  "result": {
+    "clean_accuracy": 10.0,
+    "asr": 100.0,
+    "target_accuracy": 100.0,
+    "base_control": {
+      "clean_accuracy": 10.0,
+      "asr": 100.0,
+      "target_accuracy": 100.0
+    },
+    "before_refinement": {
+      "clean_accuracy": 10.0,
+      "asr": 100.0,
+      "target_accuracy": 100.0
+    },
+    "selected_edit": {
+      "kind": "base",
+      "stage": "base"
+    },
+    "eligible_for_refinement": false,
+    "recovered_fitting_count": 0,
+    "recovery_enabled": true,
+    "reference_counts": {
+      "cata": 0,
+      "ga": 1,
+      "source": "fresh_validation_guarded_reference"
+    },
+    "variant": "harvey_cata_upgp_v2",
+    "seed": 1,
+    "profile": "smoke",
+    "protocol": "release",
+    "poison_hash": "05b4740705d321bb4b148eb771383c2b613d54f81ebbc70290022ad18e4031c5",
+    "synthetic": true,
+    "test_used_for_selection": false,
+    "elapsed_seconds": 9.02700262493454,
+    "runtime_excludes_reused_base_training": false
+  }
+}

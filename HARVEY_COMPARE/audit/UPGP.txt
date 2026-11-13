@@ -1,0 +1,2009 @@
+Pattern Recognition 176 (2026) 113211
+Contents lists available at ScienceDirect
+Pattern Recognition
+journal homepage: www.elsevier.com/locate/pr
+UPGP:Backdoor defense via unlearning perturbation and
+orthogonality-constraint gradient projection
+Jingtai Li a, Xiujiu Yuan a,∗, Jiwei Tian b, Shiwei Lu a, Dengxiu Yu c,d
+aFundamentals Department, Air Force Engineering University, No.1 A, Changle East Road, Xi’an, 710043, Shaanxi Province, China
+bMinistry of Education Key Laboratory for Intelligent Networks and Network Security, School of Cyber Science and Engineering, Xi’an Jiaotong University, No. 28
+Xianning West Road, Xi’an, 710049, Shaanxi Province, China
+cthe School of Artificial Intelligence, Optics and Electronics, Northwestern Polytechnical University, No.127, West Youyi Road, Xi’an, 710072, Shaanxi Province, China
+dKey Laboratory of Cyberspace Security, Ministry of Education, China, No.62, Science Road, Zhongyuan Distric, Zhengzhou, 450001, Henan Province, China
+a r t i c l e i n f o a b s t r a c t
+Keywords: In the field of artificial intelligence, the wide adoption of third-party data has heightened the risk of backdoor
+Data security attacks based on data poisoning. Although post-training defenses can mitigate such attacks, aggressive strategies
+Backdoor defense often degrade the model’s performance on its main task. To address this, a novel method that combines backdoor
+Machine unlearning
+detection and elimination through machine unlearning is proposed. Specifically, unlearning perturbation is first
+Learning dynamic
+defined to capture the parameter variation induced by forgetting a subset of samples. Subsequently, experiments
+Gradient projection
+confirm that backdoor samples exhibit lower sensitivity to perturbations generated from normal samples. In ad-
+dition, a learning-dynamics analysis attributes this discrepancy to unlearning sensitivity, which is defined as the
+inner product between the gradients of normal and backdoor samples. This analysis further demonstrates that
+this metric quantifies the extent to which backdoor removal perturbs the model’s main task. Leveraging this
+insight, an orthogonality-constrained gradient projection method projects the unlearning gradient onto the null
+space of the normal-sample gradient, thereby eliminating the aforementioned unlearning sensitivity and preserv-
+ing the accuracy of normal samples. The proposed method is evaluated across six backdoor attack scenarios and
+two network architectures, reducing the average attack success rate by 96.34 percentage points and improving
+robust accuracy by 83.68 percentage points, while maintaining the model’s performance on the main task.
+1. Introduction mation about backdoor samples is obtained by leveraging the backdoor
+model, and the model is purified by eliminating the backdoor. Although
+With the development of artificial intelligence technology, the scale existing post-training defense methods can effectively eliminate back-
+of training dataset is also becoming increasingly large, making it easier door in models, there is still a need to further address how to reduce the
+for attackers to carry out backdoor attacks on machine learning mod- impact of backdoor elimination on the model’s main task. To this end,
+els through data poisoning. A model trained on poisoned dataset will existing methods mainly include detecting neurons related to the back-
+be implanted with a backdoor, causing the model to generate abnormal door [4], suppressing or modifying the backdoor features in the feature
+outputs when processing trigger-containing samples [1]. However, re- map [5], or using normal samples for restoration. However, these meth-
+lying solely on backdoor sample detection before training is insufficient ods often require inserting extra model components or retraining with
+to completely defend against the backdoor attacks [2], and retraining large volumes of clean data, which disrupts the original architecture and
+the attacked model incurs extremely high costs. It is necessary to devise leads to substantial computational overhead as well as considerable im-
+post-training defense methods to restore the system to its normal oper- plementation complexity.
+ational state after a data poisoning attack, thereby fulfilling the main- To reduce the impact of backdoor elimination on the model’s main
+tainability requirements of artificial intelligence services. task, we propose a novel post-training backdoor defense approach based
+In the field of backdoor defense of convolutional neural networks on unlearning perturbation and gradient projection (UPGP), without
+for image classification, post-training defense methods have attracted the need for extra feature extraction or dimensionality reduction meth-
+widespread attention [3]. In the post-training defense scenario, infor- ods. Since controllable and predictable model perturbations enable the
+∗ Corresponding author.
+E-mail addresses: jingtai_li@163.com (J. Li), xiujiuyuan@163.com (X. Yuan), tianjiwei2016@163.com (J. Tian), 3130104597@zju.edu.cn (S. Lu),
+yudengxiu@nwpu.edu.cn (D. Yu).
+https://doi.org/10.1016/j.patcog.2026.113211
+Received 2 September 2025; Received in revised form 1 January 2026; Accepted 29 January 2026
+Available online 31 January 2026
+0031-3203/© 2026 Elsevier Ltd. All rights are reserved, including those for text and data mining, AI training, and similar technologies.
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+detection of model anomalies, the concept of unlearning perturbation tistical contamination analyser method (SCAn) [7] relies on the expec-
+was introduced to analyze the unlearning impact on model evaluation tation maximization (EM) algorithm to decompose the representation
+metrics of other samples. However, the model’s logits output of back- of samples. Hu and Chang [8] use a diffusion model to learn the fea-
+door samples exhibit greater resistance to the unlearning perturbation ture space distribution of normal samples to identify backdoor samples.
+of normal samples within the same category. According to this phe- (2) Based on the strong correlation between the backdoor trigger and
+nomenon, the backdoor model can be used to detect the target categories the backdoor target category. Liu et al. [9] take advantage of the fact
+of backdoor attacks and screen out a portion of backdoor samples with that backdoor images and normal images exhibit distinct levels of ro-
+high confidence level for backdoor unlearning in the next step. bustness to image corruption. Wang et al. [3] utilize the difference in
+In addition, the analysis of learning dynamics shown that the in- the maximum decision boundaries between backdoor samples and nor-
+ner product of the gradient of cross-entropy loss function of the normal mal samples as a feature. Chen et al. [10] analyze backdoor samples
+samples and the gradient of unlearning loss function of the backdoor by introducing a weaker backdoor. (3) Reconstruct model or use an ex-
+samples determines the unlearning sensitivity of normal samples to for- ternal feature extractor. Wang et al. [11] remove mislabeled samples
+gotten backdoor samples. Accordingly, the unlearning gradient is pro- as backdoor samples by using self-supervised representation learning to
+jected onto the null space of the gradient matrix formed by normal sam- represent the semantic information in the images. Li et al. [12] leverage
+ples, so that the resulting orthogonality drives the unlearning sensitivity a reputable feature extractor and compare the similarity of extracted
+to zero and preserves the model’s performance on normal data. Unlike feature vectors. However, the clustering-based backdoor sample detec-
+indirect input-space method that merely suppress activation [6], our tion method needs to construct a low-dimensional feature space due to
+gradient-space projection constrains parameter updates. By projecting the distance metric fails in the high-dimensional feature space and this
+the unlearning gradient onto the sub-space orthogonal to the main-task process require additional computational and storage resources.
+gradient, we fundamentally eliminate interference with the normal sam- After obtaining the prior knowledge of backdoor samples, re-
+ples. In addition, the projection is performed in a layer-wise manner, searchers eliminate model backdoor by detecting and pruning neurons
+providing fine-grained protection for each layer and yielding superior that are related to backdoor samples [4], or use knowledge distillation
+preservation of model performance. Overall, the contributions of this techniques to extract harmless information from the backdoor model
+paper are as follows: [13]. In addition, contrastive learning methods [14] and machine un-
+(1) Unlearning perturbation and unlearning impact are introduced learning methods [15] are also used to eliminate the model’s response to
+to formalize the analysis of model behavior under controlled pertur- backdoor triggers. We need to focus on the issue of performance degra-
+bations. Using these concepts, backdoor samples are found to exhibit dation of the model after eliminating the backdoor, such as the recog-
+greater resistance to unlearning perturbations derived from normal sam- nition ability for normal samples and the robustness against backdoor
+ples within the same category. Based on this, a backdoor detection samples.
+method is proposed to identify backdoor attack categories and backdoor
+samples. This work represents the first application of machine unlearn-
+ing to anomaly detection and achieves identification without requiring
+2.2. Machine unlearning
+additional feature extraction or dimensionality reduction models.
+(2) The notion of unlearning sensitivity is proposed to quantify how
+Machine unlearning is a technique aimed at eliminating the influ-
+removing specific samples impacts the model’s main task. Analysis based
+ence of marked training samples on a machine learning algorithm while
+on learning dynamics shows that this sensitivity equals the gradient in-
+preserving its utility. This approach enhances the protection of data pri-
+ner product between normal and backdoor samples, which explains their
+vacy in the training dataset and enables the control of the model’s be-
+disparate responses to unlearning perturbations. By minimizing this in-
+havior, thereby having a wide range of application scenarios. For exam-
+ner product, the unlearning sensitivity of normal samples to forgetting
+ple, it’s used to mitigate the impact of backdoor samples in backdoor
+backdoor samples is reduced, thus mitigating the impact of backdoor
+attack defense [15], resist model extraction attack [16], and suppress
+unlearning on the main task.
+inappropriate elements in generative fields [17].
+(3) Guided by the concept of unlearning sensitivity, an
+Retraining the model on a dataset with marked samples have been
+orthogonality-constrained gradient projection method is proposed.
+removed is a native method, but it is costly. Researchers have proposed
+Unlike vector orthogonal projection, the method constructs a gradient
+several approaches to implement machine unlearning in deep learning
+space for the parameters of each layer, forcing the unlearning gradient
+models: (1) sample modification-based methods [18], which alter the
+to be orthogonal to the main-task gradient space. Thus, the impact
+samples in the dataset and train the model to interfere with its pre-
+of backdoor unlearning on main-task performance is minimized.
+dictions; (2) dataset structure modification-based methods [19], which
+Experiments covering six backdoor attacks and six defense baselines
+change the structure of the dataset and only retrain the portion contain-
+demonstrate that our method reduces the average attack success rate
+ing the unlearning samples to reduce the cost of retraining; (3) directly
+by 96.34 percentage points (pp) and improves the robust accuracy by
+obtain the model parameters [20], which modify the model parameters
+83.68 pp, while maintaining the main-task accuracy.
+directly based on information from the unlearning samples; and (4) it-
+The remainder of this article is organized as follows. Section 2 re-
+eratively modify the model parameters [21], which fine-tune the model
+views the related work on post-training backdoor defense and machine
+parameters using multiple learning paradigms or adjusting the loss func-
+unlearning. The proposed UPGP methods are detailed in Section 3. Sec-
+tion to achieve machine unlearning. When the defender can obtain the
+tion 4 presents the experimental results, including comparative experi-
+backdoor samples, the machine unlearning task highly coincides with
+ments and analysis. Section 5 summarizes our work and introduces fu-
+the backdoor elimination task.
+ture research directions.
+2. Related works
+3. UPGP backdoor defense method
+2.1. Post-training backdoor defense
+Anomalous model behavior can be detected through controlled per-
+First, it is necessary to obtain relevant information about the back- turbation, such as machine unlearning. Hence, we propose the concepts
+door, there are three main approaches for achieving backdoor sample of unlearning perturbation and analyze unlearning impact to backdoor
+detection: (1) Based on the distribution differences between the back- samples and normal samples. Table 1 provides an explanation of fre-
+door samples and the normal samples in the latent feature space. Sta- quently used symbols throughout this paper.
+2
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+3.1. Unlearning samples via influence function Unlearning normal samples in backdoor model. For an 𝑁-class
+classification model 𝑀(Θ), the model’s logits output of 𝑋 is 𝑌 =
+The influence function is used to measure the importance of sam- (𝑦 ,𝑦 ,…,𝑦 ). Taking the model’s logits output corresponding to sam-
+0 1 𝑁−1
+ples, and it can also be utilized for machine unlearning [22,23]. When a ple label as the model evaluation metric. To simplify the explanation,
+model 𝑀 is trained on the dataset 𝐷 , the cross entropy loss of sample the model’s logits output corresponding to sample label 𝑦 in the output
+𝑡𝑟𝑎𝑖𝑛 𝑖
+𝑋 under the parameter Θ is (Θ,𝑋), and the model parameter estimate 𝑌 is denoted as 𝑦 =𝑚(Θ,𝑋).
+𝑖 𝑖
+𝜃̂ are obtained by minimizing the empirical risk: In dirty label backdoor attacks, the category which backdoor sam-
+𝜃̂=ar 𝜃 g ∈ m Θ in |𝐷 𝑡 1 𝑟𝑎𝑖𝑛|𝑋∈ ∑ 𝐷𝑡𝑟𝑎𝑖𝑛 (Θ,𝑋). (1) p W im le i p t s h a i a c n t r e b v a a in c lu s k e e d r o t o e o f d r n a i o s t r t m a re c a g k l a t r s a d a r m g a e p s t l e t c h s a e t f e r b o g a m o c r k y t d e 𝑡 o s , t o w r s e e a t t a t o n a n c a k ly t h z ta e e r g b th e a e t c k c u d a n o t l e o e g r a o r s r n a y i m n 𝑡 g - .
+The influence function is defined as the derivative of the parameter es-
+ples and normal samples in the training set. First, we applied unlearn-
+timate 𝜃̂ with respect to a small perturbation 𝜖 applied to some samples ing perturbation on the model using 𝐷 , the value of perturbation is
+𝐷 𝑓 within the 𝐷 𝑡𝑟𝑎𝑖𝑛 . After perturbation, the parameter estimate is 𝜇ΔΘ(𝐷
+𝑓
+)={𝜇Δ𝜃
+𝑗
+(𝐷
+𝑓
+)|𝜃
+𝑗
+∈Θ,𝑗=1,…, 𝑓 |Θ|}, where 𝜇Δ𝜃
+𝑗
+(𝐷
+𝑓
+) is calcu-
+lated by the Eq. (4) from the unlearning algorithm presented in Sec-
+𝜃̂ 𝜖,𝐷𝑓 =ar 𝜃 g ∈ m Θ in ⎡ ⎢ ⎢ ⎣ |𝐷 𝑡 1 𝑟𝑎𝑖𝑛|𝑋∈ ∑ 𝐷𝑡𝑟𝑎𝑖𝑛 (Θ,𝑋)+𝜖 𝑋𝑓 ∑ ∈𝐷𝑓 (Θ,𝑋𝑓) ⎤ ⎥ ⎥ ⎦ . (2) t 𝜇 i Δ on 𝜃 3 (𝐷 .1: )=𝜇𝐻−1 1 ∑ ∇ (Θ,𝑋𝑓)
+The derivative of 𝜃̂ 𝜖,𝐷𝑓 with respect to 𝜖 can be expressed as 𝑗 𝑓 𝜃𝑗 |𝐷 𝑡𝑟𝑎𝑖𝑛| 𝑋𝑓∈𝐷𝑓 𝜃𝑗
+(8)
+𝑑𝜃̂ 𝑑 𝜖, 𝜖 𝐷𝑓 |𝜖=0 =−𝐻 𝜃 − ̂ 1
+𝑋𝑓
+∑
+∈𝐷𝑓
+∇ 𝜃 (Θ,𝑋𝑓), (3) =𝜇𝐻 𝜃 − 𝑗 1 |𝐷 𝑡 1 𝑟𝑎𝑖𝑛| 𝑋𝑓 ∑ ∈𝐷𝑓 𝑖 ∑ ∈𝑁 ∇ 𝑦𝑖 (Θ,𝑋𝑓)∇ 𝜃𝑗 𝑚 𝑖 (Θ,𝑋𝑓),
+Since the unlearning impact value refers to the model’s log-
+where 𝐻−1=∇2(Θ,𝐷 )−1. If 𝜖=− 1 , we can unlearn samples
+𝜃̂ 𝜃 𝑡𝑟𝑎𝑖𝑛 |𝐷𝑡𝑟𝑎𝑖𝑛| its output of the sample category, and in this situation the sam-
+𝐷 𝑓 in 𝐷 𝑡𝑟𝑎𝑖𝑛 as mentioned in Eq. (2) and get the change of the parameter ple category is 𝑡, the other components in unlearning perturbation
+𝜃 as ∑ ∇ (Θ,𝑋𝑓)∇ 𝑚(Θ,𝑋𝑓) are omitted when 𝑖≠𝑡. In addition, we
+Δ𝜃(𝐷 𝑓 )=𝐻 𝜃 − ̂ 1 |𝐷 𝑡 1 𝑟𝑎𝑖𝑛| 𝑋𝑓 ∑ ∈𝐷𝑓 ∇ 𝜃 (Θ,𝑋𝑓). (4) c sa a m 𝑖 n ∈ 𝑁 p c l o e n 𝑦 𝑋 s 𝑖 id 𝑓 e r in ∇ 𝐷 𝑦𝑡
+𝑓
+ , ( Θ 𝜃 a 𝑗 n ,𝑋 d 𝑖 𝑓 a ) s s a ig s n t h t e h e w s e a i m gh e t w co e e ig ffi h c t ie to n t a o ll f s e a a m ch p le fo s. r g W ot h t e e n n
+3.2. Backdoor detection based on unlearning perturbation 𝜇→0 and 𝜇𝐻 𝜃 − 𝑗 1∇𝑦 | 𝑡 𝐷  𝑡 ( 𝑟 Θ 𝑎𝑖 , 𝑛 𝑋 | 𝑓) is infinitesimals of the same order, we can
+approximate the unlearning perturbation as follows:
+Unlearning perturbation and impact. When a slight parameter
+perturbation ΔΘ is applied to unlearn normal samples, other samples 𝜇̂ΔΘ(𝐷 𝑓 )≈𝜇̂∇ Θ 𝑚 𝑡 (Θ,𝐷 𝑓 )
+should show a noticeable change in the model evaluation metric. The = ∑ 𝜇̂∇ 𝑚(Θ,𝑋𝑓). (9)
+Θ 𝑡
+model evaluation metrics can include probability prediction, logits out- 𝑋𝑓∈𝐷𝑓
+put, loss value, etc. In contrast, we expect backdoor samples to change
+The reason we utilize model’s logits output as the metric of unlearning
+only marginally, because their predictions depend more on the injected
+impact rather than probability prediction or loss value is that the soft-
+trigger than on normal features. This difference in sensitivity between
+max function compress the output variance when calculating probability
+normal and backdoor samples can serve as a reliable signal for backdoor
+prediction.
+detection. Thus, we propose the concepts of unlearning perturbation and
+Fig. 1 illustrates the distribution of unlearning impact values of nor-
+unlearning impact as follows.
+mal samples from the test set on samples within the backdoor target
+Definition 1 (Unlearning perturbation). Considering model parame- category, using unlearning perturbation states in Eq. (9). Evidently, the
+ters Θ trained on 𝐷
+𝑡𝑟𝑎𝑖𝑛
+, the change of model parameters caused by un- distribution of unlearning impact value exhibits significant difference
+learning samples 𝐷
+𝑓
+is ΔΘ(𝐷
+𝑓
+). If a perturbation 𝜇ΔΘ(𝐷
+𝑓
+) is added to between normal samples and backdoor samples. Specifically, the mode
+the model parameters, and Θ turn to Θ+𝜇ΔΘ(𝐷
+𝑓
+), this process is re- of the distribution of unlearning impact values from backdoor samples
+ferred to as an unlearning perturbation applied to the model using 𝐷
+𝑓
+: is closer to zero compared to that of normal samples, indicating that the
+Θ←Θ+𝜇ΔΘ(𝐷 ), (5) model’s logits output corresponding to sample label of backdoor samples
+𝑓
+are less susceptible to the unlearning perturbation induced by normal
+where 𝜇ΔΘ(𝐷 ) is the value of unlearning perturbation and 𝜇 is the
+𝑓 samples in test set.
+perturbation coefficient employed to control the degree of perturbation.
+Analyze unlearning impact via learning dynamics. Consider the
+perturbation as an update of model parameters and analyze the unlearn-
+After unlearning perturbation, the model evaluation metrics of other ing impact of samples from the perspective of learning dynamics [24].
+samples are changed. We present the concept of unlearning impact and Since the magnitude of the perturbation is very small, the first-order
+sensitivity as follows: Taylor approximation of the unlearning impact value at Θ is
+Definition 2 (Unlearning impact and sensitivity). Considering model
+𝐼(𝑋 ,𝐷 ,𝜇̂,𝑚)=𝑚(Θ+𝜇̂ΔΘ(𝐷 ),𝑋 )−𝑚(Θ,𝑋 )
+parameters Θ trained on 𝐷 , given forgotten samples 𝐷 and a target 𝑐 𝑓 𝑡 𝑡 𝑓 𝑐 𝑡 𝑐
+sample 𝑋 . When an unlea 𝑡𝑟 r 𝑎 n 𝑖𝑛 ing perturbation applied to t 𝑓 he model us- ≈𝜇̂∇ Θ 𝑚 𝑡 (Θ,𝑋 𝑐 )⋅ΔΘ(𝐷 𝑓 ) (10)
+𝑐
+ing 𝐷 , the model evaluation metric 𝐹 of sample 𝑋 changes, which is =𝜇̂∇ 𝑚(Θ,𝑋 )⋅∇ 𝑚(Θ,𝐷 ),
+𝑓 𝑐 Θ 𝑡 𝑐 Θ 𝑡 𝑓
+termed the unlearning impact of 𝐷 on 𝑋 . The variation in the model
+𝑓 𝑐 thus according to Eq. (7) the unlearning sensitivity is
+evaluation metric for 𝑋 is used to measure the degree of unlearning
+𝑐
+impact, which is called the unlearning impact value: ∇ 𝑚(Θ,𝑋 )⋅∇ 𝑚(Θ,𝐷 ), (11)
+Θ 𝑡 𝑐 Θ 𝑡 𝑓
+𝐼(𝑋 𝑐 ,𝐷 𝑓 ,𝜇,𝐹)=𝐹(Θ+𝜇ΔΘ(𝐷 𝑓 ),𝑋 𝑐 )−𝐹(Θ,𝑋 𝑐 ), (6) which equals to the inner product of the gradient of the model’s logits
+and the unlearning sensitivity of 𝑋 refers to 𝐷 can be defined as output of the target sample and forgotten samples.
+𝑐 𝑓
+𝐼(𝑋 ,𝐷 ,𝜇,𝐹) Backdoor detection algorithm. The entire process of backdoor de-
+𝑆(𝑋 𝑐 ,𝐷 𝑓 ,𝐹)= 𝜇 li → m 0 𝑐 𝜇 𝑓 . (7) t o e n c t t i h o e n b i a s c i k ll d u o st o r r a t d e a d t a i s n e t t h 𝐷 e Fig . . F 2 o . r F i e r a s c t, h t r c a la in ss t i h fi e c a b t a io c n k d c o a o te r g m or o y d e 𝑐 l , 𝑀 sel ( e Θ ct )
+𝑡𝑟𝑎𝑖𝑛
+3
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+Fig. 1. The distribution of unlearning impact value of samples in the backdoor
+target category for six backdoor datasets.
+Table 1
+List of frequently used symbols and their explanations.
+𝑀 Trained model.
+𝐷 Training dataset.
+𝑡𝑟𝑎𝑖𝑛
+𝐷 Testing dataset.
+𝑡𝑒𝑠𝑡
+𝐷 The set of forgotten samples.
+𝑓
+𝐷 The set of normal samples.
+𝑛
+𝐷 The set of backdoor samples.
+𝑏
+𝑌
+Θ
+M
+M
+o
+o
+d
+d
+e
+e
+l
+l
+’s
+p a
+lo
+ra
+g
+m
+its
+e t
+o
+e
+u
+r
+t
+s
+p
+.
+ut, 𝑌 ={𝑦
+0
+,…𝑦
+𝑁−1
+}.
+Fig. 2. The process diagram of backdoor detection based on unlearning pertur-
+(.) The loss function. bation and unlearning impact value.
+𝑡 Backdoor target category.
+𝑝(.) The probability prediction for the sample’s label.
+Algorithm 1 Backdoor Detection based on Unlearning Perturbation.
+several normal samples from the test set to construct the forgotten sam- Input: Model 𝑀(Θ), Training set 𝐷 𝑡𝑟𝑎𝑖𝑛 , Test set 𝐷 𝑡𝑒𝑠𝑡 , Perturba-
+ples 𝐷𝑐. Then, perturb the parameters Θ of the backdoor model accord- tion coefficient 𝜇̂
+𝑓 Output: Backdoor attack target category 𝑡, Backdoor samples
+ing to Eq. (9) and calculate unlearning impact values of the samples
+𝐷
+in category 𝑐. If there are no backdoor samples in category 𝑐, the un-
+1: fo
+𝑏
+r all category 𝑐=0,…,𝑁−1 do
+l
+t
+e
+h
+a
+e
+r n
+co
+in
+n
+g
+tr
+i
+a
+m
+ry
+p
+,
+a
+t
+c
+h
+t
+e
+v
+u
+al
+n
+u
+l
+e
+e
+s
+a r
+o
+n
+f
+i
+s
+n
+a
+g
+m
+im
+pl
+p
+es
+a c
+s
+t
+h
+v
+o
+a
+w
+l u
+a
+e
+c
+s
+o
+o
+n
+f
+c
+s
+e
+a
+n
+m
+tr
+p
+a
+l
+t
+e
+e
+s
+d
+r
+d
+e
+i
+s
+s
+u
+t
+l
+r
+t
+i
+i
+b
+n
+u
+g
+t i
+i
+o
+n
+n
+a
+. O
+bi
+n
+-
+2: Υ𝑐
+𝑏𝑒𝑓𝑜𝑟𝑒
+={𝑦𝑐 𝑖|𝑦𝑐
+𝑖
+=𝑚
+𝑐
+(Θ,𝑋
+𝑖
+𝑐),𝑋
+𝑖
+𝑐 ∈𝐷
+𝑡
+𝑐
+𝑟𝑎𝑖𝑛
+} ∕∕Calculate the
+model’s logits outputs
+modal distribution. The distributional differences measured by standard
+3: Θ̃ =Θ+𝜇̂ ∑ ∇ 𝑚 (Θ,𝑋) ∕∕ Apply unlearning per-
+d
+va
+e
+l
+v
+u
+ia
+es
+ti o
+w
+n
+i t
+𝜎
+h
+𝑐
+t
+f
+h
+o
+e
+r
+m
+ea
+e
+c
+d
+h
+i a
+c
+n
+a t
+a
+e
+b
+g
+s
+o
+o
+r
+l
+y
+u t
+𝑐
+e
+a
+d
+n
+e
+d
+v
+s
+ia
+ta
+ti
+n
+o
+d
+n
+a r
+(M
+di
+A
+ze
+D
+t
+)
+h
+:
+e standard deviation turbation 𝑋𝑖∈𝐷 𝑡 𝑐 𝑒𝑠𝑡 Θ 𝑐 𝑖
+𝑧 𝑐 =𝑍 𝑀𝐴𝐷 (𝜎 𝑐 )= 𝜎 𝑐 𝜍 − × M M ed A i D an 𝜎, (12) 4 5 : : Υ 𝐼 𝜎 𝑐 𝑐 𝑎𝑓 ← = 𝑡𝑒𝑟 { 𝜎 = 𝐼 ( ( 𝐼 𝑋 { 𝑐 𝑦 ) 𝑖 𝑐 𝑐 𝑖 , ∕ | 𝐷 𝑦 ∕ 𝑐 𝑖 𝑡 𝑐 𝑒C = 𝑠𝑡a , l 𝑚 𝜇 c ̂ 𝑐 ) u | ( l 𝑋 Θ̃ a , t𝑖 𝑐 e 𝑋 ∈ t 𝑖 𝑐 h ) 𝐷 , e 𝑋 𝑡 𝑐 𝑟s𝑎 𝑖 t 𝑐 𝑖𝑛a ∈ } nd 𝐷 a 𝑡 𝑐 r 𝑟 d 𝑎𝑖𝑛 d } eviation
+𝑐
+where Median is the median of the set {𝜎 ,…,𝜎 }, MAD is the me- 6: end for
+d 1. i 4 an 8 2 o 6 f . t A he ft e se r t t 𝜎 h { a |𝜎 t, 𝑖 − th M e c e a d t i e a g n o 𝜎 r | y ∣ f 𝑖 o = r w 0, h … ich ,𝑁 s 0 ta − n 1 d } a r a 𝑁 d n − i d z 1 e 𝜍 d u s s t u an al d l a y r t d a k d e e n v i a a s - 7 8 : : for 𝑧 a = ll c 𝜎𝑐 a − t M e e g d o ia r n y 𝜎 𝑐 ∕∕ = S 0 t , a … nd , a 𝑁 rdi − ze 1 t d h o e standard deviation with
+𝑐 𝜍×MAD
+tion 𝑧
+𝑐
+is greater than 𝜏 (the value of 𝜏 is determined empirically through MAD
+experiments) is determined as the backdoor target category. 9: if 𝑧 >𝜏 then
+𝑐
+Within the backdoor target category, a second-order Gaussian mix- 10: 𝑐 is target category 𝑡 of backdoor attack.
+ture model (GMM) is employed to model bimodal distribution and clus- 11: end if
+ter the samples into backdoor samples and normal samples. The cluster 12:end for
+of samples whose mode is close to 0 is recognized as backdoor samples. 13:GMM←𝐼𝑡
+Subsequently, we filter out highly confident backdoor samples, where 14:for all samples 𝑋𝑡 in 𝐷𝑡 do
+t
+g a
+h
+l r g
+e
+e o a
+p
+r te i
+o
+t r
+s
+h
+t
+m t
+e
+h
+r
+a
+i
+f
+o
+n o
+r
+r t
+p
+h b
+r
+e a
+o
+c
+b
+c k
+a
+o d
+b
+n o
+i
+fi
+l
+o
+i
+d
+t
+r
+y
+e d n
+o
+e c
+f
+t e e
+b
+c l
+e
+e t
+l
+i v
+o
+o e
+n
+n l
+g
+𝜉 b
+in
+a (
+g
+s u e
+t
+s d
+o
+u a o
+t
+l
+h
+n ly
+e
+u
+c
+c n
+l
+l
+u
+o le
+s
+s a
+t
+e
+e
+r
+r
+n t o i
+o
+n
+f
+1 g
+t
+)
+h
+. p
+e
+e T
+s
+r h
+e
+t e u
+s
+r
+a
+c b
+m
+o a m t
+p
+i
+l
+o p
+e
+n l
+s
+e t
+i
+i e
+s
+s
+1
+1 1
+5
+6 7
+:
+: :
+i
+e
+f
+n 𝐷
+G
+d
+M
+𝑏 if ←
+M
+𝑝 𝐷 𝑜𝑖𝑠 𝑏 𝑜𝑛 ⋃
+(𝐼
+{
+(
+𝑋
+𝑋 𝑖
+𝑖 𝑡 𝑖
+𝑡
+}
+,𝐷
+𝑡
+𝑡
+𝑒
+𝑡
+𝑠
+𝑟
+𝑡
+𝑎 , 𝑖𝑛 𝜇̂))>𝜉 then
+shown in Algorithm 1. By using unlearning perturbation and analyzing 18:end for
+its impact on the model evaluation metrics of samples, we can detect
+4
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+backdoor samples without additional feature extraction and dimension- the null space of gradient matrix 𝐺(∇  (Θ′,𝐷 )), the optimization
+Θ 𝑛𝑚 𝑛
+ality reduction models. problem of unlearning backdoor samples is
+min  =𝔼  (Θ,𝑋 )
+3.3. Backdoor unlearning based on orthogonality-constraint gradient Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 (𝑋𝑏,𝑦𝑏)∼𝐷𝑏 𝑏𝑑 𝑏
++𝔼  (Θ,𝑋 )
+projection (𝑋𝑛,𝑦𝑛)∼𝐷𝑛 𝑛𝑚 𝑛 (15)
+𝑠.𝑡. 𝐺(∇  (Θ′,𝐷 ))⋅Proj(∇  )𝑇 =0
+Θ 𝑛𝑚 𝑛 Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛
+Gradient projection has been widely utilized in continual learning to Θ =Θ −𝜂Proj(∇  ),𝑘=0,1,2,…
+𝑘+1 𝑘 Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛
+mitigate the issue of catastrophic forgetting [25]. However, unlike pro-
+jecting onto the orthogonal space of the sample activation space, our
+In the following part, we need to obtain the basis of the row vectors in
+approach involves projecting the gradient into the space that is orthog- gradient matrix 𝐺(∇ Θ  𝑛𝑚 (Θ′,𝐷 𝑛 )), and construct a projector Proj(.) that
+onal to the gradient space of the main task. projects gradients ∇ Θ  𝑢𝑛𝑙𝑒𝑎𝑟𝑛 onto the null space of 𝐺(∇ Θ  𝑛𝑚 (Θ′,𝐷 𝑛 ))
+Constrained optimization for backdoor unlearning. After back-
+during backdoor unlearning.
+door samples 𝐷 are obtained, a portion of normal samples 𝐷 are se- Projector construction. In neural network models, parameters are
+lected from each
+𝑏
+category of the training set or test set. During
+𝑛
+the pro-
+represented by tensors. Since the number of parameters in neural net-
+cess of backdoor unlearning, the goal is to reduce the attack success rate
+work is relatively large, we perform gradient projection on parameters
+of backdoor samples by fine-tuning model parameters while maintaining
+individually. For parameter tensors with dimensions greater than 1,
+the correct recognition of normal samples. The optimization objective
+such as convolutional kernel parameters and fully connected weights,
+is to minimize the empirical risk of unlearning loss function, and the
+we perform parameter projection. As for 1-dimensional parameter ten-
+model parameters are updated using the gradient of the loss function sors, identity projector is employed. The projectors Proj 𝜌 (⋅) for different
+ :
+parameter tensors collectively form the projector Proj(⋅) for the entire
+𝑢𝑛𝑙𝑒𝑎𝑟𝑛 gradient of unlearning loss function.
+min Θ  𝑢𝑛𝑙𝑒𝑎𝑟𝑛 =𝔼 (𝑋𝑏,𝑦𝑏)∼𝐷𝑏  𝑏𝑑 (Θ,𝑋 𝑏 ) Firstly, acquire a set of normal samples 𝐷 𝑛 and partition it
++𝔼 (𝑋𝑛,𝑦𝑛)∼𝐷𝑛  𝑛𝑚 (Θ,𝑋 𝑛 ) (13) into 𝑆 batches 𝐵𝑠, where each batch comprises |𝐷 𝑛|∕𝑆 samples. Sub-
+𝑠.𝑡. Θ =Θ −𝜂∇  ,𝑘=0,1,2,…
+sequently, calculate the loss 
+𝑛𝑚
+(𝐵𝑠) for each batch and compute the
+𝑘+1 𝑘 Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 derivative with respect to the 𝜌th parameter tensor Θ to obtain the
+𝜌
+where gradient matrix 𝐺𝑠∈ℝ𝑚×𝑛 composed of the gradients. For instance, in
+𝜌
+ (Θ,𝑋 )=−ln(1−𝑝(Θ,𝑋 ))
+the convolutional layer, the 𝜌th parameter tensor as the convolutional
+ 𝑛 𝑏 𝑚 𝑑 (Θ,𝑋 𝑛 𝑏 )=−ln(𝑝(Θ,𝑋 𝑛 )). 𝑏 k th e e r n g e r l a i d s i e 𝐾 n 𝜌 t ∈ ma ℝ t 𝐶 ri 𝑜 x 𝑢𝑡 × d 𝐶 e 𝑖 r 𝑛 i × v 𝑘 e × d 𝑘. f A ro f m te r b c a a tc lc h u 𝑠 la i t s i n 𝐺 g 𝑠 a = nd re r s e h s a h p a e p ( i ∇ ng o  per ( a 𝐵 ti 𝑠 o )) n ∈ s,
+𝜌 𝐾𝜌 𝑛𝑚
+Here, 𝜂 represents the learning rate, 𝑝(⋅) represents the probability pre- ℝ𝐶𝑜𝑢𝑡×𝐶𝑖𝑛𝑘2.
+d pl i e ct i a o n n d f n or o r t m he a l s a s m am pl p e l ’ e s l r a e b sp el e , c 𝑋 tiv 𝑏 e a l n y d .  𝑋
+𝑛
+𝑛
+𝑚
+d i e s n c o r t o e s s a - e s n in t g ro le p y b a l c o k ss d o fu o n r c s t a i m on -
+to o
+V
+b
+e
+t
+r
+a
+t
+i
+i
+n
+c a
+a
+ll y
+g r
+s
+a
+t
+d
+a
+i
+c
+e
+k
+n t
+t h
+m
+e
+a
+g
+t
+r
+r
+a
+ix
+d i
+𝐺
+ent
+∈
+m
+ℝ
+a
+𝑆
+tr
+𝑚
+i
+×
+c
+𝑛
+e
+.
+s
+S
+𝐺
+u
+𝜌 𝑠
+b s
+d
+e
+e
+q
+r
+u
+iv
+e
+e
+n
+d
+tl y
+f
+,
+r o
+a
+m
+pp
+e
+ly
+a c
+s
+h
+in
+b
+g
+a
+u
+t
+l
+c
+a
+h
+r
+for classification problems, when the probability that model predicts a
+value decomposition (SVD) to
+𝜌
+determine the bases of the row vectors
+normal sample as its label increases, the value of 
+𝑛𝑚
+decrease. On the
+within the matrix 𝐺 as follows:
+contrary, the loss  aims to reduce the attack success rate of back- 𝜌
+𝑏𝑑
+door samples 𝐷 . In detail, if the backdoor samples are classified as the
+𝑏
+b
+sa
+a
+m
+c T k
+p
+d o
+le
+o f
+s
+o u
+,
+r r
+i
+t t
+n
+h a
+s
+r e
+p
+g r
+i
+e
+r
+m t
+e d
+c it a i
+b
+t g e
+y
+a g t o e
+th
+r y t
+e
+h 𝑡 e
+u
+,
+n
+t i h
+l
+m
+e
+e
+a
+p v
+r
+a
+n
+a c
+i
+l t
+n
+u
+g
+o e f o
+im
+b f a 
+p
+c
+a
+𝑏 k 𝑑
+c
+d
+t
+w o
+d
+o il
+e
+r l
+s
+i u
+c
+n
+r
+n c
+i
+l
+b
+r e e
+e
+a a
+d
+r s n e
+i
+i
+n
+. n g
+S e
+o
+c
+n
+t io
+n
+n
+o r
+3
+m
+.2
+al
+, 𝐺 𝜌 =
+⎡ ⎢
+⎢ ⎢
+𝐺 𝐺
+⋮
+𝜌
+𝜌
+1 2 ⎤ ⎥
+⎥ ⎥ =
+[
+𝑈̃ 𝑈
+][ Σ
+0 0
+0 ][
+𝑉̃ 𝑉
+]𝑇
+, (16)
+we propose to eliminate the unlearning impact using orthogonality- ⎢𝐺𝑆⎥
+⎣ 𝜌⎦
+constraint gradient projection. Specifically, the loss of the normal sam-
+ples  can be used to represent the performance of the model for where 𝑈 =[𝑈̃,𝑈]∈ℝ𝑆𝑚×𝑆𝑚, 𝑉 =[𝑉̃,𝑉]∈ℝ𝑛×𝑛 and Σ∈ℝ𝑟×𝑟. Here 𝑉̃
+the nor 𝑛𝑚 mal samples. Thus, we use  𝑛𝑚 as the model evaluation metric are the bases of the row vectors in 𝐺 𝜌 . We choose 𝐼−𝑉̃𝑉̃𝑇 as the pro-
+to measure the unlearning impact value, and unlearning perturbation jection matrix of the null space of 𝐺 𝜌 , where 𝐼 represents the identity
+𝜇ΔΘ=−𝜂∇  . The unlearning impact value of the normal sam- matrix.
+ples is Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 Nevertheless, when constructing the projection matrix, we imple-
+mented several strategies to loosen the gradient orthogonality con-
+𝐼(𝐷 𝑛 ,𝐷 𝑏 ,𝜂, 𝑛𝑚 )= 𝑛𝑚 (Θ+𝜇ΔΘ,𝐷 𝑛 )− 𝑛𝑚 (Θ,𝐷 𝑛 ) (14) straint. This also explains the rationale behind incorporating the loss
+≈−𝜂∇  (𝐷 )⋅∇  ,  (Θ,𝐷 ) into the  . First, we select the top-𝑞 important basis
+Θ 𝑛𝑚 𝑛 Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 𝑛𝑚 𝑛 𝑢𝑛𝑙𝑒𝑎𝑟𝑛
+vectors in 𝑉̃ to form 𝑉̂=𝑉̃[∶,0∶𝑞]∈ℝ𝑛×𝑞 according to the following
+which is determined by the inner product of the gradients of the loss
+criteria:
+functions with respect to the parameters. Based on the definition in
+E ∇ q.  (7), the . u P n ro le je a c r t n i i n n g g ∇ sen  sitivity o o n f t a o n t o h r e m n a u l l s l a s m pa p c l e e o eq f u 𝐺 a ( l ∇ s ∇  Θ  𝑛 ) 𝑚 f ( o 𝐷 rc 𝑛 e ) s ⋅ ||𝐺 𝜌 𝑞 || 2 𝐹 ≥𝛽⋅||𝐺 𝜌|| 2 𝐹 , (17)
+Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 Θ 𝑛𝑚
+this inner product to zero, and hence drives the sensitivity to zero. In where 𝐺𝑞 represents the matrix reconstructed by top-𝑞 important ba-
+𝜌
+other words, orthogonality-constraint gradient projection eliminates the sis, ||⋅|| 2
+𝐹
+represents the squared Frobenius norm of the matrix, and 𝛽
+unlearning impact on normal samples. represents compression ratio (defaults to 0.97) . Furthermore, we scale
+The gradient space 𝐽 of the main task is spanned by the row vec- the 𝑖th basis vector according to the singular values, as described in the
+tors in the gradient matrix 𝐺(∇  (𝐷 )) of the normal samples 𝐷 . reference [6]. The scaling factor is computed as follows:
+Θ 𝑛𝑚 𝑛 𝑛
+If the gradient of the unlearning loss ∇  can be projected into
+Θ 𝑢𝑛𝑙𝑒𝑎𝑟𝑛 (𝛼+1)𝜎
+the space Null(𝐽) that is orthogonal to 𝐽, then the unlearning impact 𝜆
+𝑖
+=
+𝛼𝜎 +max(
+𝑖
+Σ)
+, (18)
+value 𝐼(𝐷 ,𝐷 ,𝜂, )≈0; thus, unlearning the backdoor samples 𝑋 in 𝑖
+𝑛 𝑏 𝑛𝑚 𝑏
+this null space will not affect the classification result of normal samples. here, 𝜎 denotes the 𝑖th singular value of 𝐺 , and relaxation factor 𝛼 is a
+𝑖 𝜌
+The schematic diagram of the gradient projection unlearning method is non-negative scale coefficient hyperparameter that defaults to 10, and
+shown in Fig. 3. max(Σ) represents the maximum value among the diagonal elements of
+Before the backdoor unlearning, the model parameters are Θ′. After the matrix Σ, where these diagonal elements are the singular values.
+taking into account that the gradient of backdoor unlearning task is in Finally, the gradient projector Proj of 𝜌th parameter tensor onto the
+𝜌
+5
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+Fig. 3. Schematic diagram of gradient projection method: projecting the gradient of unlearning loss function onto the space orthogonal to the gradient space of the
+main task.
+unlearning gradient ∇  with basis scaling is it is denoted as 𝑄. In the process of backdoor detection, the primary com-
+Θ𝜌 𝑢𝑛𝑙𝑒𝑎𝑟𝑛
+putational burden stems from computing the unlearning impact values
+Proj 𝜌 (∇ Θ𝜌  𝑢𝑛𝑙𝑒𝑎𝑟𝑛 )=(𝐼−𝑉̂Λ𝑉̂𝑇)∇ Θ𝜌  𝑢𝑛𝑙𝑒𝑎𝑟𝑛 , (19) of samples in the training set via the forward propagation of the network
+where Λ=diag{𝜆 ,…,𝜆 }. twice , and also calculating the unlearning perturbation of the normal
+0 𝑞−1
+test dataset once. Consequently, the computational complexity of the
+Algorithm 2 Backdoor Unlearning Algorithm via Gradient Projection. backdoor detection algorithm is expressed as 𝑂(2(|𝐷 𝑡𝑟𝑎𝑖𝑛|+|𝐷 𝑡𝑒𝑠𝑡|)𝑄).
+During the process of backdoor unlearning, the computational load
+Input: Backdoor model 𝑀(Θ′), High-confidence backdoor sam-
+ple set 𝐷 , Normal sample set 𝐷 , Unlearning epoch 𝑁 ,
+is attributed to calculating the gradient matrix of the normal samples
+Relaxatio 𝑏 n factor 𝛼. 𝑛 𝑒𝑝𝑜𝑐ℎ 𝐷 𝑛 once, and carrying out 5 times forward and backward propagations
+Output: Normal model 𝑀 . respectively on the backdoor samples 𝐷 𝑏 and the normal samples 𝐷 𝑛 .
+1: for each parameter ten
+𝑛
+s
+𝑜
+o
+𝑟𝑚
+r
+𝑎 𝑙
+Θ in the model do
+Since we only used a portion of the normal samples and backdoor sam-
+2: if dimensions of Θ greate
+𝜌
+r than 1 then
+ples in the dataset for backdoor unlearning, it further reduces the com-
+𝜌 putational complexity. Consequently, the computational complexity of
+3: Use normal samples 𝐷 to calculate the gradient matrix
+𝐺(∇  (Θ′,𝐷 )) and 𝑛 applied SVD. the backdoor unlearning is represented as 𝑂((𝐸𝑝𝑜𝑐ℎ×(|𝐷 𝑏|+|𝐷 𝑛|)+
+4: Cons
+Θ
+t
+𝜌
+ru
+𝑛
+c
+𝑚
+t the p
+𝑛
+rojector Proj (⋅) as Equation (19).
+2|𝐷 𝑛|)𝑄).
+𝜌
+5: else 4. Experiment
+6: Proj (⋅)=Identity(⋅)
+𝜌
+7: end if 4.1. Experimental setup
+8: end for
+9: //Unlearning backdoor samples Attack setting: We evaluate the effectiveness of proposed defense
+10:for 𝑒𝑝𝑜𝑐ℎ=0,…,𝑁
+𝑒𝑝𝑜𝑐ℎ
+−1 do method against six well-known backdoor attacks on the CIFAR-10 and
+11: for all Batch 𝐵 in 𝐷 ⋃ 𝐷 do CIFAR-100 dataset, employing PreAct-ResNet18 [26] and ConvNeXt
+𝑏 𝑛
+12: Calculating the unlearning loss 
+𝑢𝑛𝑙𝑒𝑎𝑟𝑛
+(𝐵,Θ). [27] as the neural network architecture. To ensure the comparability of
+13: Using gradient projector Proj
+𝜌
+(⋅) to update each param- the results, we adopted the mainstream backdoor attack methods listed
+eter tensor Θ 𝜌 . in BackdoorBench [28], include BadNets, Blended, input-aware dynamic
+Θ 𝜌 ←Θ 𝜌 −𝜂Proj 𝜌 (∇ Θ𝜌  𝑢𝑛𝑙𝑒𝑎𝑟𝑛 ) backdoor attack (Input-aware), sample-specific backdoor attack (SSBA),
+14: end for smooth low frequency trigger attack (LF), and warping-based poisoned
+15:end for networks (WaNet). All the backdoor attacks were configured in accor-
+16:Output the normal model 𝑀 𝑛𝑜𝑟𝑚𝑎𝑙 . dance with the standardized settings provided by BackdoorBench with
+poisoning rates set at 10% and 5%.
+Backdoor unlearning algorithm. In conclusion, our backdoor un- Defense setting: Six backdoor defense methods are compared with
+learning method has the following steps. First, after obtaining the back- respect to their effectiveness against the attack approach. These methods
+door samples 𝐷 , we utilize the normal samples 𝐷 from the training include adversarial neuron pruning (ANP) [29], anti-backdoor learning
+𝑏 𝑛
+set to calculate the gradient matrix 𝐺(∇ (Θ′,𝐷 )). Next, according (ABL) [30], decoupling-based backdoor defense (DBD) [31], reconstruc-
+𝑛𝑚 𝑛
+to Eq. (19), construct the projector Proj for each parameter tensor. Fi- tive neuron pruning (RNP) [4], neural polarizer defense (NPD) [5], and
+𝜌
+nally, when optimizing the model according to the backdoor unlearning maximum margin backdoor mitigation (MM-BD) [3]. All defense config-
+objective, we use the gradient projector to project the gradients. This ap- urations and training hyperparameters were calibrated according to the
+proach effectively prevents the unlearning process from impairing the BackdoorBench framework [28] or its official implementation. When
+model’s performance in recognizing normal samples. The complete al- performing backdoor defense, to prevent the leakage of samples in the
+gorithm process of the backdoor unlearning method based on gradient test set, 5% of the normal samples in the training set are utilized. This
+projection is presented in Algorithm 2. is the same setting as other defense methods that require normal sam-
+ples. In addition, the unlearning learning rate is 0.05, and the number
+3.4. Computational complexity analysis of unlearning epoch is 5, which is much less than other methods.
+Backdoor defense metrics: We assembled a normal test set consist-
+The computational complexity of both the forward propagation and ing of ten thousand normal samples. Moreover, we inserted backdoor
+the backward propagation of the model is approximately equivalent, and into every sample in the test set, except for those in the backdoor target
+6
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+Fig. 5. The confusion matrices for backdoor sample detection in 6 types of
+CIFAR-10 backdoor datasets, the elements are the number of instances. (a) when
+the poisoning rate is 10%; (b) when the poisoning rate is 5%.
+Fig. 4. The 𝑧 score of each category in the 12 types of CIFAR-10 backdoor
+𝑀𝐴𝐷
+datasets, and the value in the brackets represents the poisoning rate.
+being 10% and 5% respectively. When the backdoor poisoning rate is
+10%, our method can reduce the average attack success rate of six at-
+category 𝑡, to construct a backdoor test set. We evaluate the performance tacks to 0.34%. In comparison with the RNP method, which is also effec-
+of the defense methods using four metrics. Normal accuracy (C-Acc) tive in defending against six types of attacks on the model, our method
+measures the proportion of normal samples that are correctly classified not only further decreases the average ASR by 0.16 percentage points
+within the normal test set. The attack success rate (ASR) quantifies the but also increases the average C-Acc by 1.84 percentage points and the
+fraction of backdoor samples that are misclassified to the backdoor tar- average R-Acc by 2.79 percentage points. When the backdoor poisoning
+get label within backdoor test set. Robust accuracy (R-Acc) evaluates rate is 5%, compared with the case where the poisoning rate is 10%,
+the classification accuracy of backdoor samples within backdoor test set the average ASR of RNP method increases by 0.47 percentage points,
+to the original categories. The defense effectiveness rating (DER) [32] while our method only increases by 0.08 percentage points. This sug-
+combines the values of C-Acc and ASR according to the following for- gests that our method maintains its defense capabilities at a poisoning
+mula: rate of 5%. In terms of the R-Acc index, our method exhibits strong ro-
+bustness against six attack methods. The average value of R-Acc index
+DER=[max(0,ΔASR)−max(0,ΔC-Acc)+1]∕2, (20)
+can reach 86.83% and 86.89% when the data poisoning rates are set
+where ΔASR denotes the reduction in ASR and ΔC-Acc denotes the de- at 10% and 5% respectively. In conclusion, our method has significant
+crease in C-Acc after the implementation of backdoor defense. Higher advantages over other defense methods with respect to the indicators of
+values of C-Acc and R-Acc, lower values of ASR, and higher values of C-Acc, R-Acc, and DER.
+DER indicate superior defense performance. Collectively, these metrics Table 4 presents the defense results of the ConvNeXt model trained
+enable a multidimensional assessment of the robustness and effective- on the CIFAR-100 backdoor dataset, comparing the performance of ANP,
+ness of the defense methods. NC [33], and the UPGP method against two typical backdoor attacks,
+SSBA and WaNet. During the backdoor detection process, the number of
+4.2. Backdoor detection results
+normal samples we used for each category is 16, the threshold of target
+category 𝜏=2.5, and the confidence level of backdoor samples 𝜉=0.99.
+Firstly, analyze the detection results of the backdoor target cate- The experimental results demonstrate that the UPGP method can effec-
+gory and backdoor samples following the application of the simpli- tively defend against the SSBA and WaNet backdoor attacks. Specifi-
+fied unlearning perturbation. In the 12 different types of the CIFAR- cally, it reduces the success rates of the backdoor attacks to 0% and
+10 backdoor dataset, we derive the result by perturbing the PreAct- 0.49% respectively. At the same time, this result also indicates that
+ResNet18 model using 128 normal samples from each category and UPGP method also shows effectiveness in datasets with a larger num-
+setting 𝜇̂=0.001. After perturbation, the 𝑧 score for each category ber of categories and in novel convolutional neural networks.
+𝑀𝐴𝐷
+within each dataset is shown in the Fig. 4. From the results, it can be
+observed that the 𝑧 of the backdoor target category is significantly 4.4. Ablation study of gradient projection
+𝑀𝐴𝐷
+higher than that of other categories, and we select 𝜏=3 as the thresh-
+old. To analyze the effectiveness of the gradient projection, the backdoor
+After determining the backdoor target category, we use GMM to fil- unlearning with and without applying gradient projection is compared
+ter out the backdoor samples with a posterior probability greater than under identical settings for PreAct-ResNet18 model trained on CIFAR-10
+99.99%. The confusion matrix of normal samples and backdoor samples backdoor dataset. Table 5 illustrates that at poisoning rates of 10% and
+is shown in the Fig. 5. In the confusion matrix, the labels of columns 5%, the values of ASR have a slight decrease. Meanwhile, the values of
+correspond to the true classes (0 represents normal samples, and 1 rep- C-Acc increase on average by 3.79 percentage points and 2.71 percent-
+resents backdoor samples) of the data, and the labels of rows correspond age points, respectively, and the values of R-Acc increase on average by
+to the classes predicted by the GMM. From the results, it can be ob- 1.32 percentage points and 1.71 percentage points, respectively. This
+served that the detection performance for the Blend and SSBA attacks suggests that the gradient projection method can effectively mitigate
+is relatively well. Since backdoor unlearning can be achieved with only the impact of backdoor unlearning on the model’s ability to recognize
+a portion of backdoor samples, the purpose of backdoor detection is to normal samples and enhance the defense ability against backdoor sam-
+screen out a portion of backdoor samples with high confidence level. ples.
+It is found that among the samples predicted as backdoor samples, the
+maximum number of true normal samples is 3. 4.5. Impact of the number of normal samples on backdoor unlearning
+4.3. Backdoor elimination performance When conducting backdoor unlearning for PreAct-ResNet18 model
+trained on CIFAR-10, a number of normal samples are required to con-
+We trained PreAct-ResNet18 model on six types of CIFAR-10 back- struct the projection matrix and restore the model. For further anal-
+door dataset, and Tables 2 and 3 present the defense results of UPGP ysis, we tested backdoor unlearning separately under the conditions
+method and other defense methods, with the backdoor poisoning rates in which the proportion of normal samples from the training set was
+7
+
+J. Li et al.
+2
+elbaT
+.tluser
+tseb
+eht
+stneserper
+tnof
+dlob
+ehT
+.%01
+fo
+etar
+gninosiop
+a
+ta
+tesatad
+roodkcab
+01-RAFIC
+no
+deniart
+ledom
+81teNseR-tcAerP
+fo
+stluser
+esnefed
+roodkcaB
+]13[
+DBD
+]03[
+LBA
+]92[
+PNA
+esnefeD
+oN
+→
+esnefeD
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+↓ kcattA
+40.69
+71.98
+82.1
+56.98
+25.39
+20.98
+00.0
+23.38
+85.39
+40.48
+37.0
+71.48
+-
+76.4
+30.59
+23.19
+steNdaB
+22.83
+20.0
+89.99
+19.96
+15.19
+25.46
+37.0
+03.77
+24.59
+71.16
+91.2
+85.68
+-
+80.0
+29.99
+74.39
+dednelB
+09.38
+10.45
+00.0
+17.16
+79.88
+25.85
+00.0
+48.17
+23.59
+27.28
+06.0
+51.58
+-
+17.0
+82.99
+91.39
+FL
+13.53
+93.0
+15.99
+05.36
+98.29
+66.48
+00.0
+97.08
+75.59
+78.97
+93.0
+45.68
+-
+99.1
+68.79
+88.29
+ABSS
+38.88
+82.57
+45.8
+06.87
+13.04
+77.5
+61.09
+91.36
+61.89
+99.68
+46.1
+63.09
+-
+66.1
+62.89
+76.09
+erawa-tupn
+I
+93.68
+16.77
+16.6
+09.08
+48.09
+68.58
+00.0
+91.38
+98.19
+05.68
+34.0
+37.58
+-
+67.9
+37.98
+52.19
+teNaW
+54.17
+14.94
+99.53
+50.47
+00.38
+37.46
+51.51
+16.67
+99.49
+22.08
+00.1
+24.68
+-
+51.3
+86.69
+31.29
+→
+egarevA
+dohteM
+ruO
+]3[
+DB-MM
+]5[
+DPN
+]4[
+PNR
+→
+esnefeD
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+↓ kcattA
+00.79
+22.19
+10.1
+03.19
+05.59
+79.88
+72.2
+65.98
+26.59
+24.48
+99.0
+15.88
+87.59
+88.88
+09.0
+47.88
+steNdaB
+64.99
+74.96
+10.0
+84.29
+86.55
+17.21
+12.58
+11.09
+50.99
+99.43
+91.0
+38.19
+04.79
+08.66
+28.0
+71.98
+dednelB
+41.99
+10.98
+00.0
+02.29
+93.38
+84.46
+19.92
+06.09
+09.79
+86.54
+98.0
+95.09
+61.89
+19.48
+02.0
+34.09
+FL
+74.89
+73.78
+10.0
+89.19
+31.38
+94.36
+37.72
+20.98
+29.79
+43.37
+92.0
+41.19
+47.69
+34.97
+30.0
+45.88
+ABSS
+98.89
+94.19
+74.0
+46.29
+48.59
+94.28
+99.3
+90.88
+38.89
+37.28
+91.0
+52.09
+27.89
+15.19
+28.0
+57.29
+erawa-tupn
+I
+06.49
+04.29
+15.0
+19.29
+17.19
+02.68
+11.3
+60.88
+39.98
+66.28
+79.5
+53.78
+67.49
+32.29
+22.0
+28.29
+teNaW
+39.79
+38.68
+43.0
+52.29
+12.48
+93.66
+73.52
+42.98
+45.69
+03.76
+24.1
+59.98
+39.69
+69.38
+05.0
+14.09
+→
+egarevA 3
+elbaT
+.tluser
+tseb
+eht
+stneserper
+tnof
+dlob
+ehT
+.%5
+fo
+etar
+gninosiop
+a
+ta
+tesatad
+roodkcab
+01-RAFIC
+no
+deniart
+ledom
+81teNseR-tcAerP
+fo
+stluser
+esnefed
+roodkcaB
+]13[
+DBD
+]03[
+LBA
+]92[
+PNA
+esnefeD
+oN
+→
+esnefeD
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+↓ kcattA
+48.09
+10.78
+11.2
+86.78
+90.09
+05.09
+00.0
+80.48
+05.19
+43.78
+43.0
+42.78
+-
+87.01
+47.88
+46.29
+steNdaB
+76.04
+10.0
+99.99
+00.57
+68.58
+84.84
+00.0
+87.56
+89.09
+05.85
+89.11
+00.88
+-
+93.0
+16.99
+76.39
+dednelB
+05.68
+11.37
+76.51
+89.38
+06.63
+72.1
+20.89
+45.66
+71.49
+97.28
+66.2
+23.68
+-
+68.1
+30.89
+53.39
+FL
+52.18
+24.56
+43.11
+91.27
+85.19
+67.97
+90.0
+06.18
+62.49
+36.18
+66.0
+35.78
+-
+28.4
+19.49
+72.39
+ABSS
+04.48
+99.17
+21.6
+32.67
+13.33
+48.4
+85.29
+41.85
+99.39
+04.68
+22.2
+45.19
+-
+19.8
+02.09
+25.19
+erawa-tupn
+I
+20.87
+14.96
+39.9
+22.27
+78.83
+97.3
+02.59
+94.96
+91.09
+96.78
+75.0
+12.78
+-
+94.31
+05.58
+67.19
+teNaW
+49.67
+61.16
+91.42
+88.77
+27.26
+11.83
+56.74
+49.07
+15.29
+37.08
+70.3
+79.78
+-
+17.6
+38.29
+07.29
+→
+egarevA
+dohteM
+ruO
+]3[
+DB-MM
+]5[
+DPN
+]4[
+PNR
+→
+esnefeD
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+)%(RED
+)%(ccA-R
+)%(RSA
+)%(ccA-C
+↓ kcattA
+36.39
+00.29
+89.0
+31.29
+71.19
+06.88
+90.3
+33.98
+49.19
+85.68
+13.1
+90.98
+77.19
+29.78
+77.0
+12.88
+steNdaB
+63.99
+80.17
+00.0
+77.29
+36.05
+36.4
+10.59
+13.09
+24.89
+49.14
+21.0
+30.19
+10.79
+15.26
+36.2
+17.09
+dednelB
+78.89
+75.78
+60.0
+21.39
+67.97
+70.95
+91.53
+30.09
+80.79
+39.25
+45.0
+30.09
+25.59
+92.08
+01.1
+64.78
+FL
+20.79
+98.98
+20.0
+24.29
+45.88
+85.47
+01.41
+35.98
+03.59
+72.56
+94.1
+54.09
+90.59
+50.48
+40.0
+95.88
+ABSS
+75.49
+89.88
+40.1
+09.29
+38.29
+82.38
+76.2
+46.98
+23.49
+04.28
+92.0
+42.09
+95.49
+32.98
+20.1
+08.29
+erawa-tupn
+I
+35.29
+38.19
+44.0
+67.29
+06.98
+72.78
+88.3
+33.98
+52.29
+85.78
+12.0
+89.09
+26.29
+98.19
+62.0
+60.29
+teNaW
+00.69
+98.68
+24.0
+86.29
+90.28
+42.66
+66.52
+07.98
+98.49
+54.96
+66.0
+03.09
+34.49
+56.28
+79.0
+79.98
+→
+egarevA
+Pattern Recognition 176 (2026) 113211
+8
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+Table 4
+Backdoor defense results of ConvNeXt model trained on CIFAR-100 backdoor dataset at a poisoning rate
+of 5%. The bold font represents the best result.
+Defense → No Defense ANP
+Attack ↓ C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%)
+SSBA 72.86 90.78 7.58 - 67.39 81.95 13.57 51.68
+WaNet 63.04 77.66 16.51 - 56.82 15.55 47.44 77.95
+Defense → NC Our method
+Attack ↓ C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%)
+SSBA 52.13 4.32 45.32 82.86 66.40 0.00 61.18 92.11
+WaNet 66.17 21.96 51.34 77.85 65.29 0.49 61.68 88.59
+Table 5
+Backdoor unlearning results of PreAct-ResNet18 model trained on CIFAR-10 with and without gradient projection.
+The numbers in the brackets represent the performance improvement after using gradient projection.
+backdoor=10% Without gradient projection Applied gradient projection
+Attack C-Acc (%) ASR (%) R-Acc (%) C-Acc (%) ASR (%) R-Acc (%)
+BadNets 86.34 1.70 88.26 91.30 (+4.96) 1.01 91.22 (+2.97)
+Blended 88.30 0.00 66.70 92.48 (+4.18) 0.01 69.47 (+2.77)
+LF 89.45 0.00 88.57 92.20 (+2.75) 0.00 89.01 (+0.44)
+SSBA 86.29 0.00 85.68 91.98 (+5.69) 0.01 87.37 (+1.69)
+Input-aware 89.69 0.31 91.62 92.64 (+2.95) 0.47 91.49 (−0.13)
+WaNet 90.73 0.41 92.21 92.91 (+2.18) 0.51 92.40 (+0.19)
+Average 88.47 0.40 85.51 92.25 (+3.79) 0.34 86.83 (+1.32)
+backdoor=5% Without gradient projection Applied gradient projection
+Attack C-Acc (%) ASR (%) R-Acc (%) C-Acc (%) ASR (%) R-Acc (%)
+BadNets 88.04 0.99 88.07 92.13 (+4.09) 0.98 92.00 (+3.93)
+Blended 90.37 0.01 70.12 92.77 (+2.40) 0.00 71.08 (+0.96)
+LF 90.95 0.07 87.33 93.12 (+2.17) 0.06 87.57 (+0.24)
+SSBA 87.84 0.16 84.66 92.42 (+4.58) 0.02 89.89 (+5.23)
+Input-aware 91.92 0.87 89.28 92.90 (+0.98) 1.04 88.98 (−0.30)
+WaNet 90.69 0.47 91.63 92.76 (+2.07) 0.44 91.83 (+0.20)
+Average 89.97 0.43 85.18 92.68 (+2.71) 0.42 86.89 (+1.71)
+4.6. The main differences with other methods
+The existing methods have provided a great deal of inspiration for
+our proposed method, but there are also notable distinctions between
+them.
+The ABL method [30] identifies the backdoor samples based on the
+fact that the loss of backdoor samples decreases more rapidly than
+that of normal samples in the early stage of training. However, our
+method analyzes the impacts on samples from the perspective of un-
+learning samples, and further illustrates from the perspective of learn-
+Fig. 6. C-Acc values after backdoor unlearning for PreAct-ResNet18 model ing dynamics that the differences in the model behaviors of back-
+trained on CIFAR-10 under different proportion of normal samples in normal
+door samples and normal samples during the training and unlearn-
+dataset.(a) when the poisoning rate is 5%; (b) when the poisoning rate is 10%.
+ing processes are caused by the gradient inner product. In addition,
+compared to the method that screen backdoor samples from the dy-
+5%, 1%, and 0.5% respectively. As shown in Table 6, alterations in
+namic learning process, our method, which conducted a single unlearn-
+the quantity of normal samples can influence the C-Acc and ASR of
+ing perturbation, can more rapidly identify a subset of backdoor sam-
+the model after backdoor unlearning. It can be observed in Fig. 6 that
+ples with high confidence. The advantages of the perturbation method
+when the poisoning rate is 10%, as the rate of normal samples in-
+also confirm the philosophical idea that destruction is easier than
+creases from 0.5% to 5%, the average C-Acc increases by 2.23 per-
+construction.
+centage points. However, data imbalance will have an impact on the
+The ANP [29], RNP [4] methods eliminate the backdoor by identi-
+backdoor unlearning. The loss function for backdoor unlearning is
+fying the neurons related to the backdoor and then pruning them. Be-
+composed of two components: the loss for achieving backdoor elim-
+sides, MM-BD [3], NPD [5] methods restrict or change the activation of
+ination and the loss related to maintaining the recognition ability of
+backdoor samples by introducing additional structures into the model.
+normal samples. When the number of normal samples decreases, the
+Rather than analyzing the feature activation, we project the gradient
+loss for maintaining the recognition of normal samples also decreases.
+of the unlearning loss function onto the orthogonal space of the main
+This results in having a stronger backdoor elimination ability, but si-
+task, thereby mitigating the impact on the main task. Furthermore, the
+multaneously, the model’s recognition capability for normal samples
+process of calculating the gradient projection matrix has strong theo-
+declines.
+9
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+Table 6
+The impact of the number of normal samples on backdoor unlearning for PreAct-ResNet18 model trained on CIFAR-10. ‘Rate’ is the proportion of normal samples
+from the training dataset.
+poisoning rate=10% normal rate=5% normal rate=1% normal rate=0.5%
+Attack ↓ C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%)
+BadNets 91.30 1.01 91.22 97.00 90.15 0.74 90.73 96.55 90.13 0.41 91.06 96.71
+Blended 92.48 0.01 69.47 99.46 91.40 0.02 71.52 98.92 89.29 0.00 68.49 97.87
+LF 92.20 0.00 89.01 99.14 90.85 0.00 90.18 98.47 89.03 0.01 90.83 97.55
+SSBA 91.98 0.01 87.37 98.47 90.91 0.02 87.82 97.93 89.28 0.02 88.12 97.12
+Input-aware 92.64 0.47 91.49 98.89 91.46 0.58 90.86 98.84 91.07 0.54 90.70 98.86
+WaNet 92.91 0.51 92.40 94.60 91.71 0.56 91.31 94.58 91.31 0.37 91.41 94.67
+Average → 92.25 0.34 86.83 97.93 91.08 0.32 87.07 97.55 90.02 0.23 86.77 97.13
+poisoning rate=5% normal rate=5% normal rate=1% normal rate=0.5%
+Attack ↓ C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%) C-Acc(%) ASR(%) R-Acc(%) DER(%)
+BadNets 92.13 0.98 92.00 93.63 91.18 0.38 91.79 93.45 89.47 0.19 90.90 92.69
+Blended 92.77 0.00 71.08 99.36 91.87 0.02 73.09 98.90 90.55 0.00 71.52 98.25
+LF 93.12 0.06 87.57 98.87 91.86 0.09 91.06 98.22 91.40 0.09 91.17 97.99
+SSBA 92.42 0.02 89.89 97.02 91.50 0.02 89.76 96.56 91.02 0.02 89.72 96.32
+Input-aware 92.90 1.04 88.98 94.57 91.56 1.54 87.43 94.32 91.03 1.24 87.02 94.23
+WaNet 92.76 0.44 91.83 92.53 92.08 0.66 91.51 92.42 91.81 0.67 91.38 92.42
+Average → 92.68 0.42 86.89 96.00 91.68 0.45 87.44 95.65 90.88 0.37 86.95 95.32
+retical support, so the calculation results are more stable than those of Acknowledgments
+stochastic optimization.
+The work is supported by National Natural Science Foundation of
+China under Grant 62402520, Open Foundation of Key Laboratory
+5. Conclusion
+of Cyberspace Security, Ministry of Education of China under Grant
+This study addresses the post-training removal of backdoors while
+KLCS20240202, Natural Science Basic Research Program of Shaanxi
+preserving a model’s primary task. Unlearning perturbation is intro-
+Province under Grant 2024JC-YBQN-0637
+duced to expose the differing sensitivities of clean and backdoor sam-
+ples, enabling identification of the target class and high-confidence poi-
+soned inputs without auxiliary feature extractors. An orthogonality- References
+constrained gradient projection method then eliminates the detected
+[1] W. Tang, J. Li, Y. Rao, Z. Zhou, F. Peng, A trigger-perceivable backdoor attack
+backdoor samples while preserving the classification accuracy of the
+framework driven by image steganography, Pattern Recognit. 161 (2025) 111262.
+model on normal samples. Experiments on six attack types and two net- [2] M. Goldblum, D. Tsipras, C. Xie, X. Chen, A. Schwarzschild, D. Song, A. Madry,
+work architectures show that the proposed UPGP method reduces the B. Li, T. Goldstein, Dataset security for machine learning: data poisoning, back-
+average attack success rate by over 96 percentage points, while main- door attacks, and defenses, IEEE Trans. Pattern Anal. Mach. Intell. 45 (2) (2023)
+1563–1580.
+taining the model’s classification accuracy on normal samples. Further- [3] H. Wang, Z. Xiang, D.J. Miller, G. Kesidis, MM-BD: post-training detection of back-
+more, machine unlearning technology is applied to anomaly detection door attacks with arbitrary backdoor pattern types using a maximum margin statis-
+for the first time, thereby enabling effective elimination of backdoor tic, in: 2024 IEEE Symposium on Security and Privacy (SP), 2024, pp. 1994–2012.
+[4] Y. Li, X. Lyu, X. Ma, N. Koren, L. Lyu, B. Li, Y.-G. Jiang, Reconstructive neuron
+functionality in the model and furnishing a new perspective and tech-
+pruning for backdoor defense, in: Proceedings of the 40th International Conference
+nical means for analysing the relationship between backdoor and nor- on Machine Learning, 2023, pp. 19837–19854.
+mal samples. Future work will explore the use of unlearning perturba- [5] M. Zhu, S. Wei, H. Zha, B. Wu, Neural polarizer: a lightweight and effective back-
+door defense via purifying poisoned features, in: Advances in Neural Information
+tion method for detecting out-of-distribution samples and for removing
+Processing Systems, 2023, pp. 1132–1153.
+model backdoors in more complex scenarios, including multiple attack [6] G. Saha, K. Roy, Continual learning with scaled gradient projection, in: Proceedings
+targets and clean-label settings. of the Thirty-Seventh AAAI Conference on Artificial Intelligence, 37, 2023, pp.
+9677–9685.
+[7] D. Tang, X. Wang, H. Tang, K. Zhang, Demon in the variant: statistical analysis
+CRediT authorship contribution statement
+of DNNs for robust backdoor contamination detection, in: 30th USENIX Security
+Symposium (USENIX Security 21), 2021, pp. 1541–1558.
+[8] B. Hu, C.-H. Chang, Diffense: defense against backdoor attacks on deep neural net-
+Jingtai Li: Writing – original draft, Methodology; Xiujiu Yuan: works with latent diffusion, IEEE J. Emerg. Sel. Top. Circuits Syst. 14 (4) (2024)
+Writing – review & editing, Supervision, Funding acquisition; Jiwei 729–742.
+[9] X. Liu, M. Li, H. Wang, S. Hu, D. Ye, H. Jin, L. Wu, C. Xiao, Detecting backdoors
+Tian: Investigation, Formal analysis; Shiwei Lu: Visualization, Valida- during the inference stage based on corruption robustness consistency, in: 2023
+tion, Resources; Dengxiu Yu: Methodology, Conceptualization. IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023,
+pp. 16363–16372.
+[10] C. Chen, H. Hong, T. Xiang, M. Xie, Anti-Backdoor model: a novel algorithm to
+Data availability remove backdoors in a non-invasive way, IEEE Trans. Inf. Forensics Secur. 19 (2024)
+7420–7434.
+[11] H. Wang, S. Karami, O. Dia, H. Ritter, E. Emamjomeh-Zadeh, J. Chen, Z. Xiang, D.J.
+Data will be made available on request.
+Miller, G. Kesidis, Training set cleansing of backdoor poisoning by self-supervised
+representation learning, in: ICASSP 2023 - 2023 IEEE International Conference on
+Acoustics, Speech and Signal Processing (ICASSP), 2023, pp. 1–5.
+Declaration of competing interest [12] Y. Li, H. Ma, Z. Zhang, Y. Gao, A. Abuadbba, M. Xue, A. Fu, Y. Zheng, S.F. Al-Sarawi,
+D. Abbott, NTD: non-transferability enabled deep learning backdoor detection, IEEE
+The authors declare that they have no known competing financial Trans. Inf. Forensics Secur. 19 (2024) 104–119.
+[13] L. Huang, L.Y. Zhang, C.-C. Chang, W. Wang, C. Qin, Backdoor defense based on
+interests or personal relationships that could have appeared to influence
+adversarial prediction proximity and contrastive knowledge distillation, Pattern
+the work reported in this paper. Recognit. 172 (2026) 112336.
+10
+
+J. Li et al. Pattern Recognition 176 (2026) 113211
+[14] Y. Feng, B. Ma, D. Liu, Y. Zhang, W. Cai, Contrastive neuron pruning for backdoor [25] C. Yang, M. Dong, X. Zhang, J. Qi, A. Zhou, Introducing common null space of
+defense, IEEE Trans. Image Process. 34 (2025) 1234–1245. gradients for gradient projection methods in continual learning, in: Proceedings of
+[15] Y. Liu, M. Fan, C. Chen, X. Liu, Z. Ma, L. Wang, J. Ma, Backdoor defense with ma- the 32nd ACM International Conference on Multimedia, 2024, pp. 5489–5497.
+chine unlearning, in: IEEE INFOCOM 2022 - IEEE Conference on Computer Com- [26] K. He, X. Zhang, S. Ren, J. Sun, Identity mappings in deep residual networks, in:
+munications, 2022, pp. 280–289. Computer Vision–ECCV 2016: 14th European Conference, 2016, pp. 630–645.
+[16] H. Chen, T. Zhu, L. Zhang, B. Liu, D. Wang, W. Zhou, M. Xue, QUEEN: Query [27] Z. Liu, H. Mao, C.-Y. Wu, C. Feichtenhofer, T. Darrell, S. Xie, A ConvNet for the
+unlearning against model extraction, IEEE Trans. Inf. Forensics Secur. 20 (2025) 2020s, in: 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition
+2143–2156. (CVPR), 2022, pp. 11966–11976.
+[17] S. Liu, Y. Yao, J. Jia, S. Casper, N. Baracaldo, P. Hase, Y. Yao, C.Y. Liu, X. Xu, H. [28] B. Wu, H. Chen, M. Zhang, Z. Zhu, S. Wei, D. Yuan, C. Shen, BackdoorBench: a
+Li, K.R. Varshney, M. Bansal, S. Koyejo, Y. Liu, Rethinking machine unlearning for comprehensive benchmark of backdoor learning, in: Advances in Neural Informa-
+large language models, Nat. Mach. Intell. 7 (2) (2025) 181–194. tion Processing Systems, 35, 2022, pp. 10546–10559.
+[18] A.K. Tarun, V.S. Chundawat, M. Mandal, M. Kankanhalli, Fast yet effective machine [29] D. Wu, Y. Wang, Adversarial neuron pruning purifies backdoored deep models, in:
+unlearning, IEEE Trans. Neural Netw. Learn. Syst. 35 (9) (2024) 13046–13055. Proceedings of the 35th International Conference on Neural Information Processing
+[19] L. Bourtoule, V. Chandrasekaran, C.A. Choquette-Choo, H. Jia, A. Travers, B. Zhang, Systems, 2021, pp. 16913–16925.
+D. Lie, N. Papernot, Machine unlearning, in: 2021 IEEE Symposium on Security [30] Y. Li, X. Lyu, N. Koren, L. Lyu, B. Li, X. Ma, Anti-Backdoor learning: training clean
+and Privacy (SP), 2021, pp. 141–159. models on poisoned data, in: Advances in Neural Information Processing Systems,
+[20] T. Baumhauer, P. Schottle, M. Zeppelzauer, Machine unlearning: linear filtration 2021, pp. 14900–14912.
+for logit-based classifiers, Mach. Learn. 111 (9) (2022) 3203–3226. [31] K. Huang, Y. Li, B. Wu, Z. Qin, K. Ren, Backdoor defense via decoupling the training
+[21] W. Wang, Z. Tian, C. Zhang, S. Yu, SCU: an efficient machine unlearning scheme for process, in: International Conference on Learning Representations, 2022.
+deep learning enabled semantic communications, IEEE Trans. Inf. Forensics Secur. [32] M. Zhu, S. Wei, L. Shen, Y. Fan, B. Wu, Enhancing fine-tuning based backdoor
+20 (2025) 547–558. defense with sharpness-aware minimization, in: 2023 IEEE/CVF International Con-
+[22] Z. Izzo, M. Anne Smart, K. Chaudhuri, J. Zou, Approximate data deletion from ference on Computer Vision (ICCV), 2023, pp. 4443–4454.
+machine learning models, in: Proceedings of the 24th International Conference on [33] B. Wang, Y. Yao, S. Shan, H. Li, B. Viswanath, H. Zheng, B.Y. Zhao, Neural
+Artificial Intelligence and Statistics, 2021, pp. 2008–2016. cleanse: identifying and mitigating backdoor attacks in neural networks, in: 2019
+[23] X.J. Meng, Y. Yang, X.M. Liu, N. Jiang, Active forgetting via influence estimation IEEE Symposium on Security and Privacy (SP), San Francisco, CA, USA, 2019,
+for neural networks, Int. J. Intell. Syst. 37 (11) (2022) 9080–9107. pp. 707–723.
+[24] S. Guo, Y. Ren, S.V. Albrecht, K. Smith, lpNTK: better generalisation with less data
+via sample interaction during learning, in: The Twelfth International Conference
+on Learning Representations, 2024.
+11

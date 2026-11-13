@@ -1,0 +1,16 @@
+{
+  "clean_accuracy": 51.08,
+  "asr": 2.088888888888889,
+  "before_upgp": {
+    "clean_accuracy": 86.04,
+    "asr": 1.4111111111111112
+  },
+  "variant": "harvey_cata_upgp",
+  "seed": 1,
+  "profile": "full",
+  "protocol": "release",
+  "poison_hash": "94c42c8909c2616d51472974a396d63471ad26b8f24dab369c24a40a302100fa",
+  "elapsed_seconds": 15928.787113948001,
+  "synthetic": false,
+  "checkpoint_selection": "last_epoch"
+}

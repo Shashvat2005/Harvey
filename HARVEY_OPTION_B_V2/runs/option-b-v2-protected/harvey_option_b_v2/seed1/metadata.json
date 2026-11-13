@@ -1,0 +1,76 @@
+{
+  "variant": "harvey_option_b_v2",
+  "profile": "full",
+  "protocol": "release",
+  "seed": 1,
+  "batch_size": 128,
+  "threads": 4,
+  "device": "auto",
+  "run_name": "option-b-v2-protected",
+  "reuse_source": "/Users/shashvatgarg/Desktop/Main/Shashvat_Garg/Study/DTU/Study/4th Year/Sem - 7/BTP/Harvey + Extra/HARVEY_OPTION_B/runs/option-b-full/harvey_option_b/seed1",
+  "fresh": false,
+  "cata_scales": [
+    0.1,
+    0.3
+  ],
+  "cata_epochs": 2,
+  "min_reference_probe": 16,
+  "poison_rce": 0.5,
+  "semantic_confidence": 0.85,
+  "min_suspicious": 32,
+  "min_target_validation": 20,
+  "polish_lrs": [
+    0.001,
+    0.005
+  ],
+  "polish_epochs": 2,
+  "direction_samples": 1024,
+  "direction_lr": 0.001,
+  "direction_epochs": 2,
+  "alphas": [
+    0.0,
+    0.25,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "basis_samples": 512,
+  "basis_batches": 4,
+  "basis_energy": 0.99,
+  "upgp_lrs": [
+    1e-05,
+    0.0001
+  ],
+  "upgp_epochs": 2,
+  "upgp_samples": 1024,
+  "forget_weight": 0.1,
+  "max_relative_update": 0.002,
+  "target_tolerance": 1.0,
+  "probability_tolerance": 0.001,
+  "min_probability_gain": 0.0001,
+  "recover_clean": true,
+  "recover_confidence": 0.95,
+  "warmup_epochs": 20,
+  "reference_epochs": 14,
+  "cycles": 20,
+  "final_epochs": 100,
+  "milestones": [
+    60,
+    80,
+    90
+  ],
+  "resolved_device": "mps",
+  "torch": "2.14.0",
+  "torchvision": "0.29.0",
+  "numpy": "2.2.6",
+  "python": "3.10.11",
+  "source_hashes": {
+    "upgp.py": "a1c57fe9ea7f92350aefd313a38e5ced5d104bfe89d0e50d6039c66734873727",
+    "refinement.py": "fb263575d12e546676da0ccbca8bfae7573b478e9513e4da5fd25e8030b3a09c",
+    "cata.py": "7496e4b32038dad87b8f93a66a7cfc30605ee5b84e5fbcf535dd2227e9e71522",
+    "assess_results.py": "43e2d6e411ebd63600ba814020b5c0168946e2560c39bd9a0e98ebe0fbc11b0f",
+    "training.py": "3c1d4f8cd42d94dfa4a31e0cd9afc78ad9b2df944404d59900546329e2c99a79",
+    "tests/test_v2.py": "2bebde3dc80e8bb35ac86b486023ba710e0b91c0e251f5c6d7eab8988d99b171",
+    "vendor/models/target_models.py": "a68631031e8ff1c1939b92f06e4e41db8c2ad16ba6e316abe2ee47f35e5f2e68"
+  }
+}

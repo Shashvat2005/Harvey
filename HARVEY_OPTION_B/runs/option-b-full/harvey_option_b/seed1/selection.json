@@ -1,0 +1,63 @@
+{
+  "selected_alpha": 0.0,
+  "reason": "No nonzero candidate improved suspicious response within accuracy limits",
+  "raw_base_validation": {
+    "clean_accuracy": 93.21047526673132,
+    "target_accuracy": 87.71929824561404,
+    "target_validation_count": 57,
+    "suspicious_response": 36.576121288692356,
+    "suspicious_mean_target_probability": 0.3634975467086667
+  },
+  "candidates": [
+    {
+      "alpha": 0.0,
+      "clean_accuracy": 90.8341416100873,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.35518116086476675
+    },
+    {
+      "alpha": 0.1,
+      "clean_accuracy": 90.8341416100873,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.35514816722761433
+    },
+    {
+      "alpha": 0.25,
+      "clean_accuracy": 90.8341416100873,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.35509861351490324
+    },
+    {
+      "alpha": 0.5,
+      "clean_accuracy": 90.78564500484966,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.3550159444706544
+    },
+    {
+      "alpha": 0.75,
+      "clean_accuracy": 90.78564500484966,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.354933069389377
+    },
+    {
+      "alpha": 1.0,
+      "clean_accuracy": 90.78564500484966,
+      "target_accuracy": 87.71929824561404,
+      "target_validation_count": 57,
+      "suspicious_response": 35.75489576753001,
+      "suspicious_mean_target_probability": 0.3548501304486697
+    }
+  ],
+  "selection_uses_test_data": false,
+  "selected_model": "raw_base"
+}

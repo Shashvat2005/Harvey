@@ -1,0 +1,35 @@
+{
+  "recovered_from": "User-supplied pasted training-cell output",
+  "source_sha256": "f166e7db5bf331bccdecd5e7ea2c451d79857141d70c3880e7af4e06adcb0d40",
+  "parsed_events": 447,
+  "event_counts": {
+    "warmup": 20,
+    "reference": 280,
+    "cata": 20,
+    "split": 20,
+    "meta": 1,
+    "final": 100,
+    "upgp": 5,
+    "complete": 1
+  },
+  "text_repairs": [
+    {
+      "line": 1,
+      "repair": "Restored a missing opening brace on the first pasted JSON event."
+    }
+  ],
+  "completion_verified": true,
+  "verification": [
+    "100 sequential final-training epochs",
+    "5 sequential UPGP epochs",
+    "Final event equals last UPGP epoch",
+    "before_upgp equals final-training epoch 100"
+  ],
+  "not_recoverable_from_this_log": [
+    "model weights",
+    "optimizer/checkpoint/RNG state",
+    "sample IDs and split membership",
+    "full metadata.json environment and source hashes"
+  ],
+  "note": "Result metrics and split-quality summary recovered, not original binary artifacts. No missing settings inferred."
+}

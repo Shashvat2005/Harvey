@@ -1,0 +1,13 @@
+{
+  "description": "One epoch of re-exposure to estimated suspicious and likely-clean fitting samples; does not use poison truth",
+  "base": {
+    "clean_accuracy": 92.69,
+    "asr": 0.5111111111111111,
+    "target_accuracy": 83.4
+  },
+  "selected": {
+    "clean_accuracy": 92.69,
+    "asr": 0.5111111111111111,
+    "target_accuracy": 83.4
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "variant": "harvey_option_b_v2",
+    "device": "mps",
+    "synthetic": true,
+    "candidate_count": 5,
+    "selected": {
+      "kind": "base",
+      "stage": "base"
+    }
+  },
+  {
+    "variant": "harvey_cata_upgp_v2",
+    "device": "mps",
+    "synthetic": true,
+    "candidate_count": 2,
+    "selected": {
+      "kind": "base",
+      "stage": "base"
+    }
+  }
+]

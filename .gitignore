@@ -1,0 +1,46 @@
+# Local environments, caches and editor state
+**/.venv/
+**/venv/
+**/env/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+/.vscode/
+
+# Credentials and machine-specific agent configuration
+.env
+.env.*
+!.env.example
+kaggle.json
+.kaggle/
+.aws/
+.ssh/
+/.codex/
+/.agents/
+
+# Downloaded datasets; keep source modules such as data/sampler.py
+/HARVEY/data/
+**/cifar-10-batches-py/
+**/data/CIFAR10/
+**/data/cifar10/
+**/data/GTSRB/
+**/tiny-imagenet-200/
+*.tar
+*.tar.gz
+*.tgz
+
+# Generated model/optimizer checkpoints and archives remain local
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.pickle
+*.zip
+*.tmp
+*.log
+**/backups/
+
+# Experiment output directories are additionally controlled by their local ignores.
+# Selected completed-run JSON/JSONL summaries are explicitly tracked at migration.

@@ -1,0 +1,36 @@
+{
+  "clean_accuracy": 92.73,
+  "asr": 0.5111111111111111,
+  "target_accuracy": 83.3,
+  "base_control": {
+    "clean_accuracy": 92.73,
+    "asr": 0.5111111111111111,
+    "target_accuracy": 83.3
+  },
+  "selected_alpha": 0.0,
+  "selection_reason": "No nonzero candidate improved suspicious response within accuracy limits",
+  "selection_used_test_data": false,
+  "accuracy_delta_vs_base_pp": 0.0,
+  "asr_delta_vs_base_pp": 0.0,
+  "reactivation": {
+    "description": "One epoch of re-exposure to estimated suspicious and likely-clean fitting samples; does not use poison truth",
+    "base": {
+      "clean_accuracy": 92.69,
+      "asr": 0.5111111111111111,
+      "target_accuracy": 83.4
+    },
+    "selected": {
+      "clean_accuracy": 92.69,
+      "asr": 0.5111111111111111,
+      "target_accuracy": 83.4
+    }
+  },
+  "variant": "harvey_option_b",
+  "seed": 1,
+  "profile": "full",
+  "protocol": "release",
+  "poison_hash": "94c42c8909c2616d51472974a396d63471ad26b8f24dab369c24a40a302100fa",
+  "elapsed_seconds": 10056.992939458927,
+  "synthetic": false,
+  "checkpoint_selection": "validation_only_with_raw_base_fallback"
+}

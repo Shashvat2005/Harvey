@@ -1,0 +1,447 @@
+"time": "2026-11-12T17:35:11.578206+00:00", "event": "warmup", "epoch": 1, "loss": 1.3920698106384277}
+{"time": "2026-11-12T17:36:18.853840+00:00", "event": "warmup", "epoch": 2, "loss": 0.8022560751152038}
+{"time": "2026-11-12T17:37:26.981945+00:00", "event": "warmup", "epoch": 3, "loss": 0.5889212576389313}
+{"time": "2026-11-12T17:38:35.408806+00:00", "event": "warmup", "epoch": 4, "loss": 0.4551823766517639}
+{"time": "2026-11-12T17:39:43.739020+00:00", "event": "warmup", "epoch": 5, "loss": 0.35551920619010924}
+{"time": "2026-11-12T17:40:52.481754+00:00", "event": "warmup", "epoch": 6, "loss": 0.2675298573875427}
+{"time": "2026-11-12T17:42:00.931025+00:00", "event": "warmup", "epoch": 7, "loss": 0.2040024208688736}
+{"time": "2026-11-12T17:43:09.507963+00:00", "event": "warmup", "epoch": 8, "loss": 0.14429497930526733}
+{"time": "2026-11-12T17:44:18.061830+00:00", "event": "warmup", "epoch": 9, "loss": 0.1072474979019165}
+{"time": "2026-11-12T17:45:26.613150+00:00", "event": "warmup", "epoch": 10, "loss": 0.0825335723400116}
+{"time": "2026-11-12T17:46:35.121109+00:00", "event": "warmup", "epoch": 11, "loss": 0.059999267219901085}
+{"time": "2026-11-12T17:47:43.698486+00:00", "event": "warmup", "epoch": 12, "loss": 0.057265620948076246}
+{"time": "2026-11-12T17:48:52.245962+00:00", "event": "warmup", "epoch": 13, "loss": 0.05169974220871925}
+{"time": "2026-11-12T17:50:00.780480+00:00", "event": "warmup", "epoch": 14, "loss": 0.04354857100844383}
+{"time": "2026-11-12T17:51:09.301805+00:00", "event": "warmup", "epoch": 15, "loss": 0.04530994133234024}
+{"time": "2026-11-12T17:52:17.993689+00:00", "event": "warmup", "epoch": 16, "loss": 0.03156159953832626}
+{"time": "2026-11-12T17:53:26.691687+00:00", "event": "warmup", "epoch": 17, "loss": 0.04161818059682846}
+{"time": "2026-11-12T17:54:35.234634+00:00", "event": "warmup", "epoch": 18, "loss": 0.02864936087243259}
+{"time": "2026-11-12T17:55:43.835386+00:00", "event": "warmup", "epoch": 19, "loss": 0.02506080021701753}
+{"time": "2026-11-12T17:56:52.492459+00:00", "event": "warmup", "epoch": 20, "loss": 0.032989370937049387}
+{"time": "2026-11-12T17:57:51.037341+00:00", "event": "reference", "cycle": 1, "epoch": 1, "loss": 1.119687455883026}
+{"time": "2026-11-12T17:58:25.587868+00:00", "event": "reference", "cycle": 1, "epoch": 2, "loss": 0.5366829137420654}
+{"time": "2026-11-12T17:59:00.163895+00:00", "event": "reference", "cycle": 1, "epoch": 3, "loss": 0.32773313066482546}
+{"time": "2026-11-12T17:59:34.713011+00:00", "event": "reference", "cycle": 1, "epoch": 4, "loss": 0.22061075738430022}
+{"time": "2026-11-12T18:00:09.311846+00:00", "event": "reference", "cycle": 1, "epoch": 5, "loss": 0.15087873579025268}
+{"time": "2026-11-12T18:00:43.854734+00:00", "event": "reference", "cycle": 1, "epoch": 6, "loss": 0.10777314274787902}
+{"time": "2026-11-12T18:01:18.439971+00:00", "event": "reference", "cycle": 1, "epoch": 7, "loss": 0.06548968625187873}
+{"time": "2026-11-12T18:01:52.964703+00:00", "event": "reference", "cycle": 1, "epoch": 8, "loss": 0.0563430571937561}
+{"time": "2026-11-12T18:02:27.604407+00:00", "event": "reference", "cycle": 1, "epoch": 9, "loss": 0.04890248341798782}
+{"time": "2026-11-12T18:03:02.149259+00:00", "event": "reference", "cycle": 1, "epoch": 10, "loss": 0.032768964101970194}
+{"time": "2026-11-12T18:03:36.781188+00:00", "event": "reference", "cycle": 1, "epoch": 11, "loss": 0.025811939849853516}
+{"time": "2026-11-12T18:04:11.382277+00:00", "event": "reference", "cycle": 1, "epoch": 12, "loss": 0.030177323189377783}
+{"time": "2026-11-12T18:04:46.038610+00:00", "event": "reference", "cycle": 1, "epoch": 13, "loss": 0.032598919036388396}
+{"time": "2026-11-12T18:05:20.772994+00:00", "event": "reference", "cycle": 1, "epoch": 14, "loss": 0.020989029475450515}
+{"time": "2026-11-12T18:07:40.297508+00:00", "event": "cata", "cycle": 1, "requests": 1, "examples_seen": 100000, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.1911132335662842}
+{"time": "2026-11-12T18:08:04.841310+00:00", "event": "split", "cycle": 1, "benign": 14043, "subset": 17978}
+{"time": "2026-11-12T18:08:30.056614+00:00", "event": "reference", "cycle": 2, "epoch": 1, "loss": 0.029094785991681076}
+{"time": "2026-11-12T18:08:55.437114+00:00", "event": "reference", "cycle": 2, "epoch": 2, "loss": 0.0217741555246794}
+{"time": "2026-11-12T18:09:20.852239+00:00", "event": "reference", "cycle": 2, "epoch": 3, "loss": 0.016359358859225768}
+{"time": "2026-11-12T18:09:46.265568+00:00", "event": "reference", "cycle": 2, "epoch": 4, "loss": 0.012973257286582844}
+{"time": "2026-11-12T18:10:11.649507+00:00", "event": "reference", "cycle": 2, "epoch": 5, "loss": 0.015630649843196523}
+{"time": "2026-11-12T18:10:37.077612+00:00", "event": "reference", "cycle": 2, "epoch": 6, "loss": 0.0037792103104699487}
+{"time": "2026-11-12T18:11:02.589233+00:00", "event": "reference", "cycle": 2, "epoch": 7, "loss": 0.014596700012036947}
+{"time": "2026-11-12T18:11:28.097606+00:00", "event": "reference", "cycle": 2, "epoch": 8, "loss": 0.021151145050999007}
+{"time": "2026-11-12T18:11:53.528135+00:00", "event": "reference", "cycle": 2, "epoch": 9, "loss": 0.009610213855705893}
+{"time": "2026-11-12T18:12:18.839177+00:00", "event": "reference", "cycle": 2, "epoch": 10, "loss": 0.003864688256040376}
+{"time": "2026-11-12T18:12:44.190916+00:00", "event": "reference", "cycle": 2, "epoch": 11, "loss": 0.0023888185813172196}
+{"time": "2026-11-12T18:13:09.553289+00:00", "event": "reference", "cycle": 2, "epoch": 12, "loss": 0.0014310709679670635}
+{"time": "2026-11-12T18:13:34.902807+00:00", "event": "reference", "cycle": 2, "epoch": 13, "loss": 0.0025685002730563796}
+{"time": "2026-11-12T18:14:00.198397+00:00", "event": "reference", "cycle": 2, "epoch": 14, "loss": 0.02041324753646213}
+{"time": "2026-11-12T18:15:18.936882+00:00", "event": "cata", "cycle": 2, "requests": 2, "examples_seen": 56172, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 2.6227142810821533}
+{"time": "2026-11-12T18:15:42.881343+00:00", "event": "split", "cycle": 2, "benign": 18801, "subset": 15664}
+{"time": "2026-11-12T18:16:04.807751+00:00", "event": "reference", "cycle": 3, "epoch": 1, "loss": 0.00917470344575122}
+{"time": "2026-11-12T18:16:26.947250+00:00", "event": "reference", "cycle": 3, "epoch": 2, "loss": 0.0038686563199003933}
+{"time": "2026-11-12T18:16:49.121068+00:00", "event": "reference", "cycle": 3, "epoch": 3, "loss": 0.009326495167144563}
+{"time": "2026-11-12T18:17:11.215230+00:00", "event": "reference", "cycle": 3, "epoch": 4, "loss": 0.009376387309623821}
+{"time": "2026-11-12T18:17:33.322143+00:00", "event": "reference", "cycle": 3, "epoch": 5, "loss": 0.009367812835978605}
+{"time": "2026-11-12T18:17:55.450296+00:00", "event": "reference", "cycle": 3, "epoch": 6, "loss": 0.0028341092573944005}
+{"time": "2026-11-12T18:18:17.564622+00:00", "event": "reference", "cycle": 3, "epoch": 7, "loss": 0.0010970128036367653}
+{"time": "2026-11-12T18:18:39.630458+00:00", "event": "reference", "cycle": 3, "epoch": 8, "loss": 0.000257975894820318}
+{"time": "2026-11-12T18:19:01.720161+00:00", "event": "reference", "cycle": 3, "epoch": 9, "loss": 4.946513770816922e-05}
+{"time": "2026-11-12T18:19:23.845858+00:00", "event": "reference", "cycle": 3, "epoch": 10, "loss": 0.00014020127058017283}
+{"time": "2026-11-12T18:19:46.107467+00:00", "event": "reference", "cycle": 3, "epoch": 11, "loss": 0.0002964873815671683}
+{"time": "2026-11-12T18:20:08.230078+00:00", "event": "reference", "cycle": 3, "epoch": 12, "loss": 0.0001575817532971881}
+{"time": "2026-11-12T18:20:30.324675+00:00", "event": "reference", "cycle": 3, "epoch": 13, "loss": 3.797449558305976e-05}
+{"time": "2026-11-12T18:20:52.414873+00:00", "event": "reference", "cycle": 3, "epoch": 14, "loss": 3.535296359545132e-05}
+{"time": "2026-11-12T18:22:37.353099+00:00", "event": "cata", "cycle": 3, "requests": 3, "examples_seen": 75204, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.3203389644622803}
+{"time": "2026-11-12T18:23:01.356124+00:00", "event": "split", "cycle": 3, "benign": 19314, "subset": 15413}
+{"time": "2026-11-12T18:23:22.940305+00:00", "event": "reference", "cycle": 4, "epoch": 1, "loss": 0.004544528019220097}
+{"time": "2026-11-12T18:23:44.744248+00:00", "event": "reference", "cycle": 4, "epoch": 2, "loss": 0.008269581656477277}
+{"time": "2026-11-12T18:24:06.554800+00:00", "event": "reference", "cycle": 4, "epoch": 3, "loss": 0.007594790303141743}
+{"time": "2026-11-12T18:24:28.235498+00:00", "event": "reference", "cycle": 4, "epoch": 4, "loss": 0.004411592501939099}
+{"time": "2026-11-12T18:24:49.970190+00:00", "event": "reference", "cycle": 4, "epoch": 5, "loss": 0.0013856285519965523}
+{"time": "2026-11-12T18:25:11.696569+00:00", "event": "reference", "cycle": 4, "epoch": 6, "loss": 0.0003301743506604011}
+{"time": "2026-11-12T18:25:33.450699+00:00", "event": "reference", "cycle": 4, "epoch": 7, "loss": 6.952064331713502e-05}
+{"time": "2026-11-12T18:25:55.159920+00:00", "event": "reference", "cycle": 4, "epoch": 8, "loss": 5.251576543578995e-05}
+{"time": "2026-11-12T18:26:16.860843+00:00", "event": "reference", "cycle": 4, "epoch": 9, "loss": -3.457923041276498e-06}
+{"time": "2026-11-12T18:26:38.673863+00:00", "event": "reference", "cycle": 4, "epoch": 10, "loss": -2.8478355983226936e-05}
+{"time": "2026-11-12T18:27:00.577681+00:00", "event": "reference", "cycle": 4, "epoch": 11, "loss": 3.961503130674673e-05}
+{"time": "2026-11-12T18:27:22.499706+00:00", "event": "reference", "cycle": 4, "epoch": 12, "loss": 6.654415318932973e-05}
+{"time": "2026-11-12T18:27:44.316272+00:00", "event": "reference", "cycle": 4, "epoch": 13, "loss": 0.0002550837024430019}
+{"time": "2026-11-12T18:28:06.261371+00:00", "event": "reference", "cycle": 4, "epoch": 14, "loss": 0.0001199753411458152}
+{"time": "2026-11-12T18:29:54.677992+00:00", "event": "cata", "cycle": 4, "requests": 4, "examples_seen": 77256, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 1.0996472835540771}
+{"time": "2026-11-12T18:30:18.833514+00:00", "event": "split", "cycle": 4, "benign": 21359, "subset": 14383}
+{"time": "2026-11-12T18:30:39.112605+00:00", "event": "reference", "cycle": 5, "epoch": 1, "loss": 0.0018725495113579575}
+{"time": "2026-11-12T18:30:59.491145+00:00", "event": "reference", "cycle": 5, "epoch": 2, "loss": 0.007417629367483577}
+{"time": "2026-11-12T18:31:19.958181+00:00", "event": "reference", "cycle": 5, "epoch": 3, "loss": 0.007715924399816513}
+{"time": "2026-11-12T18:31:40.364299+00:00", "event": "reference", "cycle": 5, "epoch": 4, "loss": 0.0014726210940233498}
+{"time": "2026-11-12T18:32:00.716858+00:00", "event": "reference", "cycle": 5, "epoch": 5, "loss": 0.0018565423907984707}
+{"time": "2026-11-12T18:32:21.086505+00:00", "event": "reference", "cycle": 5, "epoch": 6, "loss": 0.0005449928163932036}
+{"time": "2026-11-12T18:32:41.498320+00:00", "event": "reference", "cycle": 5, "epoch": 7, "loss": 0.0012991370486768253}
+{"time": "2026-11-12T18:33:01.903646+00:00", "event": "reference", "cycle": 5, "epoch": 8, "loss": 0.00041622672633111424}
+{"time": "2026-11-12T18:33:22.302422+00:00", "event": "reference", "cycle": 5, "epoch": 9, "loss": 8.923161076503212e-05}
+{"time": "2026-11-12T18:33:42.778999+00:00", "event": "reference", "cycle": 5, "epoch": 10, "loss": -2.0126005383137813e-06}
+{"time": "2026-11-12T18:34:03.203114+00:00", "event": "reference", "cycle": 5, "epoch": 11, "loss": -1.5684363798496113e-05}
+{"time": "2026-11-12T18:34:23.622379+00:00", "event": "reference", "cycle": 5, "epoch": 12, "loss": 0.0018432447641627164}
+{"time": "2026-11-12T18:34:44.039338+00:00", "event": "reference", "cycle": 5, "epoch": 13, "loss": 0.023818059574595343}
+{"time": "2026-11-12T18:35:04.473027+00:00", "event": "reference", "cycle": 5, "epoch": 14, "loss": 0.008590975525143195}
+{"time": "2026-11-12T18:37:03.587053+00:00", "event": "cata", "cycle": 5, "requests": 5, "examples_seen": 85436, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.1234315633773804}
+{"time": "2026-11-12T18:37:27.541448+00:00", "event": "split", "cycle": 5, "benign": 20160, "subset": 14972}
+{"time": "2026-11-12T18:37:48.516843+00:00", "event": "reference", "cycle": 6, "epoch": 1, "loss": 0.0015749533267205543}
+{"time": "2026-11-12T18:38:09.632213+00:00", "event": "reference", "cycle": 6, "epoch": 2, "loss": 0.004597348274626763}
+{"time": "2026-11-12T18:38:30.836375+00:00", "event": "reference", "cycle": 6, "epoch": 3, "loss": 0.0012381231076574993}
+{"time": "2026-11-12T18:38:52.057696+00:00", "event": "reference", "cycle": 6, "epoch": 4, "loss": 0.00048755985317660357}
+{"time": "2026-11-12T18:39:13.304630+00:00", "event": "reference", "cycle": 6, "epoch": 5, "loss": 3.745405601771489e-05}
+{"time": "2026-11-12T18:39:34.498727+00:00", "event": "reference", "cycle": 6, "epoch": 6, "loss": 3.956869923721899e-05}
+{"time": "2026-11-12T18:39:55.701905+00:00", "event": "reference", "cycle": 6, "epoch": 7, "loss": 0.002811804561779468}
+{"time": "2026-11-12T18:40:16.858477+00:00", "event": "reference", "cycle": 6, "epoch": 8, "loss": 0.007107505983255769}
+{"time": "2026-11-12T18:40:38.083221+00:00", "event": "reference", "cycle": 6, "epoch": 9, "loss": 0.0013588792239335712}
+{"time": "2026-11-12T18:40:59.354335+00:00", "event": "reference", "cycle": 6, "epoch": 10, "loss": 0.0005715503687189054}
+{"time": "2026-11-12T18:41:20.514420+00:00", "event": "reference", "cycle": 6, "epoch": 11, "loss": 8.899100420803963e-05}
+{"time": "2026-11-12T18:41:41.747953+00:00", "event": "reference", "cycle": 6, "epoch": 12, "loss": 0.00014606022572449914}
+{"time": "2026-11-12T18:42:03.015018+00:00", "event": "reference", "cycle": 6, "epoch": 13, "loss": 0.00016505105785059865}
+{"time": "2026-11-12T18:42:24.188427+00:00", "event": "reference", "cycle": 6, "epoch": 14, "loss": 0.00026370339966950144}
+{"time": "2026-11-12T18:44:16.489055+00:00", "event": "cata", "cycle": 6, "requests": 6, "examples_seen": 80640, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 1.3192875385284424}
+{"time": "2026-11-12T18:44:40.563492+00:00", "event": "split", "cycle": 6, "benign": 20945, "subset": 14571}
+{"time": "2026-11-12T18:45:00.962576+00:00", "event": "reference", "cycle": 7, "epoch": 1, "loss": 0.0018235241007348074}
+{"time": "2026-11-12T18:45:21.505665+00:00", "event": "reference", "cycle": 7, "epoch": 2, "loss": 0.003308428430446382}
+{"time": "2026-11-12T18:45:42.005256+00:00", "event": "reference", "cycle": 7, "epoch": 3, "loss": 0.0035100837798549968}
+{"time": "2026-11-12T18:46:02.598636+00:00", "event": "reference", "cycle": 7, "epoch": 4, "loss": 0.004580626292593297}
+{"time": "2026-11-12T18:46:23.230005+00:00", "event": "reference", "cycle": 7, "epoch": 5, "loss": 0.0031788656299747923}
+{"time": "2026-11-12T18:46:43.770673+00:00", "event": "reference", "cycle": 7, "epoch": 6, "loss": 0.0011393053291086702}
+{"time": "2026-11-12T18:47:04.302051+00:00", "event": "reference", "cycle": 7, "epoch": 7, "loss": 0.0003355827185759124}
+{"time": "2026-11-12T18:47:24.817523+00:00", "event": "reference", "cycle": 7, "epoch": 8, "loss": 0.0002009796244748385}
+{"time": "2026-11-12T18:47:45.343384+00:00", "event": "reference", "cycle": 7, "epoch": 9, "loss": 4.3448903613550794e-05}
+{"time": "2026-11-12T18:48:05.958584+00:00", "event": "reference", "cycle": 7, "epoch": 10, "loss": -2.8014818371205377e-06}
+{"time": "2026-11-12T18:48:26.500298+00:00", "event": "reference", "cycle": 7, "epoch": 11, "loss": 0.00019560336341063994}
+{"time": "2026-11-12T18:48:47.003642+00:00", "event": "reference", "cycle": 7, "epoch": 12, "loss": 0.0010747270012403751}
+{"time": "2026-11-12T18:49:07.521892+00:00", "event": "reference", "cycle": 7, "epoch": 13, "loss": 0.001964607176904427}
+{"time": "2026-11-12T18:49:28.156417+00:00", "event": "reference", "cycle": 7, "epoch": 14, "loss": 0.0006331529864666123}
+{"time": "2026-11-12T18:51:24.640162+00:00", "event": "cata", "cycle": 7, "requests": 7, "examples_seen": 83780, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.4956164360046387}
+{"time": "2026-11-12T18:51:48.503067+00:00", "event": "split", "cycle": 7, "benign": 19950, "subset": 15069}
+{"time": "2026-11-12T18:52:09.527047+00:00", "event": "reference", "cycle": 8, "epoch": 1, "loss": 0.00168138214554519}
+{"time": "2026-11-12T18:52:30.775560+00:00", "event": "reference", "cycle": 8, "epoch": 2, "loss": 0.0021093732695817665}
+{"time": "2026-11-12T18:52:51.957931+00:00", "event": "reference", "cycle": 8, "epoch": 3, "loss": 0.0050785459197603515}
+{"time": "2026-11-12T18:53:13.006823+00:00", "event": "reference", "cycle": 8, "epoch": 4, "loss": 0.0032454778456549862}
+{"time": "2026-11-12T18:53:34.064688+00:00", "event": "reference", "cycle": 8, "epoch": 5, "loss": 0.00018720696241903808}
+{"time": "2026-11-12T18:53:55.232161+00:00", "event": "reference", "cycle": 8, "epoch": 6, "loss": 0.0007764316680853818}
+{"time": "2026-11-12T18:54:16.516778+00:00", "event": "reference", "cycle": 8, "epoch": 7, "loss": 0.0002172041638468836}
+{"time": "2026-11-12T18:54:37.740291+00:00", "event": "reference", "cycle": 8, "epoch": 8, "loss": 4.794876774362253e-05}
+{"time": "2026-11-12T18:54:58.926481+00:00", "event": "reference", "cycle": 8, "epoch": 9, "loss": 2.9716676607293154e-05}
+{"time": "2026-11-12T18:55:20.047437+00:00", "event": "reference", "cycle": 8, "epoch": 10, "loss": 7.126830906435829e-05}
+{"time": "2026-11-12T18:55:41.227586+00:00", "event": "reference", "cycle": 8, "epoch": 11, "loss": 5.123163456325549e-05}
+{"time": "2026-11-12T18:56:02.486637+00:00", "event": "reference", "cycle": 8, "epoch": 12, "loss": -4.6616567644748035e-06}
+{"time": "2026-11-12T18:56:23.691574+00:00", "event": "reference", "cycle": 8, "epoch": 13, "loss": 8.784243174770431e-05}
+{"time": "2026-11-12T18:56:44.809664+00:00", "event": "reference", "cycle": 8, "epoch": 14, "loss": 3.666944017639852e-05}
+{"time": "2026-11-12T18:58:35.510642+00:00", "event": "cata", "cycle": 8, "requests": 8, "examples_seen": 79800, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 0.9080733060836792}
+{"time": "2026-11-12T18:58:59.287581+00:00", "event": "split", "cycle": 8, "benign": 21222, "subset": 14461}
+{"time": "2026-11-12T18:59:19.410633+00:00", "event": "reference", "cycle": 9, "epoch": 1, "loss": 0.000983124539836246}
+{"time": "2026-11-12T18:59:39.836606+00:00", "event": "reference", "cycle": 9, "epoch": 2, "loss": 0.003007130385823143}
+{"time": "2026-11-12T19:00:00.277155+00:00", "event": "reference", "cycle": 9, "epoch": 3, "loss": 0.0005990351065749868}
+{"time": "2026-11-12T19:00:20.635501+00:00", "event": "reference", "cycle": 9, "epoch": 4, "loss": 0.002037948409400545}
+{"time": "2026-11-12T19:00:41.004513+00:00", "event": "reference", "cycle": 9, "epoch": 5, "loss": 0.002248495314266394}
+{"time": "2026-11-12T19:01:01.207309+00:00", "event": "reference", "cycle": 9, "epoch": 6, "loss": 0.00031419623486726527}
+{"time": "2026-11-12T19:01:21.512936+00:00", "event": "reference", "cycle": 9, "epoch": 7, "loss": 0.0002458762267469097}
+{"time": "2026-11-12T19:01:41.802671+00:00", "event": "reference", "cycle": 9, "epoch": 8, "loss": 0.001335868163449844}
+{"time": "2026-11-12T19:02:02.213689+00:00", "event": "reference", "cycle": 9, "epoch": 9, "loss": 0.001132458647204029}
+{"time": "2026-11-12T19:02:22.602978+00:00", "event": "reference", "cycle": 9, "epoch": 10, "loss": 0.0004635420061312227}
+{"time": "2026-11-12T19:02:42.940091+00:00", "event": "reference", "cycle": 9, "epoch": 11, "loss": 0.0001211821371258587}
+{"time": "2026-11-12T19:03:03.244247+00:00", "event": "reference", "cycle": 9, "epoch": 12, "loss": 4.860044702520184e-05}
+{"time": "2026-11-12T19:03:23.544826+00:00", "event": "reference", "cycle": 9, "epoch": 13, "loss": 0.0005001080653384309}
+{"time": "2026-11-12T19:03:43.823834+00:00", "event": "reference", "cycle": 9, "epoch": 14, "loss": 0.0010965724000424543}
+{"time": "2026-11-12T19:05:41.671849+00:00", "event": "cata", "cycle": 9, "requests": 9, "examples_seen": 84888, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.015973448753357}
+{"time": "2026-11-12T19:06:05.508956+00:00", "event": "split", "cycle": 9, "benign": 23468, "subset": 13392}
+{"time": "2026-11-12T19:06:24.260675+00:00", "event": "reference", "cycle": 10, "epoch": 1, "loss": 0.0017866860213383517}
+{"time": "2026-11-12T19:06:43.238149+00:00", "event": "reference", "cycle": 10, "epoch": 2, "loss": 0.005525613422149496}
+{"time": "2026-11-12T19:07:02.130561+00:00", "event": "reference", "cycle": 10, "epoch": 3, "loss": 0.0009018311417787341}
+{"time": "2026-11-12T19:07:20.951456+00:00", "event": "reference", "cycle": 10, "epoch": 4, "loss": 0.00034598024712770894}
+{"time": "2026-11-12T19:07:39.826818+00:00", "event": "reference", "cycle": 10, "epoch": 5, "loss": 0.00013904347142322589}
+{"time": "2026-11-12T19:07:58.782297+00:00", "event": "reference", "cycle": 10, "epoch": 6, "loss": 8.719506394785685e-05}
+{"time": "2026-11-12T19:08:17.645212+00:00", "event": "reference", "cycle": 10, "epoch": 7, "loss": 0.00018221988244507387}
+{"time": "2026-11-12T19:08:36.598237+00:00", "event": "reference", "cycle": 10, "epoch": 8, "loss": 8.281012841254437e-05}
+{"time": "2026-11-12T19:08:55.552599+00:00", "event": "reference", "cycle": 10, "epoch": 9, "loss": 0.00012610199679859792}
+{"time": "2026-11-12T19:09:14.434090+00:00", "event": "reference", "cycle": 10, "epoch": 10, "loss": 0.0001806571587014458}
+{"time": "2026-11-12T19:09:33.338879+00:00", "event": "reference", "cycle": 10, "epoch": 11, "loss": 0.0002811258279704133}
+{"time": "2026-11-12T19:09:52.230054+00:00", "event": "reference", "cycle": 10, "epoch": 12, "loss": 0.0003399872594499647}
+{"time": "2026-11-12T19:10:11.146792+00:00", "event": "reference", "cycle": 10, "epoch": 13, "loss": 0.00045573850871111617}
+{"time": "2026-11-12T19:10:30.042738+00:00", "event": "reference", "cycle": 10, "epoch": 14, "loss": 0.00024712012453158267}
+{"time": "2026-11-12T19:12:40.074094+00:00", "event": "cata", "cycle": 10, "requests": 10, "examples_seen": 93872, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 0.7758039832115173}
+{"time": "2026-11-12T19:13:03.860475+00:00", "event": "split", "cycle": 10, "benign": 25827, "subset": 12181}
+{"time": "2026-11-12T19:13:20.964602+00:00", "event": "reference", "cycle": 11, "epoch": 1, "loss": 0.00135057709555146}
+{"time": "2026-11-12T19:13:38.186250+00:00", "event": "reference", "cycle": 11, "epoch": 2, "loss": 0.00021831633119566592}
+{"time": "2026-11-12T19:13:55.506448+00:00", "event": "reference", "cycle": 11, "epoch": 3, "loss": 0.00018098604433466653}
+{"time": "2026-11-12T19:14:12.797806+00:00", "event": "reference", "cycle": 11, "epoch": 4, "loss": 0.004724703273602829}
+{"time": "2026-11-12T19:14:30.100202+00:00", "event": "reference", "cycle": 11, "epoch": 5, "loss": 0.0004870758901349665}
+{"time": "2026-11-12T19:14:47.356538+00:00", "event": "reference", "cycle": 11, "epoch": 6, "loss": 0.0013660433474978909}
+{"time": "2026-11-12T19:15:04.694815+00:00", "event": "reference", "cycle": 11, "epoch": 7, "loss": 0.0002898232079812991}
+{"time": "2026-11-12T19:15:22.052173+00:00", "event": "reference", "cycle": 11, "epoch": 8, "loss": 0.0003897001902686655}
+{"time": "2026-11-12T19:15:39.319845+00:00", "event": "reference", "cycle": 11, "epoch": 9, "loss": 0.0009098004718864604}
+{"time": "2026-11-12T19:15:56.539187+00:00", "event": "reference", "cycle": 11, "epoch": 10, "loss": 0.0003770348508063575}
+{"time": "2026-11-12T19:16:13.760902+00:00", "event": "reference", "cycle": 11, "epoch": 11, "loss": 0.00027746251509887194}
+{"time": "2026-11-12T19:16:30.932868+00:00", "event": "reference", "cycle": 11, "epoch": 12, "loss": 0.00013378125211328438}
+{"time": "2026-11-12T19:16:48.104710+00:00", "event": "reference", "cycle": 11, "epoch": 13, "loss": -5.398767656401165e-05}
+{"time": "2026-11-12T19:17:05.331945+00:00", "event": "reference", "cycle": 11, "epoch": 14, "loss": 0.00022618231438684852}
+{"time": "2026-11-12T19:19:28.191586+00:00", "event": "cata", "cycle": 11, "requests": 11, "examples_seen": 103308, "task_nonzero": 3352192, "parameters": 11173962, "adaptation_loss": 0.8004590272903442}
+{"time": "2026-11-12T19:19:51.976675+00:00", "event": "split", "cycle": 11, "benign": 26081, "subset": 12089}
+{"time": "2026-11-12T19:20:08.881275+00:00", "event": "reference", "cycle": 12, "epoch": 1, "loss": 0.0006118894622699924}
+{"time": "2026-11-12T19:20:26.001005+00:00", "event": "reference", "cycle": 12, "epoch": 2, "loss": 0.0031275935860489244}
+{"time": "2026-11-12T19:20:43.145512+00:00", "event": "reference", "cycle": 12, "epoch": 3, "loss": 0.0016949654863656568}
+{"time": "2026-11-12T19:21:00.316539+00:00", "event": "reference", "cycle": 12, "epoch": 4, "loss": 0.00025594007113370826}
+{"time": "2026-11-12T19:21:17.407537+00:00", "event": "reference", "cycle": 12, "epoch": 5, "loss": 0.0009268213387657922}
+{"time": "2026-11-12T19:21:34.502805+00:00", "event": "reference", "cycle": 12, "epoch": 6, "loss": 0.00025798284960375256}
+{"time": "2026-11-12T19:21:51.547045+00:00", "event": "reference", "cycle": 12, "epoch": 7, "loss": -5.525136433510343e-05}
+{"time": "2026-11-12T19:22:08.667836+00:00", "event": "reference", "cycle": 12, "epoch": 8, "loss": 0.00020935700679515615}
+{"time": "2026-11-12T19:22:25.778526+00:00", "event": "reference", "cycle": 12, "epoch": 9, "loss": 4.1723380585062644e-05}
+{"time": "2026-11-12T19:22:42.961692+00:00", "event": "reference", "cycle": 12, "epoch": 10, "loss": -1.4352447642430211e-05}
+{"time": "2026-11-12T19:23:00.041809+00:00", "event": "reference", "cycle": 12, "epoch": 11, "loss": 2.649500693932369e-05}
+{"time": "2026-11-12T19:23:17.158121+00:00", "event": "reference", "cycle": 12, "epoch": 12, "loss": 0.00014812485290638408}
+{"time": "2026-11-12T19:23:34.334583+00:00", "event": "reference", "cycle": 12, "epoch": 13, "loss": 0.00013141510306319563}
+{"time": "2026-11-12T19:23:51.440556+00:00", "event": "reference", "cycle": 12, "epoch": 14, "loss": -5.210782762190694e-05}
+{"time": "2026-11-12T19:26:15.477034+00:00", "event": "cata", "cycle": 12, "requests": 12, "examples_seen": 104324, "task_nonzero": 3352191, "parameters": 11173962, "adaptation_loss": 1.0089523792266846}
+{"time": "2026-11-12T19:26:39.274507+00:00", "event": "split", "cycle": 12, "benign": 25764, "subset": 12248}
+{"time": "2026-11-12T19:26:56.433967+00:00", "event": "reference", "cycle": 13, "epoch": 1, "loss": 0.0013958085780010688}
+{"time": "2026-11-12T19:27:13.804704+00:00", "event": "reference", "cycle": 13, "epoch": 2, "loss": 0.002113728095874054}
+{"time": "2026-11-12T19:27:31.129121+00:00", "event": "reference", "cycle": 13, "epoch": 3, "loss": 0.00026270678711861646}
+{"time": "2026-11-12T19:27:48.437643+00:00", "event": "reference", "cycle": 13, "epoch": 4, "loss": 2.354810266511589e-05}
+{"time": "2026-11-12T19:28:05.727667+00:00", "event": "reference", "cycle": 13, "epoch": 5, "loss": 8.747866787843693e-05}
+{"time": "2026-11-12T19:28:23.010784+00:00", "event": "reference", "cycle": 13, "epoch": 6, "loss": 0.00013509545849963467}
+{"time": "2026-11-12T19:28:40.299735+00:00", "event": "reference", "cycle": 13, "epoch": 7, "loss": -0.00012012352408983597}
+{"time": "2026-11-12T19:28:57.575500+00:00", "event": "reference", "cycle": 13, "epoch": 8, "loss": 0.00016938296486127813}
+{"time": "2026-11-12T19:29:14.956066+00:00", "event": "reference", "cycle": 13, "epoch": 9, "loss": 2.4189425358313952e-05}
+{"time": "2026-11-12T19:29:32.357511+00:00", "event": "reference", "cycle": 13, "epoch": 10, "loss": 0.00011708884673943752}
+{"time": "2026-11-12T19:29:49.717820+00:00", "event": "reference", "cycle": 13, "epoch": 11, "loss": 3.4456334887699e-05}
+{"time": "2026-11-12T19:30:07.071091+00:00", "event": "reference", "cycle": 13, "epoch": 12, "loss": 2.5254070356118374e-05}
+{"time": "2026-11-12T19:30:24.421829+00:00", "event": "reference", "cycle": 13, "epoch": 13, "loss": 3.553935407845219e-05}
+{"time": "2026-11-12T19:30:41.814321+00:00", "event": "reference", "cycle": 13, "epoch": 14, "loss": 9.27696394740776e-05}
+{"time": "2026-11-12T19:33:04.431808+00:00", "event": "cata", "cycle": 13, "requests": 13, "examples_seen": 103056, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 0.6101536750793457}
+{"time": "2026-11-12T19:33:28.259786+00:00", "event": "split", "cycle": 13, "benign": 25288, "subset": 12489}
+{"time": "2026-11-12T19:33:45.796157+00:00", "event": "reference", "cycle": 14, "epoch": 1, "loss": 0.0005905667217134408}
+{"time": "2026-11-12T19:34:03.502732+00:00", "event": "reference", "cycle": 14, "epoch": 2, "loss": 0.00119419663269644}
+{"time": "2026-11-12T19:34:21.273434+00:00", "event": "reference", "cycle": 14, "epoch": 3, "loss": 0.0018366106486019406}
+{"time": "2026-11-12T19:34:38.952931+00:00", "event": "reference", "cycle": 14, "epoch": 4, "loss": 0.0038898312356581023}
+{"time": "2026-11-12T19:34:56.640869+00:00", "event": "reference", "cycle": 14, "epoch": 5, "loss": 0.00176840473132876}
+{"time": "2026-11-12T19:35:14.311437+00:00", "event": "reference", "cycle": 14, "epoch": 6, "loss": 0.00048229180016736177}
+{"time": "2026-11-12T19:35:31.965841+00:00", "event": "reference", "cycle": 14, "epoch": 7, "loss": 0.0005663915462950011}
+{"time": "2026-11-12T19:35:49.701762+00:00", "event": "reference", "cycle": 14, "epoch": 8, "loss": 0.0003033060937428164}
+{"time": "2026-11-12T19:36:07.402052+00:00", "event": "reference", "cycle": 14, "epoch": 9, "loss": 8.512567876968573e-05}
+{"time": "2026-11-12T19:36:25.092517+00:00", "event": "reference", "cycle": 14, "epoch": 10, "loss": 7.768437997597223e-05}
+{"time": "2026-11-12T19:36:42.791827+00:00", "event": "reference", "cycle": 14, "epoch": 11, "loss": 1.1850777412123786e-05}
+{"time": "2026-11-12T19:37:00.452069+00:00", "event": "reference", "cycle": 14, "epoch": 12, "loss": -4.686461217222388e-05}
+{"time": "2026-11-12T19:37:18.049495+00:00", "event": "reference", "cycle": 14, "epoch": 13, "loss": 0.00014349038831472626}
+{"time": "2026-11-12T19:37:35.640950+00:00", "event": "reference", "cycle": 14, "epoch": 14, "loss": 5.09191347393749e-05}
+{"time": "2026-11-12T19:39:55.538857+00:00", "event": "cata", "cycle": 14, "requests": 14, "examples_seen": 101152, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 1.1126182079315186}
+{"time": "2026-11-12T19:40:19.374707+00:00", "event": "split", "cycle": 14, "benign": 24950, "subset": 12648}
+{"time": "2026-11-12T19:40:37.047552+00:00", "event": "reference", "cycle": 15, "epoch": 1, "loss": 0.0011281483789881165}
+{"time": "2026-11-12T19:40:54.926187+00:00", "event": "reference", "cycle": 15, "epoch": 2, "loss": 0.0019869622674279957}
+{"time": "2026-11-12T19:41:12.843087+00:00", "event": "reference", "cycle": 15, "epoch": 3, "loss": 0.0017840320653541887}
+{"time": "2026-11-12T19:41:30.646248+00:00", "event": "reference", "cycle": 15, "epoch": 4, "loss": 0.0002125999861550597}
+{"time": "2026-11-12T19:41:48.474598+00:00", "event": "reference", "cycle": 15, "epoch": 5, "loss": 6.52716554592939e-05}
+{"time": "2026-11-12T19:42:06.297119+00:00", "event": "reference", "cycle": 15, "epoch": 6, "loss": 0.00018203624622551117}
+{"time": "2026-11-12T19:42:24.096502+00:00", "event": "reference", "cycle": 15, "epoch": 7, "loss": 1.5244612680567848e-05}
+{"time": "2026-11-12T19:42:41.899156+00:00", "event": "reference", "cycle": 15, "epoch": 8, "loss": 0.00014142629102574617}
+{"time": "2026-11-12T19:42:59.718242+00:00", "event": "reference", "cycle": 15, "epoch": 9, "loss": 3.807561661739428e-05}
+{"time": "2026-11-12T19:43:17.562083+00:00", "event": "reference", "cycle": 15, "epoch": 10, "loss": 0.0001127540057056432}
+{"time": "2026-11-12T19:43:35.514551+00:00", "event": "reference", "cycle": 15, "epoch": 11, "loss": 5.995034879918229e-05}
+{"time": "2026-11-12T19:43:53.385748+00:00", "event": "reference", "cycle": 15, "epoch": 12, "loss": 5.390975913851699e-05}
+{"time": "2026-11-12T19:44:11.226417+00:00", "event": "reference", "cycle": 15, "epoch": 13, "loss": 2.593378012718316e-06}
+{"time": "2026-11-12T19:44:29.046709+00:00", "event": "reference", "cycle": 15, "epoch": 14, "loss": 0.0002002813153800653}
+{"time": "2026-11-12T19:46:47.116755+00:00", "event": "cata", "cycle": 15, "requests": 15, "examples_seen": 99800, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 0.7985794544219971}
+{"time": "2026-11-12T19:47:10.937763+00:00", "event": "split", "cycle": 15, "benign": 25141, "subset": 12568}
+{"time": "2026-11-12T19:47:28.508546+00:00", "event": "reference", "cycle": 16, "epoch": 1, "loss": 0.0001627563371161209}
+{"time": "2026-11-12T19:47:46.281852+00:00", "event": "reference", "cycle": 16, "epoch": 2, "loss": 0.0026055274476112834}
+{"time": "2026-11-12T19:48:04.065793+00:00", "event": "reference", "cycle": 16, "epoch": 3, "loss": 0.0034895279414520228}
+{"time": "2026-11-12T19:48:21.831186+00:00", "event": "reference", "cycle": 16, "epoch": 4, "loss": 0.001264626306098104}
+{"time": "2026-11-12T19:48:39.516313+00:00", "event": "reference", "cycle": 16, "epoch": 5, "loss": 0.0013628656032449553}
+{"time": "2026-11-12T19:48:57.228603+00:00", "event": "reference", "cycle": 16, "epoch": 6, "loss": 0.0001342451449022418}
+{"time": "2026-11-12T19:49:15.069878+00:00", "event": "reference", "cycle": 16, "epoch": 7, "loss": 5.0245946063348854e-05}
+{"time": "2026-11-12T19:49:32.891626+00:00", "event": "reference", "cycle": 16, "epoch": 8, "loss": 9.61662380097115e-05}
+{"time": "2026-11-12T19:49:50.638885+00:00", "event": "reference", "cycle": 16, "epoch": 9, "loss": 3.478321617909065e-05}
+{"time": "2026-11-12T19:50:08.339111+00:00", "event": "reference", "cycle": 16, "epoch": 10, "loss": 0.0001684856297386624}
+{"time": "2026-11-12T19:50:26.098175+00:00", "event": "reference", "cycle": 16, "epoch": 11, "loss": 8.128579414878243e-05}
+{"time": "2026-11-12T19:50:43.919644+00:00", "event": "reference", "cycle": 16, "epoch": 12, "loss": 7.595729220950208e-05}
+{"time": "2026-11-12T19:51:01.735632+00:00", "event": "reference", "cycle": 16, "epoch": 13, "loss": 6.790610355159647e-05}
+{"time": "2026-11-12T19:51:19.456019+00:00", "event": "reference", "cycle": 16, "epoch": 14, "loss": 7.87719532569964e-05}
+{"time": "2026-11-12T19:53:38.164043+00:00", "event": "cata", "cycle": 16, "requests": 16, "examples_seen": 100564, "task_nonzero": 3352192, "parameters": 11173962, "adaptation_loss": 1.2168043851852417}
+{"time": "2026-11-12T19:54:01.957106+00:00", "event": "split", "cycle": 16, "benign": 26511, "subset": 11865}
+{"time": "2026-11-12T19:54:18.545265+00:00", "event": "reference", "cycle": 17, "epoch": 1, "loss": 0.0002521814034331011}
+{"time": "2026-11-12T19:54:35.343988+00:00", "event": "reference", "cycle": 17, "epoch": 2, "loss": 0.0007594094156247186}
+{"time": "2026-11-12T19:54:52.189470+00:00", "event": "reference", "cycle": 17, "epoch": 3, "loss": 0.00015591243368303078}
+{"time": "2026-11-12T19:55:09.017833+00:00", "event": "reference", "cycle": 17, "epoch": 4, "loss": 5.87026236184001e-05}
+{"time": "2026-11-12T19:55:25.814095+00:00", "event": "reference", "cycle": 17, "epoch": 5, "loss": 0.00010600352843888214}
+{"time": "2026-11-12T19:55:42.654189+00:00", "event": "reference", "cycle": 17, "epoch": 6, "loss": -6.628040635618439e-05}
+{"time": "2026-11-12T19:55:59.481348+00:00", "event": "reference", "cycle": 17, "epoch": 7, "loss": 9.030789871583545e-05}
+{"time": "2026-11-12T19:56:16.294380+00:00", "event": "reference", "cycle": 17, "epoch": 8, "loss": 0.00021419317845774763}
+{"time": "2026-11-12T19:56:33.084928+00:00", "event": "reference", "cycle": 17, "epoch": 9, "loss": -0.00017459963711690562}
+{"time": "2026-11-12T19:56:49.886671+00:00", "event": "reference", "cycle": 17, "epoch": 10, "loss": 0.00014201944216683953}
+{"time": "2026-11-12T19:57:06.722415+00:00", "event": "reference", "cycle": 17, "epoch": 11, "loss": 5.651970336655625e-05}
+{"time": "2026-11-12T19:57:23.541726+00:00", "event": "reference", "cycle": 17, "epoch": 12, "loss": 6.322539185817062e-05}
+{"time": "2026-11-12T19:57:40.303715+00:00", "event": "reference", "cycle": 17, "epoch": 13, "loss": 0.00013784787056789435}
+{"time": "2026-11-12T19:57:57.075357+00:00", "event": "reference", "cycle": 17, "epoch": 14, "loss": -4.3591337959021896e-05}
+{"time": "2026-11-12T20:00:23.319346+00:00", "event": "cata", "cycle": 17, "requests": 17, "examples_seen": 106044, "task_nonzero": 3352189, "parameters": 11173962, "adaptation_loss": 1.4892160892486572}
+{"time": "2026-11-12T20:00:47.094481+00:00", "event": "split", "cycle": 17, "benign": 26604, "subset": 11946}
+{"time": "2026-11-12T20:01:03.793837+00:00", "event": "reference", "cycle": 18, "epoch": 1, "loss": 0.00013289811277053233}
+{"time": "2026-11-12T20:01:20.715241+00:00", "event": "reference", "cycle": 18, "epoch": 2, "loss": 0.001747215921643179}
+{"time": "2026-11-12T20:01:37.673702+00:00", "event": "reference", "cycle": 18, "epoch": 3, "loss": 0.005138500429767533}
+{"time": "2026-11-12T20:01:54.631716+00:00", "event": "reference", "cycle": 18, "epoch": 4, "loss": 0.00010565709772993926}
+{"time": "2026-11-12T20:02:11.508350+00:00", "event": "reference", "cycle": 18, "epoch": 5, "loss": 0.0001111269446559813}
+{"time": "2026-11-12T20:02:28.307613+00:00", "event": "reference", "cycle": 18, "epoch": 6, "loss": 8.266022050447317e-05}
+{"time": "2026-11-12T20:02:45.188510+00:00", "event": "reference", "cycle": 18, "epoch": 7, "loss": -0.00014417340979603753}
+{"time": "2026-11-12T20:03:02.146940+00:00", "event": "reference", "cycle": 18, "epoch": 8, "loss": 0.00014478165094852796}
+{"time": "2026-11-12T20:03:19.119466+00:00", "event": "reference", "cycle": 18, "epoch": 9, "loss": 0.00010447855181237391}
+{"time": "2026-11-12T20:03:36.023123+00:00", "event": "reference", "cycle": 18, "epoch": 10, "loss": -1.7437040066745998e-06}
+{"time": "2026-11-12T20:03:52.910321+00:00", "event": "reference", "cycle": 18, "epoch": 11, "loss": 6.919365455988198e-05}
+{"time": "2026-11-12T20:04:09.784508+00:00", "event": "reference", "cycle": 18, "epoch": 12, "loss": 2.4217323264583916e-05}
+{"time": "2026-11-12T20:04:26.720002+00:00", "event": "reference", "cycle": 18, "epoch": 13, "loss": 8.63873100267789e-07}
+{"time": "2026-11-12T20:04:43.598017+00:00", "event": "reference", "cycle": 18, "epoch": 14, "loss": 0.00019455305899003956}
+{"time": "2026-11-12T20:07:11.025920+00:00", "event": "cata", "cycle": 18, "requests": 18, "examples_seen": 106416, "task_nonzero": 3352195, "parameters": 11173962, "adaptation_loss": 1.1821491718292236}
+{"time": "2026-11-12T20:07:34.899396+00:00", "event": "split", "cycle": 18, "benign": 26734, "subset": 11886}
+{"time": "2026-11-12T20:07:51.612988+00:00", "event": "reference", "cycle": 19, "epoch": 1, "loss": 0.0001682329955980139}
+{"time": "2026-11-12T20:08:08.476611+00:00", "event": "reference", "cycle": 19, "epoch": 2, "loss": 0.0013831009707305799}
+{"time": "2026-11-12T20:08:25.357598+00:00", "event": "reference", "cycle": 19, "epoch": 3, "loss": 0.0007019573817328596}
+{"time": "2026-11-12T20:08:42.251765+00:00", "event": "reference", "cycle": 19, "epoch": 4, "loss": 0.0005357371278229557}
+{"time": "2026-11-12T20:08:59.192924+00:00", "event": "reference", "cycle": 19, "epoch": 5, "loss": 0.0006425289924285652}
+{"time": "2026-11-12T20:09:16.075784+00:00", "event": "reference", "cycle": 19, "epoch": 6, "loss": 0.00038273915151378914}
+{"time": "2026-11-12T20:09:33.042424+00:00", "event": "reference", "cycle": 19, "epoch": 7, "loss": 8.076345527661523e-06}
+{"time": "2026-11-12T20:09:49.913379+00:00", "event": "reference", "cycle": 19, "epoch": 8, "loss": 2.7875782523555587e-05}
+{"time": "2026-11-12T20:10:06.709014+00:00", "event": "reference", "cycle": 19, "epoch": 9, "loss": 0.00014092323075018225}
+{"time": "2026-11-12T20:10:23.539891+00:00", "event": "reference", "cycle": 19, "epoch": 10, "loss": 4.6336826981656004e-05}
+{"time": "2026-11-12T20:10:40.433779+00:00", "event": "reference", "cycle": 19, "epoch": 11, "loss": 1.2572580976601318e-05}
+{"time": "2026-11-12T20:10:57.426150+00:00", "event": "reference", "cycle": 19, "epoch": 12, "loss": 3.9609212918204226e-05}
+{"time": "2026-11-12T20:11:14.268898+00:00", "event": "reference", "cycle": 19, "epoch": 13, "loss": 2.1732052160988305e-05}
+{"time": "2026-11-12T20:11:31.111686+00:00", "event": "reference", "cycle": 19, "epoch": 14, "loss": 5.183285512826207e-05}
+{"time": "2026-11-12T20:13:59.418614+00:00", "event": "cata", "cycle": 19, "requests": 19, "examples_seen": 106936, "task_nonzero": 3352193, "parameters": 11173962, "adaptation_loss": 0.9484307765960693}
+{"time": "2026-11-12T20:14:23.246080+00:00", "event": "split", "cycle": 19, "benign": 27178, "subset": 11625}
+{"time": "2026-11-12T20:14:39.443812+00:00", "event": "reference", "cycle": 20, "epoch": 1, "loss": 0.0001313009275303733}
+{"time": "2026-11-12T20:14:55.985198+00:00", "event": "reference", "cycle": 20, "epoch": 2, "loss": 9.662637030405382e-05}
+{"time": "2026-11-12T20:15:12.487310+00:00", "event": "reference", "cycle": 20, "epoch": 3, "loss": 0.002009667342128132}
+{"time": "2026-11-12T20:15:28.977090+00:00", "event": "reference", "cycle": 20, "epoch": 4, "loss": 0.0023604286028252493}
+{"time": "2026-11-12T20:15:45.369004+00:00", "event": "reference", "cycle": 20, "epoch": 5, "loss": 0.00023761746784051259}
+{"time": "2026-11-12T20:16:01.811433+00:00", "event": "reference", "cycle": 20, "epoch": 6, "loss": 0.00012624052777806277}
+{"time": "2026-11-12T20:16:18.294040+00:00", "event": "reference", "cycle": 20, "epoch": 7, "loss": 5.578817617428559e-05}
+{"time": "2026-11-12T20:16:34.807634+00:00", "event": "reference", "cycle": 20, "epoch": 8, "loss": 4.8557459181475066e-05}
+{"time": "2026-11-12T20:16:51.286597+00:00", "event": "reference", "cycle": 20, "epoch": 9, "loss": 6.626390860045469e-05}
+{"time": "2026-11-12T20:17:07.718064+00:00", "event": "reference", "cycle": 20, "epoch": 10, "loss": 0.00010480898214123583}
+{"time": "2026-11-12T20:17:24.213039+00:00", "event": "reference", "cycle": 20, "epoch": 11, "loss": -3.06144614693939e-05}
+{"time": "2026-11-12T20:17:40.753364+00:00", "event": "reference", "cycle": 20, "epoch": 12, "loss": 4.839414215937096e-05}
+{"time": "2026-11-12T20:17:57.235516+00:00", "event": "reference", "cycle": 20, "epoch": 13, "loss": 0.00010741079650739188}
+{"time": "2026-11-12T20:18:13.740502+00:00", "event": "reference", "cycle": 20, "epoch": 14, "loss": -2.830003800811947e-05}
+{"time": "2026-11-12T20:20:44.547473+00:00", "event": "cata", "cycle": 20, "requests": 20, "examples_seen": 108712, "task_nonzero": 3352190, "parameters": 11173962, "adaptation_loss": 1.3329890966415405}
+{"time": "2026-11-12T20:21:08.970561+00:00", "event": "split", "cycle": 20, "benign": 27768, "subset": 11375}
+{"time": "2026-11-12T20:21:33.555066+00:00", "event": "meta", "benign_count": 29895, "suspected_poison_count": 20105, "detection_precision": 0.2486943546381497, "detection_recall": 1.0, "benign_contamination": 0.0}
+{"time": "2026-11-12T20:22:29.478258+00:00", "event": "final", "epoch": 1, "loss": 2.518264506617163, "clean_accuracy": 18.66, "asr": 25.755555555555556}
+{"time": "2026-11-12T20:23:25.620727+00:00", "event": "final", "epoch": 2, "loss": 1.8376278158945916, "clean_accuracy": 27.59, "asr": 9.988888888888889}
+{"time": "2026-11-12T20:24:23.270478+00:00", "event": "final", "epoch": 3, "loss": 1.6930338286945963, "clean_accuracy": 32.19, "asr": 12.077777777777778}
+{"time": "2026-11-12T20:25:20.178797+00:00", "event": "final", "epoch": 4, "loss": 1.600847324754438, "clean_accuracy": 35.94, "asr": 5.2444444444444445}
+{"time": "2026-11-12T20:26:16.938464+00:00", "event": "final", "epoch": 5, "loss": 1.5411242078512142, "clean_accuracy": 37.3, "asr": 6.344444444444444}
+{"time": "2026-11-12T20:27:13.736899+00:00", "event": "final", "epoch": 6, "loss": 1.486170309731084, "clean_accuracy": 38.85, "asr": 6.655555555555556}
+{"time": "2026-11-12T20:28:10.444645+00:00", "event": "final", "epoch": 7, "loss": 1.431887119753748, "clean_accuracy": 38.44, "asr": 7.644444444444445}
+{"time": "2026-11-12T20:29:07.233607+00:00", "event": "final", "epoch": 8, "loss": 1.3846835555174413, "clean_accuracy": 43.68, "asr": 5.977777777777778}
+{"time": "2026-11-12T20:30:03.872702+00:00", "event": "final", "epoch": 9, "loss": 1.3250330538831205, "clean_accuracy": 45.12, "asr": 7.311111111111111}
+{"time": "2026-11-12T20:31:00.266317+00:00", "event": "final", "epoch": 10, "loss": 1.2791849558170025, "clean_accuracy": 47.19, "asr": 9.011111111111111}
+{"time": "2026-11-12T20:31:56.012283+00:00", "event": "final", "epoch": 11, "loss": 1.2205506415448637, "clean_accuracy": 50.51, "asr": 5.355555555555555}
+{"time": "2026-11-12T20:32:51.834379+00:00", "event": "final", "epoch": 12, "loss": 1.1683112673270397, "clean_accuracy": 50.4, "asr": 4.666666666666667}
+{"time": "2026-11-12T20:33:47.963735+00:00", "event": "final", "epoch": 13, "loss": 1.120406911923335, "clean_accuracy": 51.82, "asr": 7.066666666666666}
+{"time": "2026-11-12T20:34:44.008334+00:00", "event": "final", "epoch": 14, "loss": 1.0680027148153028, "clean_accuracy": 54.11, "asr": 4.322222222222222}
+{"time": "2026-11-12T20:35:39.869028+00:00", "event": "final", "epoch": 15, "loss": 1.0382910179786193, "clean_accuracy": 53.97, "asr": 4.711111111111111}
+{"time": "2026-11-12T20:36:35.656443+00:00", "event": "final", "epoch": 16, "loss": 0.999008557990066, "clean_accuracy": 58.35, "asr": 3.533333333333333}
+{"time": "2026-11-12T20:37:31.624010+00:00", "event": "final", "epoch": 17, "loss": 0.9568489438448197, "clean_accuracy": 55.6, "asr": 5.622222222222222}
+{"time": "2026-11-12T20:38:27.517278+00:00", "event": "final", "epoch": 18, "loss": 0.9226768577200735, "clean_accuracy": 60.63, "asr": 2.688888888888889}
+{"time": "2026-11-12T20:39:23.457562+00:00", "event": "final", "epoch": 19, "loss": 0.8964594337675307, "clean_accuracy": 60.16, "asr": 1.7555555555555555}
+{"time": "2026-11-12T20:40:19.595121+00:00", "event": "final", "epoch": 20, "loss": 0.8512771567727766, "clean_accuracy": 65.67, "asr": 3.2333333333333334}
+{"time": "2026-11-12T20:41:15.692412+00:00", "event": "final", "epoch": 21, "loss": 0.8305773355512538, "clean_accuracy": 64.76, "asr": 4.366666666666666}
+{"time": "2026-11-12T20:42:12.051697+00:00", "event": "final", "epoch": 22, "loss": 0.8007205477637104, "clean_accuracy": 68.44, "asr": 2.0}
+{"time": "2026-11-12T20:43:08.192504+00:00", "event": "final", "epoch": 23, "loss": 0.7589894466929965, "clean_accuracy": 67.57, "asr": 2.7555555555555555}
+{"time": "2026-11-12T20:44:04.385202+00:00", "event": "final", "epoch": 24, "loss": 0.7389224296451634, "clean_accuracy": 69.7, "asr": 3.933333333333333}
+{"time": "2026-11-12T20:44:59.953715+00:00", "event": "final", "epoch": 25, "loss": 0.7006799321398776, "clean_accuracy": 66.1, "asr": 1.8333333333333333}
+{"time": "2026-11-12T20:45:55.581634+00:00", "event": "final", "epoch": 26, "loss": 0.6759258809252682, "clean_accuracy": 68.69, "asr": 4.044444444444444}
+{"time": "2026-11-12T20:46:51.041395+00:00", "event": "final", "epoch": 27, "loss": 0.6389070061536936, "clean_accuracy": 72.54, "asr": 4.144444444444445}
+{"time": "2026-11-12T20:47:46.788404+00:00", "event": "final", "epoch": 28, "loss": 0.6238355193382654, "clean_accuracy": 73.08, "asr": 3.011111111111111}
+{"time": "2026-11-12T20:48:42.569916+00:00", "event": "final", "epoch": 29, "loss": 0.5989936481938403, "clean_accuracy": 74.46, "asr": 1.7666666666666666}
+{"time": "2026-11-12T20:49:38.435272+00:00", "event": "final", "epoch": 30, "loss": 0.5727248733114992, "clean_accuracy": 72.35, "asr": 2.488888888888889}
+{"time": "2026-11-12T20:50:34.053287+00:00", "event": "final", "epoch": 31, "loss": 0.5557110079078593, "clean_accuracy": 75.07, "asr": 4.122222222222222}
+{"time": "2026-11-12T20:51:29.596402+00:00", "event": "final", "epoch": 32, "loss": 0.5228216134839587, "clean_accuracy": 73.23, "asr": 5.433333333333334}
+{"time": "2026-11-12T20:52:24.974283+00:00", "event": "final", "epoch": 33, "loss": 0.5117329737314811, "clean_accuracy": 73.02, "asr": 1.5222222222222221}
+{"time": "2026-11-12T20:53:20.452839+00:00", "event": "final", "epoch": 34, "loss": 0.48868821523128414, "clean_accuracy": 72.57, "asr": 1.4}
+{"time": "2026-11-12T20:54:15.922485+00:00", "event": "final", "epoch": 35, "loss": 0.4763126410225518, "clean_accuracy": 76.62, "asr": 2.2777777777777777}
+{"time": "2026-11-12T20:55:11.690931+00:00", "event": "final", "epoch": 36, "loss": 0.45500026783372605, "clean_accuracy": 75.97, "asr": 3.6222222222222222}
+{"time": "2026-11-12T20:56:07.015713+00:00", "event": "final", "epoch": 37, "loss": 0.4404039455529971, "clean_accuracy": 79.29, "asr": 1.7}
+{"time": "2026-11-12T20:57:02.266903+00:00", "event": "final", "epoch": 38, "loss": 0.42262234513321495, "clean_accuracy": 75.44, "asr": 1.8888888888888888}
+{"time": "2026-11-12T20:57:57.381167+00:00", "event": "final", "epoch": 39, "loss": 0.4147482630916131, "clean_accuracy": 77.77, "asr": 1.4444444444444444}
+{"time": "2026-11-12T20:58:52.558245+00:00", "event": "final", "epoch": 40, "loss": 0.394745773038803, "clean_accuracy": 78.48, "asr": 2.7666666666666666}
+{"time": "2026-11-12T20:59:47.595070+00:00", "event": "final", "epoch": 41, "loss": 0.3865069038210771, "clean_accuracy": 77.42, "asr": 1.2666666666666666}
+{"time": "2026-11-12T21:00:42.678185+00:00", "event": "final", "epoch": 42, "loss": 0.3664204329889045, "clean_accuracy": 78.52, "asr": 2.2}
+{"time": "2026-11-12T21:01:37.935387+00:00", "event": "final", "epoch": 43, "loss": 0.3644544617233113, "clean_accuracy": 78.71, "asr": 2.1444444444444444}
+{"time": "2026-11-12T21:02:33.513748+00:00", "event": "final", "epoch": 44, "loss": 0.34646029197252715, "clean_accuracy": 81.69, "asr": 2.111111111111111}
+{"time": "2026-11-12T21:03:29.932720+00:00", "event": "final", "epoch": 45, "loss": 0.3374654078840191, "clean_accuracy": 81.92, "asr": 2.611111111111111}
+{"time": "2026-11-12T21:04:25.867790+00:00", "event": "final", "epoch": 46, "loss": 0.3304697284076968, "clean_accuracy": 75.94, "asr": 0.9}
+{"time": "2026-11-12T21:05:21.687432+00:00", "event": "final", "epoch": 47, "loss": 0.32060607242533284, "clean_accuracy": 81.29, "asr": 1.3444444444444446}
+{"time": "2026-11-12T21:06:17.837073+00:00", "event": "final", "epoch": 48, "loss": 0.31299654050515247, "clean_accuracy": 81.58, "asr": 2.1333333333333333}
+{"time": "2026-11-12T21:07:13.705177+00:00", "event": "final", "epoch": 49, "loss": 0.3059162968116948, "clean_accuracy": 82.14, "asr": 1.6}
+{"time": "2026-11-12T21:08:09.667656+00:00", "event": "final", "epoch": 50, "loss": 0.2967820108955742, "clean_accuracy": 79.58, "asr": 3.7777777777777777}
+{"time": "2026-11-12T21:09:05.768362+00:00", "event": "final", "epoch": 51, "loss": 0.290948766673732, "clean_accuracy": 78.9, "asr": 2.7888888888888888}
+{"time": "2026-11-12T21:10:01.593529+00:00", "event": "final", "epoch": 52, "loss": 0.27908037800310004, "clean_accuracy": 81.26, "asr": 2.1}
+{"time": "2026-11-12T21:10:57.583265+00:00", "event": "final", "epoch": 53, "loss": 0.27835973925315416, "clean_accuracy": 79.74, "asr": 1.6555555555555554}
+{"time": "2026-11-12T21:11:53.370116+00:00", "event": "final", "epoch": 54, "loss": 0.25904808132949037, "clean_accuracy": 77.64, "asr": 2.3777777777777778}
+{"time": "2026-11-12T21:12:49.252201+00:00", "event": "final", "epoch": 55, "loss": 0.26334965757579887, "clean_accuracy": 81.3, "asr": 1.9111111111111112}
+{"time": "2026-11-12T21:13:44.753689+00:00", "event": "final", "epoch": 56, "loss": 0.2576140633378273, "clean_accuracy": 78.89, "asr": 3.688888888888889}
+{"time": "2026-11-12T21:14:39.509111+00:00", "event": "final", "epoch": 57, "loss": 0.24261741894177902, "clean_accuracy": 80.11, "asr": 1.488888888888889}
+{"time": "2026-11-12T21:15:33.772888+00:00", "event": "final", "epoch": 58, "loss": 0.25013869195285005, "clean_accuracy": 81.19, "asr": 1.7222222222222223}
+{"time": "2026-11-12T21:16:28.014290+00:00", "event": "final", "epoch": 59, "loss": 0.23020872473716736, "clean_accuracy": 78.81, "asr": 2.2111111111111112}
+{"time": "2026-11-12T21:17:22.033803+00:00", "event": "final", "epoch": 60, "loss": 0.23209872663530529, "clean_accuracy": 83.09, "asr": 1.5666666666666667}
+{"time": "2026-11-12T21:18:16.079154+00:00", "event": "final", "epoch": 61, "loss": 0.1335104278042021, "clean_accuracy": 85.3, "asr": 1.6222222222222222}
+{"time": "2026-11-12T21:19:10.237032+00:00", "event": "final", "epoch": 62, "loss": 0.09740220866778977, "clean_accuracy": 86.04, "asr": 1.8111111111111111}
+{"time": "2026-11-12T21:20:04.422666+00:00", "event": "final", "epoch": 63, "loss": 0.08409036894957735, "clean_accuracy": 85.86, "asr": 1.7}
+{"time": "2026-11-12T21:20:58.492857+00:00", "event": "final", "epoch": 64, "loss": 0.07445676256225914, "clean_accuracy": 85.8, "asr": 1.7555555555555555}
+{"time": "2026-11-12T21:21:52.631516+00:00", "event": "final", "epoch": 65, "loss": 0.06673068300876607, "clean_accuracy": 85.81, "asr": 1.7555555555555555}
+{"time": "2026-11-12T21:22:46.653925+00:00", "event": "final", "epoch": 66, "loss": 0.060704080698390804, "clean_accuracy": 85.92, "asr": 1.6222222222222222}
+{"time": "2026-11-12T21:23:40.772420+00:00", "event": "final", "epoch": 67, "loss": 0.058856784127270564, "clean_accuracy": 85.54, "asr": 1.4}
+{"time": "2026-11-12T21:24:35.400234+00:00", "event": "final", "epoch": 68, "loss": 0.0537043632621057, "clean_accuracy": 85.87, "asr": 1.6222222222222222}
+{"time": "2026-11-12T21:25:29.833711+00:00", "event": "final", "epoch": 69, "loss": 0.04961804255572522, "clean_accuracy": 86.09, "asr": 1.3333333333333333}
+{"time": "2026-11-12T21:26:24.378085+00:00", "event": "final", "epoch": 70, "loss": 0.04777459772383301, "clean_accuracy": 86.24, "asr": 1.5333333333333334}
+{"time": "2026-11-12T21:27:18.801509+00:00", "event": "final", "epoch": 71, "loss": 0.04591894195948401, "clean_accuracy": 86.02, "asr": 1.6111111111111112}
+{"time": "2026-11-12T21:28:13.233000+00:00", "event": "final", "epoch": 72, "loss": 0.04340019904108893, "clean_accuracy": 85.75, "asr": 1.5333333333333334}
+{"time": "2026-11-12T21:29:07.552176+00:00", "event": "final", "epoch": 73, "loss": 0.04259824422864705, "clean_accuracy": 86.21, "asr": 1.5222222222222221}
+{"time": "2026-11-12T21:30:01.769388+00:00", "event": "final", "epoch": 74, "loss": 0.04022625910563984, "clean_accuracy": 86.07, "asr": 1.6111111111111112}
+{"time": "2026-11-12T21:30:55.895780+00:00", "event": "final", "epoch": 75, "loss": 0.03844454766322787, "clean_accuracy": 86.03, "asr": 1.3111111111111111}
+{"time": "2026-11-12T21:31:50.218856+00:00", "event": "final", "epoch": 76, "loss": 0.03437148749382577, "clean_accuracy": 85.74, "asr": 1.7666666666666666}
+{"time": "2026-11-12T21:32:44.504825+00:00", "event": "final", "epoch": 77, "loss": 0.037402595289879374, "clean_accuracy": 86.15, "asr": 1.6222222222222222}
+{"time": "2026-11-12T21:33:38.835095+00:00", "event": "final", "epoch": 78, "loss": 0.03040265014920479, "clean_accuracy": 85.74, "asr": 1.5222222222222221}
+{"time": "2026-11-12T21:34:33.012616+00:00", "event": "final", "epoch": 79, "loss": 0.030340409771992993, "clean_accuracy": 85.94, "asr": 1.4444444444444444}
+{"time": "2026-11-12T21:35:27.345248+00:00", "event": "final", "epoch": 80, "loss": 0.02906993638851449, "clean_accuracy": 85.95, "asr": 1.5}
+{"time": "2026-11-12T21:36:21.614041+00:00", "event": "final", "epoch": 81, "loss": 0.028127472889490236, "clean_accuracy": 86.27, "asr": 1.6222222222222222}
+{"time": "2026-11-12T21:37:15.912447+00:00", "event": "final", "epoch": 82, "loss": 0.027266790377947256, "clean_accuracy": 85.92, "asr": 1.4222222222222223}
+{"time": "2026-11-12T21:38:10.240939+00:00", "event": "final", "epoch": 83, "loss": 0.026931126466673665, "clean_accuracy": 85.89, "asr": 1.3555555555555556}
+{"time": "2026-11-12T21:39:04.513281+00:00", "event": "final", "epoch": 84, "loss": 0.025926152680021446, "clean_accuracy": 86.12, "asr": 1.6444444444444444}
+{"time": "2026-11-12T21:39:58.920270+00:00", "event": "final", "epoch": 85, "loss": 0.025678243537823487, "clean_accuracy": 86.18, "asr": 1.3777777777777778}
+{"time": "2026-11-12T21:40:53.299437+00:00", "event": "final", "epoch": 86, "loss": 0.023630054431776397, "clean_accuracy": 86.12, "asr": 1.4333333333333333}
+{"time": "2026-11-12T21:41:47.578491+00:00", "event": "final", "epoch": 87, "loss": 0.02596577862675628, "clean_accuracy": 86.25, "asr": 1.4666666666666666}
+{"time": "2026-11-12T21:42:41.971280+00:00", "event": "final", "epoch": 88, "loss": 0.02569034516126809, "clean_accuracy": 86.24, "asr": 1.2666666666666666}
+{"time": "2026-11-12T21:43:36.165573+00:00", "event": "final", "epoch": 89, "loss": 0.02446479969817158, "clean_accuracy": 86.2, "asr": 1.5333333333333334}
+{"time": "2026-11-12T21:44:30.600181+00:00", "event": "final", "epoch": 90, "loss": 0.024960175516784318, "clean_accuracy": 86.22, "asr": 1.5555555555555556}
+{"time": "2026-11-12T21:45:24.959020+00:00", "event": "final", "epoch": 91, "loss": 0.02396078237419964, "clean_accuracy": 86.11, "asr": 1.511111111111111}
+{"time": "2026-11-12T21:46:19.232897+00:00", "event": "final", "epoch": 92, "loss": 0.024393099097487252, "clean_accuracy": 86.34, "asr": 1.5333333333333334}
+{"time": "2026-11-12T21:47:13.527360+00:00", "event": "final", "epoch": 93, "loss": 0.02495322519969036, "clean_accuracy": 86.17, "asr": 1.511111111111111}
+{"time": "2026-11-12T21:48:07.881725+00:00", "event": "final", "epoch": 94, "loss": 0.024659856795691527, "clean_accuracy": 86.21, "asr": 1.5888888888888888}
+{"time": "2026-11-12T21:49:02.319858+00:00", "event": "final", "epoch": 95, "loss": 0.024310785783534378, "clean_accuracy": 86.2, "asr": 1.5444444444444445}
+{"time": "2026-11-12T21:49:56.548018+00:00", "event": "final", "epoch": 96, "loss": 0.02543998997992812, "clean_accuracy": 86.16, "asr": 1.288888888888889}
+{"time": "2026-11-12T21:50:50.897239+00:00", "event": "final", "epoch": 97, "loss": 0.024585259869360387, "clean_accuracy": 86.31, "asr": 1.4444444444444444}
+{"time": "2026-11-12T21:51:45.216663+00:00", "event": "final", "epoch": 98, "loss": 0.02401208025443121, "clean_accuracy": 86.03, "asr": 1.4444444444444444}
+{"time": "2026-11-12T21:52:39.482738+00:00", "event": "final", "epoch": 99, "loss": 0.02453456289318, "clean_accuracy": 86.31, "asr": 1.4111111111111112}
+{"time": "2026-11-12T21:53:33.788508+00:00", "event": "final", "epoch": 100, "loss": 0.0253202442256893, "clean_accuracy": 86.04, "asr": 1.4111111111111112}
+{"time": "2026-11-12T21:55:06.798829+00:00", "event": "upgp", "epoch": 1, "clean_accuracy": 59.76, "asr": 2.688888888888889}
+{"time": "2026-11-12T21:56:12.128079+00:00", "event": "upgp", "epoch": 2, "clean_accuracy": 55.33, "asr": 2.5}
+{"time": "2026-11-12T21:57:16.885461+00:00", "event": "upgp", "epoch": 3, "clean_accuracy": 52.88, "asr": 2.522222222222222}
+{"time": "2026-11-12T21:58:21.133462+00:00", "event": "upgp", "epoch": 4, "clean_accuracy": 51.85, "asr": 2.2555555555555555}
+{"time": "2026-11-12T21:59:25.943369+00:00", "event": "upgp", "epoch": 5, "clean_accuracy": 51.08, "asr": 2.088888888888889}
+{"time": "2026-11-12T21:59:35.124305+00:00", "event": "complete", "clean_accuracy": 51.08, "asr": 2.088888888888889, "before_upgp": {"clean_accuracy": 86.04, "asr": 1.4111111111111112}, "variant": "harvey_cata_upgp", "seed": 1, "profile": "full", "protocol": "release", "poison_hash": "94c42c8909c2616d51472974a396d63471ad26b8f24dab369c24a40a302100fa", "elapsed_seconds": 15928.787113948001, "synthetic": false, "checkpoint_selection": "last_epoch"}

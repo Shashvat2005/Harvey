@@ -1,0 +1,8 @@
+{
+  "device": "mps",
+  "batch": 128,
+  "seconds_per_training_batch": 0.13897452894598245,
+  "full_50000_epoch_minutes_compute_only": 0.9056506802979857,
+  "final_100_epoch_hours_compute_only": 1.3588620608051616,
+  "note": "Excludes loading, evaluation, reference learning, CATA, UPGP SVD and checkpoints; not a total runtime estimate."
+}
